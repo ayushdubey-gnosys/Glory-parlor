@@ -122,6 +122,7 @@ const InquiryPage = () => {
               />
             </div>
           </div>
+          
 
           {/* LIST */}
           <div className="lg:col-span-8">

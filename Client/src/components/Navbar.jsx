@@ -1,7 +1,16 @@
 import React, { useState } from "react";
+
 import { useAuth } from "../context/AuthProvider";
+
 import { Link } from "react-router-dom";
-import { Bell } from "lucide-react";
+
+import {
+  Bell,
+  Search,
+  Sparkles,
+  ChevronDown,
+} from "lucide-react";
+
 import { useNotifications } from "../services/notifiucation/useNotificationQuery";
 
 const Navbar = () => {
@@ -14,151 +23,314 @@ const Navbar = () => {
     useState(false);
 
   return (
-    <header className="flex items-center justify-between p-4 bg-white shadow relative">
-      
-      {/* LOGO */}
-      <div className="text-xl font-bold text-indigo-600">
-        Glory's Parlor
-      </div>
+    <>
+      {/* GOOGLE FONT */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
 
-      {/* RIGHT SIDE */}
-      <div className="flex items-center gap-5">
-        
-        {/* NOTIFICATION */}
-        <div className="relative">
+        .dm {
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .dropdown-animation {
+          animation: fadeIn .25s ease;
+        }
+      `}</style>
+
+      <header
+        className="sticky top-0 z-50 backdrop-blur-2xl border-b border-white/5"
+        style={{
+          background:
+            "rgba(10,10,10,0.75)",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 h-[82px] flex items-center justify-between">
           
-          <button
-            onClick={() =>
-              setOpen(!open)
-            }
-            className="relative"
-          >
-            <Bell className="w-6 h-6 text-gray-700" />
-
-            {notifications.length >
-              0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">
-                {
-                  notifications.length
-                }
-              </span>
-            )}
-          </button>
-
-          {/* DROPDOWN */}
-          {open && (
-            <div className="absolute right-0 mt-3 w-96 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden">
-              
-              <div className="p-4 border-b">
-                <h2 className="font-bold text-lg">
-                  Notifications
-                </h2>
+          {/* LEFT */}
+          <div className="flex items-center gap-12">
+            
+            {/* LOGO */}
+            <Link
+              to="/"
+              className="flex items-center gap-3"
+            >
+              <div
+                className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-xl"
+                style={{
+                  background:
+                    "linear-gradient(135deg,#c9a96e,#8a6535)",
+                }}
+              >
+                <Sparkles
+                  size={16}
+                  className="text-white"
+                />
               </div>
 
-              <div className="max-h-[400px] overflow-y-auto">
-                
-                {notifications.length ===
-                0 ? (
-                  <div className="p-5 text-sm text-gray-500">
-                    No notifications
-                  </div>
-                ) : (
-                  notifications.map(
-                    (item) => (
-                      <div
-                        key={item._id}
-                        className="p-4 border-b hover:bg-gray-50 transition"
-                      >
-                        
-                        <div className="flex items-start gap-3">
-                          
-                          <img
-                            src={
-                              item
-                                ?.customer
-                                ?.profilePic ||
-                              "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-                            }
-                            alt="customer"
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
+              <div>
+                <h1 className="text-xl text-white tracking-[5px] uppercase font-light">
+                  Glory PMS
+                </h1>
 
-                          <div className="flex-1">
+                <p className="dm text-[10px] text-zinc-500 tracking-[3px] uppercase">
+                  Luxury Salon Software
+                </p>
+              </div>
+            </Link>
+
+            {/* SEARCH */}
+            <div className="hidden lg:flex items-center w-[340px] h-[50px] rounded-2xl bg-white/[0.03] border border-white/5 px-4">
+              
+              <Search
+                size={18}
+                className="text-zinc-500"
+              />
+
+              <input
+                type="text"
+                placeholder="Search customers, invoices..."
+                className="flex-1 bg-transparent outline-none border-none px-3 text-sm text-zinc-300 placeholder:text-zinc-600 dm"
+              />
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="flex items-center gap-4">
+            
+            {/* NOTIFICATION */}
+            <div className="relative">
+              
+              <button
+                onClick={() =>
+                  setOpen(!open)
+                }
+                className="relative w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center hover:bg-white/[0.06] transition-all duration-300"
+              >
+                <Bell
+                  size={20}
+                  className="text-zinc-300"
+                />
+
+                {notifications.length >
+                  0 && (
+                  <div
+                    className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-[11px] text-black font-semibold"
+                    style={{
+                      background:
+                        "linear-gradient(135deg,#c9a96e,#a07840)",
+                    }}
+                  >
+                    {
+                      notifications.length
+                    }
+                  </div>
+                )}
+              </button>
+
+              {/* DROPDOWN */}
+              {open && (
+                <div
+                  className="dropdown-animation absolute right-0 mt-4 w-[420px] rounded-[30px] overflow-hidden border border-white/10 shadow-2xl"
+                  style={{
+                    background:
+                      "rgba(15,15,15,0.96)",
+                    backdropFilter:
+                      "blur(30px)",
+                  }}
+                >
+                  
+                  {/* TOP */}
+                  <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                    
+                    <div>
+                      <h2 className="text-xl font-light text-white">
+                        Notifications
+                      </h2>
+
+                      <p className="dm text-sm text-zinc-500 mt-1">
+                        Latest salon updates
+                      </p>
+                    </div>
+
+                    <div
+                      className="px-3 py-1 rounded-full text-xs dm"
+                      style={{
+                        background:
+                          "rgba(201,169,110,0.12)",
+                        color: "#c9a96e",
+                      }}
+                    >
+                      {
+                        notifications.length
+                      }{" "}
+                      New
+                    </div>
+                  </div>
+
+                  {/* BODY */}
+                  <div className="max-h-[500px] overflow-y-auto">
+                    
+                    {notifications.length ===
+                    0 ? (
+                      <div className="p-10 text-center">
+                        
+                        <Bell
+                          size={40}
+                          className="mx-auto text-zinc-700 mb-4"
+                        />
+
+                        <h3 className="text-lg text-white font-light">
+                          No Notifications
+                        </h3>
+
+                        <p className="dm text-zinc-500 text-sm mt-2">
+                          Everything looks
+                          clean right now.
+                        </p>
+                      </div>
+                    ) : (
+                      notifications.map(
+                        item => (
+                          <div
+                            key={item._id}
+                            className="p-5 border-b border-white/5 hover:bg-white/[0.03] transition-all duration-300"
+                          >
                             
-                            <div className="flex items-center justify-between">
+                            <div className="flex gap-4">
                               
-                              <h3 className="font-semibold text-sm">
-                                {
+                              <img
+                                src={
                                   item
                                     ?.customer
-                                    ?.name
+                                    ?.profilePic ||
+                                  "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
                                 }
-                              </h3>
+                                alt="customer"
+                                className="w-14 h-14 rounded-2xl object-cover border border-white/10"
+                              />
 
-                              <span className="text-xs text-gray-400">
-                                {new Date(
-                                  item.createdAt
-                                ).toLocaleDateString()}
-                              </span>
-                            </div>
+                              <div className="flex-1">
+                                
+                                <div className="flex items-center justify-between">
+                                  
+                                  <h3 className="text-white font-medium dm">
+                                    {
+                                      item
+                                        ?.customer
+                                        ?.name
+                                    }
+                                  </h3>
 
-                            <p className="text-sm text-gray-600 mt-1">
-                              {
-                                item.message
-                              }
-                            </p>
+                                  <span className="dm text-xs text-zinc-600">
+                                    {new Date(
+                                      item.createdAt
+                                    ).toLocaleDateString()}
+                                  </span>
+                                </div>
 
-                            <div className="mt-2">
-                              <span className="inline-block bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full capitalize">
-                                {
-                                  item.type
-                                }
-                              </span>
+                                <p className="dm text-sm text-zinc-400 leading-6 mt-2">
+                                  {
+                                    item.message
+                                  }
+                                </p>
+
+                                <div className="mt-4 flex items-center justify-between">
+                                  
+                                  <span
+                                    className="inline-flex px-3 py-1 rounded-full text-xs capitalize dm"
+                                    style={{
+                                      background:
+                                        "rgba(201,169,110,0.12)",
+                                      color:
+                                        "#c9a96e",
+                                    }}
+                                  >
+                                    {
+                                      item.type
+                                    }
+                                  </span>
+
+                                  <button className="dm text-xs text-zinc-500 hover:text-white transition">
+                                    View
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    )
-                  )
-                )}
+                        )
+                      )
+                    )}
+                  </div>
+
+                  {/* FOOTER */}
+                  <div className="p-4 border-t border-white/5">
+                    
+                    <button className="w-full h-[48px] rounded-2xl text-sm dm text-black font-medium transition-all duration-300 hover:scale-[1.01]"
+                      style={{
+                        background:
+                          "linear-gradient(135deg,#c9a96e,#a07840)",
+                      }}
+                    >
+                      View All Notifications
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* USER */}
+            {user ? (
+              <Link
+                to="/profile"
+                className="flex items-center gap-4 bg-white/[0.03] border border-white/5 rounded-2xl px-4 py-2 hover:bg-white/[0.05] transition-all duration-300"
+              >
+                
+                <img
+                  src={
+                    user.profilePic ||
+                    "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
+                  }
+                  alt="avatar"
+                  className="w-12 h-12 rounded-2xl object-cover border border-white/10"
+                />
+
+                <div className="hidden md:block">
+                  
+                  <p className="dm text-sm text-white font-medium">
+                    {user.name}
+                  </p>
+
+                  <p className="dm text-xs text-zinc-500 capitalize mt-1">
+                    {user.role}
+                  </p>
+                </div>
+
+                <ChevronDown
+                  size={16}
+                  className="text-zinc-600"
+                />
+              </Link>
+            ) : (
+              <div className="dm text-zinc-500 text-sm">
+                Guest
               </div>
-            </div>
-          )}
-        </div>
-
-        {/* USER */}
-        {user ? (
-          <Link
-            to="/profile"
-            className="flex items-center gap-3"
-          >
-            <img
-              src={
-                user.profilePic ||
-                "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-              }
-              alt="avatar"
-              className="w-10 h-10 rounded-full object-cover border"
-            />
-
-            <div className="hidden md:block">
-              
-              <p className="text-sm font-semibold text-gray-800">
-                {user.name}
-              </p>
-
-              <p className="text-xs text-gray-500 capitalize">
-                {user.role}
-              </p>
-            </div>
-          </Link>
-        ) : (
-          <div className="hidden md:block text-sm text-gray-600">
-            Guest
+            )}
           </div>
-        )}
-      </div>
-    </header>
+        </div>
+      </header>
+    </>
   );
 };
 

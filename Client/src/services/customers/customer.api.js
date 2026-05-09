@@ -14,7 +14,7 @@ export const getCustomerById = async (id) => {
 
 export const createCustomer = async (payload) => {
   const res = await api.post(`/customers`, payload);
-  return res.data;
+  return res.data?.customer ?? res.data;
 };
 
 export const updateCustomer = async ({ id, payload }) => {

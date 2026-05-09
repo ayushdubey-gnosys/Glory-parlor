@@ -21,15 +21,18 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import RegisterCustomerPage from "../pages/customers/RegisterCustomerPage";
 import ProfilePage from "../pages/auth/ProfilePage";
 import CustomerInquiryPage from "../pages/inquiries/CustomerInquiryPage";
+// import HomePage from "../pages/HomePage";
 
 
 const RoutesProvider = () => {
   return (
     <BrowserRouter>
       <Routes>
+      {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-customer" element={<RegisterCustomerPage />} />
         <Route path="/login" element={<LoginPage />} />
+       
 
         <Route path="/" element={<RequireAuth><DashboardLayout /></RequireAuth>}>
           <Route

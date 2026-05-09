@@ -1,44 +1,322 @@
-
 import React from "react";
+
 import { NavLink } from "react-router-dom";
+
 import { useAuth } from "../context/AuthProvider";
 
+import {
+  LayoutDashboard,
+  Users,
+  CalendarDays,
+  Scissors,
+  UserCog,
+  Package,
+  Receipt,
+  MessageSquare,
+  GraduationCap,
+  Megaphone,
+  Sparkles,
+  ChevronRight,
+} from "lucide-react";
+
 const links = [
-  { to: "/", label: "Dashboard", roles: ["superadmin", "admin", "staff"] },
-  { to: "/customers", label: "Customers", roles: ["superadmin", "admin"] },
-  { to: "/appointments", label: "Appointments", roles: ["superadmin", "admin", "staff", "customer"] },
-  { to: "/services", label: "Services", roles: ["superadmin", "admin"] },
-  { to: "/staff", label: "Staff", roles: ["superadmin", "admin"] },
-  { to: "/inventory", label: "Inventory", roles: ["superadmin", "admin"] },
-  { to: "/billing", label: "Billing", roles: ["superadmin", "admin"] },
-  { to: "/inquiries", label: "Inquiries", roles: ["superadmin", "admin", "staff"] },
-  { to: "/inquiry", label: "My Inquiries", roles: ["customer"] },
-  { to: "/academy", label: "Academy", roles: ["superadmin", "admin"] },
-  { to: "/marketing", label: "Marketing", roles: ["superadmin", "admin"] },
+  {
+    to: "/",
+    label: "Dashboard",
+    icon: <LayoutDashboard size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+      "staff",
+    ],
+  },
+
+  {
+    to: "/customers",
+    label: "Customers",
+    icon: <Users size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
+
+  {
+    to: "/appointments",
+    label: "Appointments",
+    icon: <CalendarDays size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+      "staff",
+      "customer",
+    ],
+  },
+
+  {
+    to: "/services",
+    label: "Services",
+    icon: <Scissors size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
+
+  {
+    to: "/staff",
+    label: "Staff",
+    icon: <UserCog size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
+
+  {
+    to: "/inventory",
+    label: "Inventory",
+    icon: <Package size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
+
+  {
+    to: "/billing",
+    label: "Billing",
+    icon: <Receipt size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
+
+  {
+    to: "/inquiries",
+    label: "Inquiries",
+    icon: <MessageSquare size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+      "staff",
+    ],
+  },
+
+  {
+    to: "/inquiry",
+    label: "My Inquiries",
+    icon: <MessageSquare size={18} />,
+    roles: ["customer"],
+  },
+
+  {
+    to: "/academy",
+    label: "Academy",
+    icon: <GraduationCap size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
+
+  {
+    to: "/marketing",
+    label: "Marketing",
+    icon: <Megaphone size={18} />,
+    roles: [
+      "superadmin",
+      "admin",
+    ],
+  },
 ];
 
 const Sidebar = () => {
-  const { user, hasRole } = useAuth();
+  const { user, hasRole } =
+    useAuth();
 
   return (
-    <aside className="w-64 bg-gray-900 text-white p-6 hidden md:block">
-      <div className="text-2xl font-bold mb-8">Glory PMS</div>
-      <nav className="flex flex-col gap-3">
-        {links
-          .filter((l) => (user ? hasRole(l.roles) : false))
-          .map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              className={({ isActive }) =>
-                `px-3 py-2 rounded hover:bg-gray-800 ${isActive ? "bg-gray-800" : ""}`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-      </nav>
-    </aside>
+    <>
+      {/* GOOGLE FONT */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+
+        .dm {
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        @keyframes fadeLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .fade-left {
+          animation: fadeLeft .4s ease;
+        }
+      `}</style>
+
+      <aside
+        className="hidden md:flex flex-col w-[290px] min-h-screen border-r border-white/5 backdrop-blur-2xl px-6 py-7 overflow-hidden"
+        style={{
+          background:
+            "rgba(10,10,10,0.95)",
+        }}
+      >
+        {/* BACKGROUND EFFECT */}
+        <div className="absolute top-[-120px] left-[-120px] w-[260px] h-[260px] bg-yellow-700/10 rounded-full blur-[120px]" />
+
+        {/* LOGO */}
+        <div className="relative z-10 flex items-center gap-4 mb-12">
+          
+          <div
+            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xl"
+            style={{
+              background:
+                "linear-gradient(135deg,#c9a96e,#8a6535)",
+            }}
+          >
+            <Sparkles
+              size={18}
+              className="text-white"
+            />
+          </div>
+
+          <div>
+            <h1 className="text-white text-xl uppercase tracking-[5px] font-light">
+              Glory PMS
+            </h1>
+
+            <p className="dm text-[10px] uppercase tracking-[3px] text-zinc-600 mt-1">
+              Luxury Salon Software
+            </p>
+          </div>
+        </div>
+
+      
+
+        {/* MENU TITLE */}
+        <div className="relative z-10 mb-5 px-2">
+          
+          <p className="dm text-[11px] uppercase tracking-[3px] text-zinc-600">
+            Main Navigation
+          </p>
+        </div>
+
+        {/* NAVIGATION */}
+        <nav className="relative z-10 flex flex-col gap-2">
+          
+          {links
+            .filter(l =>
+              user
+                ? hasRole(
+                    l.roles
+                  )
+                : false
+            )
+            .map((l, i) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                className={({
+                  isActive,
+                }) =>
+                  `
+                  fade-left
+                  group
+                  relative
+                  flex
+                  items-center
+                  justify-between
+                  px-4
+                  py-4
+                  rounded-2xl
+                  transition-all
+                  duration-300
+                  border
+                  ${
+                    isActive
+                      ? "bg-white/[0.06] border-yellow-700/20"
+                      : "border-transparent hover:bg-white/[0.03]"
+                  }
+                `
+                }
+                style={{
+                  animationDelay: `${i * 0.05}s`,
+                }}
+              >
+                {({
+                  isActive,
+                }) => (
+                  <>
+                    <div className="flex items-center gap-4">
+                      
+                      <div
+                        className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                          isActive
+                            ? ""
+                            : "bg-white/[0.03] border border-white/5"
+                        }`}
+                        style={
+                          isActive
+                            ? {
+                                background:
+                                  "linear-gradient(135deg,#c9a96e,#a07840)",
+                                color:
+                                  "#000",
+                              }
+                            : {
+                                color:
+                                  "#c9a96e",
+                              }
+                        }
+                      >
+                        {l.icon}
+                      </div>
+
+                      <div>
+                        <p
+                          className={`dm text-sm transition-all ${
+                            isActive
+                              ? "text-white font-medium"
+                              : "text-zinc-400 group-hover:text-white"
+                          }`}
+                        >
+                          {l.label}
+                        </p>
+
+                        <p className="dm text-[11px] text-zinc-600 mt-1">
+                          Manage{" "}
+                          {l.label.toLowerCase()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <ChevronRight
+                      size={16}
+                      className={`transition-all ${
+                        isActive
+                          ? "text-yellow-500 translate-x-1"
+                          : "text-zinc-700 group-hover:text-zinc-400"
+                      }`}
+                    />
+                  </>
+                )}
+              </NavLink>
+            ))}
+        </nav>
+
+        {/* BOTTOM CARD */}
+        
+      </aside>
+    </>
   );
 };
 
