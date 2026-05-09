@@ -12,6 +12,7 @@ const {
   protect,
   authorize,
 } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 // CREATE COURSE
 // ONLY ADMIN + SUPERADMIN
@@ -23,6 +24,7 @@ router.post(
     "admin",
     "superadmin"
   ),
+  upload.single("image"),
   academyController.createCourse
 );
 
@@ -42,6 +44,14 @@ router.get(
   academyController.getCourseById
 );
 
+// ENROLL in course (customers)
+router.post(
+  "/:id/enroll",
+  protect,
+  authorize("customer"),
+  academyController.enrollCourse
+);
+
 // UPDATE COURSE
 // ONLY ADMIN + SUPERADMIN
 
@@ -52,6 +62,7 @@ router.patch(
     "admin",
     "superadmin"
   ),
+  upload.single("image"),
   academyController.updateCourse
 );
 

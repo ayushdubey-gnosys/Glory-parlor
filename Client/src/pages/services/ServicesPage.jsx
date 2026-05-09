@@ -1,75 +1,213 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { useServices } from "../../services/Services/useServiceQuery";
+import { useDeleteService } from "../../services/Services/useServiceMutation";
+
+import { useAuth } from "../../context/AuthProvider";
+
+import ServiceFormModal from "../../components/services/ServiceFormModal";
+import ServiceDetailsModal from "../../components/services/ServiceDetailsModal";
 
 const ServicesPage = () => {
-  const { data, isLoading } = useServices();
+  const { data, isLoading } =
+    useServices();
+
+  const { hasRole } = useAuth();
+
+  const deleteMutation =
+    useDeleteService();
+
+  const [openForm, setOpenForm] =
+    useState(false);
+
+  const [editing, setEditing] =
+    useState(null);
+
+  const [openDetail, setOpenDetail] =
+    useState(false);
+
+  const [selected, setSelected] =
+    useState(null);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-2xl font-semibold">
+          Loading...
+        </h1>
+      </div>
+    );
   }
 
   return (
-    <div className="p-5">
-      <div className="flex items-center justify-between mb-5">
-        <h1 className="text-3xl font-bold">
-          Salon Services
-        </h1>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      
+      {/* HEADER */}
 
-        <button className="bg-black text-white px-5 py-2 rounded-lg">
-          Add Service
-        </button>
+      <div className="flex items-center justify-between mb-8">
+        
+        <div>
+          <h1 className="text-4xl font-bold text-black">
+            Salon Services
+          </h1>
+
+          <p className="text-gray-500 mt-1">
+            Explore all salon services
+          </p>
+        </div>
+
+        {hasRole([
+          "admin",
+          "superadmin",
+        ]) && (
+          <button
+            onClick={() => {
+              setEditing(null);
+              setOpenForm(true);
+            }}
+            className="bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition"
+          >
+            Add Service
+          </button>
+        )}
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      {/* CARDS */}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
         {data?.map((service) => (
           <div
             key={service._id}
-            className="bg-white p-5 rounded-xl shadow"
+            className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition duration-300"
           >
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold">
-                {service.name}
-              </h2>
+            
+            {/* IMAGE */}
 
-              <span className="bg-black text-white px-3 py-1 rounded-full text-sm">
-                {service.category}
-              </span>
+            <div className="h-52 overflow-hidden">
+              <img
+                src={
+                  service.image ||
+                  service.serviceImage ||
+                  "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop"
+                }
+                alt={service.name}
+                className="w-full h-full object-cover hover:scale-105 transition duration-500"
+              />
             </div>
 
-            <p className="text-gray-500 mt-3">
-              {service.description}
-            </p>
+            {/* CONTENT */}
 
-            <div className="mt-5 space-y-2">
-              <p>
-                Price:
-                {" "}
-                <span className="font-semibold">
-                  ₹{service.price}
+            <div className="p-5">
+              
+              <div className="flex items-center justify-between">
+                
+                <h2 className="text-2xl font-bold text-black">
+                  {service.name}
+                </h2>
+
+                <span className="bg-black text-white text-sm px-3 py-1 rounded-full">
+                  {service.category}
                 </span>
+              </div>
+
+              <p className="text-gray-500 mt-3 text-sm leading-6 line-clamp-3">
+                {service.description}
               </p>
 
-              <p>
-                Duration:
-                {" "}
-                <span className="font-semibold">
-                  {service.duration}
-                </span>
-              </p>
-            </div>
+              {/* PRICE + DURATION */}
 
-            <div className="flex gap-3 mt-6">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                Edit
-              </button>
+              <div className="flex items-center justify-between mt-5">
+                
+                <div>
+                  <p className="text-gray-400 text-sm">
+                    Price
+                  </p>
 
-              <button className="bg-red-500 text-white px-4 py-2 rounded-lg">
-                Delete
-              </button>
+                  <h3 className="text-xl font-bold">
+                    ₹{service.price}
+                  </h3>
+                </div>
+
+                <div className="text-right">
+                  <p className="text-gray-400 text-sm">
+                    Duration
+                  </p>
+
+                  <h3 className="text-lg font-semibold">
+                    {service.duration} min
+                  </h3>
+                </div>
+              </div>
+
+              {/* BUTTONS */}
+
+              <div className="flex gap-3 mt-6">
+                
+                <button
+                  onClick={() => {
+                    setSelected(service);
+                    setOpenDetail(true);
+                  }}
+                  className="flex-1 border border-black text-black py-2 rounded-xl hover:bg-black hover:text-white transition"
+                >
+                  Details
+                </button>
+
+                {hasRole([
+                  "admin",
+                  "superadmin",
+                ]) && (
+                  <button
+                    onClick={() => {
+                      setEditing(service);
+                      setOpenForm(true);
+                    }}
+                    className="flex-1 bg-black text-white py-2 rounded-xl hover:bg-gray-800 transition"
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
+
+              {/* DELETE */}
+
+              {hasRole(
+                "superadmin"
+              ) && (
+                <button
+                  onClick={() =>
+                    deleteMutation.mutate(
+                      service._id
+                    )
+                  }
+                  className="w-full mt-3 bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
+                >
+                  Delete Service
+                </button>
+              )}
             </div>
           </div>
         ))}
       </div>
+
+      {/* MODALS */}
+
+      <ServiceFormModal
+        open={openForm}
+        onClose={() =>
+          setOpenForm(false)
+        }
+        initial={editing}
+      />
+
+      <ServiceDetailsModal
+        service={selected}
+        open={openDetail}
+        onClose={() =>
+          setOpenDetail(false)
+        }
+      />
     </div>
   );
 };

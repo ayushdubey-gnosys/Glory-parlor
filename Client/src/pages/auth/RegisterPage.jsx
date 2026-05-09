@@ -9,15 +9,14 @@ import {
 
 import { toast } from "react-toastify";
 
-import {
-  useRegister,
-} from "../../services/auth/useAuthMutation";
+import { useRegister, useLogin } from "../../services/auth/useAuthMutation";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
 
   const { mutate, isPending } =
     useRegister();
+  const loginMutation = useLogin();
 
   const {
     register,
@@ -30,29 +29,69 @@ const RegisterPage = () => {
   const password = watch("password");
 
   const onSubmit = (data) => {
-    // REMOVE CONFIRM PASSWORD
-    delete data.confirmPassword;
+    const formData =
+      new FormData();
 
-    // AUTO CUSTOMER ROLE
-    data.role = "customer";
+    formData.append(
+      "name",
+      data.name
+    );
 
-    mutate(data, {
-      onSuccess: (response) => {
-        toast.success(
-          response?.message ||
-            "Registration Successful"
-        );
+    formData.append(
+      "email",
+      data.email
+    );
 
-        reset();
+    formData.append(
+      "mobile",
+      data.mobile
+    );
 
-        navigate("/login");
+    formData.append(
+      "password",
+      data.password
+    );
+
+    formData.append(
+      "role",
+      "customer"
+    );
+
+    // PROFILE IMAGE
+
+    if (
+      data.profilePic &&
+      data.profilePic[0]
+    ) {
+      formData.append(
+        "profilePic",
+        data.profilePic[0]
+      );
+    }
+
+    // DEBUG: log FormData entries to console (won't print file contents)
+    for (const pair of formData.entries()) {
+      console.log("[REGISTER] formData", pair[0], pair[1]);
+    }
+
+    mutate(formData, {
+      onSuccess: async (response) => {
+        toast.success(response?.message || "Registration Successful");
+
+        // attempt auto-login
+        try {
+          await loginMutation.mutateAsync({ email: data.email, password: data.password });
+          reset();
+          navigate("/profile");
+        } catch (e) {
+          // fallback to login page
+          reset();
+          navigate("/login");
+        }
       },
 
       onError: (error) => {
-        toast.error(
-          error?.response?.data?.message ||
-            "Registration Failed"
-        );
+        toast.error(error?.response?.data?.message || "Registration Failed");
       },
     });
   };
@@ -60,12 +99,18 @@ const RegisterPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-5">
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(
+          onSubmit
+        )}
         className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg flex flex-col gap-5"
       >
         <h1 className="text-3xl font-bold text-center">
           Customer Register
         </h1>
+
+        {/* PROFILE IMAGE */}
+
+      
 
         {/* NAME */}
 
@@ -76,14 +121,18 @@ const RegisterPage = () => {
             type="text"
             placeholder="Enter your name"
             {...register("name", {
-              required: "Name is required",
+              required:
+                "Name is required",
             })}
             className="border border-gray-300 p-3 rounded-lg outline-none"
           />
 
           {errors.name && (
             <p className="text-red-500 text-sm">
-              {errors.name.message}
+              {
+                errors.name
+                  .message
+              }
             </p>
           )}
         </div>
@@ -97,14 +146,18 @@ const RegisterPage = () => {
             type="email"
             placeholder="Enter your email"
             {...register("email", {
-              required: "Email is required",
+              required:
+                "Email is required",
             })}
             className="border border-gray-300 p-3 rounded-lg outline-none"
           />
 
           {errors.email && (
             <p className="text-red-500 text-sm">
-              {errors.email.message}
+              {
+                errors.email
+                  .message
+              }
             </p>
           )}
         </div>
@@ -112,56 +165,89 @@ const RegisterPage = () => {
         {/* MOBILE */}
 
         <div className="flex flex-col gap-2">
-          <label>Mobile Number</label>
+          <label>
+            Mobile Number
+          </label>
 
           <input
             type="tel"
             placeholder="Enter mobile number"
-            {...register("mobile", {
-              required:
-                "Mobile number is required",
+            {...register(
+              "mobile",
+              {
+                required:
+                  "Mobile number is required",
 
-              pattern: {
-                value: /^[0-9]{10}$/,
+                pattern: {
+                  value:
+                    /^[0-9]{10}$/,
 
-                message:
-                  "Enter valid 10 digit mobile number",
-              },
-            })}
+                  message:
+                    "Enter valid 10 digit mobile number",
+                },
+              }
+            )}
             className="border border-gray-300 p-3 rounded-lg outline-none"
           />
 
           {errors.mobile && (
             <p className="text-red-500 text-sm">
-              {errors.mobile.message}
+              {
+                errors.mobile
+                  .message
+              }
             </p>
           )}
+        </div>
+        
+          <div className="flex flex-col gap-2">
+          <label>
+            Profile Picture
+          </label>
+
+          <input
+            type="file"
+            accept="image/*"
+            {...register(
+              "profilePic"
+            )}
+            className="border border-gray-300 p-3 rounded-lg outline-none"
+          />
         </div>
 
         {/* PASSWORD */}
 
         <div className="flex flex-col gap-2">
-          <label>Password</label>
+          <label>
+            Password
+          </label>
 
           <input
             type="password"
             placeholder="Enter password"
-            {...register("password", {
-              required: "Password is required",
+            {...register(
+              "password",
+              {
+                required:
+                  "Password is required",
 
-              minLength: {
-                value: 6,
+                minLength: {
+                  value: 6,
 
-                message:
-                  "Password must be at least 6 characters",
-              },
-            })}
+                  message:
+                    "Password must be at least 6 characters",
+                },
+              }
+            )}
             className="border border-gray-300 p-3 rounded-lg outline-none"
           />
 
           {errors.password && (
             <p className="text-red-500 text-sm">
-              {errors.password.message}
+              {
+                errors.password
+                  .message
+              }
             </p>
           )}
         </div>
@@ -169,26 +255,35 @@ const RegisterPage = () => {
         {/* CONFIRM PASSWORD */}
 
         <div className="flex flex-col gap-2">
-          <label>Confirm Password</label>
+          <label>
+            Confirm Password
+          </label>
 
           <input
             type="password"
             placeholder="Confirm password"
-            {...register("confirmPassword", {
-              required:
-                "Confirm password is required",
+            {...register(
+              "confirmPassword",
+              {
+                required:
+                  "Confirm password is required",
 
-              validate: (value) =>
-                value === password ||
-                "Passwords do not match",
-            })}
+                validate: (
+                  value
+                ) =>
+                  value ===
+                    password ||
+                  "Passwords do not match",
+              }
+            )}
             className="border border-gray-300 p-3 rounded-lg outline-none"
           />
 
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm">
               {
-                errors.confirmPassword
+                errors
+                  .confirmPassword
                   .message
               }
             </p>

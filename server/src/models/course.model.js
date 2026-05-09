@@ -29,6 +29,8 @@ const courseSchema = new mongoose.Schema(
       required: true,
     },
 
+    image: String,
+
     category: {
       type: String,
       enum: ["makeup", "hair", "skin", "nails"],

@@ -34,6 +34,7 @@ app.use("/api/inquiries", require("./routes/inquiryRoutes"));
 app.use("/api/academy", require("./routes/academyRoutes"));
 app.use("/api/marketing", require("./routes/marketingRoutes"));
 app.use("/api/services", require("./routes/serviceRoutes"));
+app.use( "/api/notifications", require("./routes/notificationRoutes"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

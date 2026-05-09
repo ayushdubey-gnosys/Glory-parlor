@@ -6,16 +6,21 @@ import CustomersPage from "../pages/customers/CustomersPage";
 import AppointmentsPage from "../pages/appointments/AppointmentsPage";
 import ServicesPage from "../pages/services/ServicesPage";
 import StaffPage from "../pages/staff/StaffPage";
+import StaffDetailPage from "../pages/staff/StaffDetailPage";
 
 import InventoryPage from "../pages/inventory/InventoryPage";
 import BillingPage from "../pages/billing/BillingPage";
 import InquiryPage from "../pages/inquiries/InquiryPage";
 import AcademyPage from "../pages/academy/AcademyPage";
+import CourseDetailPage from "../pages/academy/CourseDetailPage";
 import MarketingPage from "../pages/marketing/MarketingPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RequireAuth from "./RequireAuth";
+import RequireRole from "./RequireRole";
 import RegisterPage from "../pages/auth/RegisterPage";
 import RegisterCustomerPage from "../pages/customers/RegisterCustomerPage";
+import ProfilePage from "../pages/auth/ProfilePage";
+import CustomerInquiryPage from "../pages/inquiries/CustomerInquiryPage";
 
 
 const RoutesProvider = () => {
@@ -27,16 +32,42 @@ const RoutesProvider = () => {
         <Route path="/login" element={<LoginPage />} />
 
         <Route path="/" element={<RequireAuth><DashboardLayout /></RequireAuth>}>
-          <Route index element={<DashboardPage />} />
+          <Route
+            index
+            element={
+              <RequireRole roles={["superadmin", "admin", "staff"]}>
+                <DashboardPage />
+              </RequireRole>
+            }
+          />
 
           <Route path="customers" element={<CustomersPage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="services" element={<ServicesPage />} />
           <Route path="staff" element={<StaffPage />} />
+          <Route path="staff/:id" element={<StaffDetailPage />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="billing" element={<BillingPage />} />
-          <Route path="inquiries" element={<InquiryPage />} />
+          <Route
+            path="inquiries"
+            element={
+              <RequireRole roles={["superadmin", "admin", "staff"]}>
+                <InquiryPage />
+              </RequireRole>
+            }
+          />
+
+          <Route
+            path="inquiry"
+            element={
+              <RequireRole roles={["customer"]}>
+                <CustomerInquiryPage />
+              </RequireRole>
+            }
+          />
           <Route path="academy" element={<AcademyPage />} />
+          <Route path="academy/:id" element={<CourseDetailPage />} />
           <Route path="marketing" element={<MarketingPage />} />
         </Route>
       </Routes>

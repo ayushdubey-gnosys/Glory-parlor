@@ -1,13 +1,66 @@
-// routes/customerRoutes.js
 const express = require("express");
 const router = express.Router();
 
 const customerController = require("../controllers/customer/customerController");
 
-router.post("/", customerController.createCustomer);
-router.get("/", customerController.getCustomers);
-router.get("/:id", customerController.getCustomerById);
-router.patch("/:id", customerController.updateCustomer);
-router.delete("/:id", customerController.deleteCustomer);
+const {
+  protect,
+  authorize,
+} = require("../middleware/authMiddleware");
+
+const upload = require("../middleware/uploadMiddleware");
+
+// CREATE
+router.post(
+  "/",
+  protect,
+  authorize(
+    "admin",
+    "staff",
+    "superadmin"
+  ),
+  upload.single("profilePic"),
+  customerController.createCustomer
+);
+
+// GET ALL
+router.get(
+  "/",
+  protect,
+  authorize(
+    "admin",
+    "staff",
+    "superadmin"
+  ),
+  customerController.getCustomers
+);
+
+// GET ONE
+router.get(
+  "/:id",
+  protect,
+  authorize(
+    "admin",
+    "staff",
+    "superadmin"
+  ),
+  customerController.getCustomerById
+);
+
+// UPDATE
+router.patch(
+  "/:id",
+  protect,
+  upload.single("profilePic"),
+  customerController.updateCustomer
+);
+
+// DELETE
+router.delete(
+  "/:id",
+  protect,
+  authorize("superadmin"),
+  customerController.deleteCustomer
+);
 
 module.exports = router;

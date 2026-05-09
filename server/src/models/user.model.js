@@ -8,14 +8,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-  
-    mobile:{
+
+    mobile: {
       type: String,
       unique: true,
-
     },
 
     password: String,
+
+    profilePic: {
+      type: String,
+
+      default:
+        "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg",
+    },
 
     role: {
       type: String,
@@ -30,6 +36,7 @@ const userSchema = new mongoose.Schema(
       default: "customer",
     },
   },
+
   { timestamps: true }
 );
 

@@ -1,19 +1,22 @@
+// Load environment variables first
+require("dotenv").config();
+
 const app = require("./src/app");
-const dotnv = require("dotenv");
 const connectDB = require("./src/config/db");
-const  cookieParser = require('cookie-parser')
-dotnv.config();  
-app.use(cookieParser());   
 
+// Connect to database, then start server
+const PORT = process.env.PORT || 3000;
 
+const start = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  }
+};
 
-
-app.listen(process.env.PORT, () => {
-    
-connectDB();
-    console.log(`Server is running on port ${process.env.PORT}`);
-}   );
-
-
-
-
+start();

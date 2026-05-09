@@ -7,14 +7,16 @@ export const createStaff = async (data) => {
     data
   );
 
-  return response.data;
+  // server returns { success, message, staff }
+  return response.data?.staff || response.data;
 };
 
 // GET ALL STAFF
 export const getStaff = async () => {
   const response = await api.get("/staff");
 
-  return response.data;
+  // server returns { success, staff }
+  return response.data?.staff || response.data;
 };
 
 // UPDATE STAFF
@@ -27,7 +29,8 @@ export const updateStaff = async ({
     data
   );
 
-  return response.data;
+  // server returns { success, message, staff }
+  return response.data?.staff || response.data;
 };
 
 // DELETE STAFF
@@ -49,4 +52,11 @@ export const calculateIncentive = async (
   );
 
   return response.data;
+};
+
+// GET SINGLE STAFF
+export const getStaffById = async (id) => {
+  const response = await api.get(`/staff/${id}`);
+
+  return response.data?.staff || response.data;
 };

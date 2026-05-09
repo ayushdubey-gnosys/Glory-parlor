@@ -6,12 +6,13 @@ import { useAuth } from "../context/AuthProvider";
 const links = [
   { to: "/", label: "Dashboard", roles: ["superadmin", "admin", "staff"] },
   { to: "/customers", label: "Customers", roles: ["superadmin", "admin"] },
-  { to: "/appointments", label: "Appointments", roles: ["superadmin", "admin", "staff"] },
+  { to: "/appointments", label: "Appointments", roles: ["superadmin", "admin", "staff", "customer"] },
   { to: "/services", label: "Services", roles: ["superadmin", "admin"] },
   { to: "/staff", label: "Staff", roles: ["superadmin", "admin"] },
   { to: "/inventory", label: "Inventory", roles: ["superadmin", "admin"] },
   { to: "/billing", label: "Billing", roles: ["superadmin", "admin"] },
   { to: "/inquiries", label: "Inquiries", roles: ["superadmin", "admin", "staff"] },
+  { to: "/inquiry", label: "My Inquiries", roles: ["customer"] },
   { to: "/academy", label: "Academy", roles: ["superadmin", "admin"] },
   { to: "/marketing", label: "Marketing", roles: ["superadmin", "admin"] },
 ];

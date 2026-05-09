@@ -19,15 +19,20 @@ const {
 const {
   me,
 } = require("../controllers/auth/me");
+const { updateProfile } = require("../controllers/auth/updateProfile");
 
 const {
   protect,
 } = require("../middleware/authMiddleware");
+const  upload = require("../middleware/uploadMiddleware");
+
 
 // REGISTER
 
+// accept `profilePic` field name to match client form
 router.post(
   "/register",
+  upload.single("profilePic"),
   register
 );
 
@@ -52,6 +57,14 @@ router.get(
   "/me",
   protect,
   me
+);
+
+// UPDATE PROFILE (authenticated user)
+router.patch(
+  "/profile",
+  protect,
+  upload.single("profilePic"),
+  updateProfile
 );
 
 module.exports = router;

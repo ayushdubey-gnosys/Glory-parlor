@@ -2,12 +2,14 @@ import api from "../../api/api";
 
 export const getCustomers = async () => {
   const res = await api.get("/customers");
-  return res.data;
+  // server returns { success: true, customers }
+  return res.data?.customers ?? res.data;
 };
 
 export const getCustomerById = async (id) => {
   const res = await api.get(`/customers/${id}`);
-  return res.data;
+  // server returns { success: true, customer }
+  return res.data?.customer ?? res.data;
 };
 
 export const createCustomer = async (payload) => {

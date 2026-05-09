@@ -5,8 +5,16 @@ const serviceController = require("../controllers/services/serviceController");
 
 const { protect, authorize } = require("../middleware/authMiddleware");
 
+const upload = require("../middleware/uploadMiddleware");
+
 // CREATE
-router.post("/", protect, authorize("admin", "staff", "superadmin"), serviceController.createService);
+router.post(
+  "/",
+  protect,
+  authorize("admin", "staff", "superadmin"),
+  upload.single("image"),
+  serviceController.createService
+);
 
 // GET ALL
 router.get("/", serviceController.getServices);
@@ -15,9 +23,20 @@ router.get("/", serviceController.getServices);
 router.get("/:id", serviceController.getServiceById);
 
 // UPDATE
-router.patch("/:id", protect, authorize("admin", "staff", "superadmin"), serviceController.updateService);
+router.patch(
+  "/:id",
+  protect,
+  authorize("admin", "staff", "superadmin"),
+  upload.single("image"),
+  serviceController.updateService
+);
 
 // DELETE
-router.delete("/:id", protect, authorize("superadmin"), serviceController.deleteService);
+router.delete(
+  "/:id",
+  protect,
+  authorize("superadmin"),
+  serviceController.deleteService
+);
 
 module.exports = router;

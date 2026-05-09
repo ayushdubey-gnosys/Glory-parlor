@@ -27,12 +27,13 @@ router.post(
   appointmentController.createAppointment
 );
 
-// ADMIN + STAFF ACCESS
+// ADMIN + STAFF + CUSTOMER ACCESS
 
 router.get(
   "/",
   protect,
   authorize(
+    "customer",
     "admin",
     "staff",
     "superadmin"
@@ -46,6 +47,7 @@ router.patch(
   "/:id",
   protect,
   authorize(
+    "customer",
     "admin",
     "staff",
     "superadmin"
@@ -58,7 +60,7 @@ router.patch(
 router.delete(
   "/:id",
   protect,
-  authorize("superadmin"),
+  authorize("customer", "admin", "staff", "superadmin"),
   appointmentController.deleteAppointment
 );
 

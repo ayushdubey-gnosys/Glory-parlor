@@ -1,18 +1,29 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthProvider";
+import { Navigate, Outlet } from "react-router-dom";
+import { useCurrentUser } from "../services/auth/useAuthQuery";
 
-// usage: <RequireRole roles={["admin","superadmin"]}><Component/></RequireRole>
-const RequireRole = ({ roles, children }) => {
-  const { user, isLoading, hasRole } = useAuth();
+const RequireRole = ({ roles = [], children }) => {
+  const { data, isLoading, isError } = useCurrentUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  // Loading State
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  if (!user) return <Navigate to="/login" replace />;
+  // Not Logged In
+  if (isError || !data?.user) {
+    return <Navigate to="/login" replace />;
+  }
 
-  if (roles && !hasRole(roles)) return <Navigate to="/" replace />;
+  // Current User Role
+  const userRole = data.user.role;
 
-  return children;
+  // Unauthorized
+  if (roles.length > 0 && !roles.includes(userRole)) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Render Child or Nested Routes
+  return children ? children : <Outlet />;
 };
 
 export default RequireRole;

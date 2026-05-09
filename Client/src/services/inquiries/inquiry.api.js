@@ -8,7 +8,7 @@ export const createInquiry = async (
   data
 ) => {
   const response = await api.post(
-    "/inquiry",
+    "/inquiries",
     data
   );
 
@@ -17,14 +17,13 @@ export const createInquiry = async (
 
 // GET ALL INQUIRIES
 
-export const getInquiries =
-  async () => {
-    const response = await api.get(
-      "/inquiry"
-    );
+export const getInquiries = async ({ page = 1, limit = 10, q = "" } = {}) => {
+  const response = await api.get("/inquiries", {
+    params: { page, limit, q },
+  });
 
-    return response.data;
-  };
+  return response.data;
+};
 
 // UPDATE INQUIRY
 
@@ -33,7 +32,7 @@ export const updateInquiry = async ({
   data,
 }) => {
   const response = await api.patch(
-    `/inquiry/${id}`,
+    `/inquiries/${id}`,
     data
   );
 
@@ -46,7 +45,7 @@ export const deleteInquiry = async (
   id
 ) => {
   const response = await api.delete(
-    `/inquiry/${id}`
+    `/inquiries/${id}`
   );
 
   return response.data;

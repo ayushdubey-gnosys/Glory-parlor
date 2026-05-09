@@ -7,11 +7,25 @@ const inventoryController = require("../controllers/inventory/inventoryControlle
 
 const { protect, authorize } = require("../middleware/authMiddleware");
 
-router.post("/", protect, authorize("admin", "staff", "superadmin"), inventoryController.addProduct);
+const upload = require("../middleware/uploadMiddleware");
+
+router.post(
+	"/",
+	protect,
+	authorize("admin", "staff", "superadmin"),
+	upload.single("image"),
+	inventoryController.addProduct
+);
 
 router.get("/", protect, authorize("admin", "staff", "superadmin"), inventoryController.getProducts);
 
-router.patch("/:id", protect, authorize("admin", "staff", "superadmin"), inventoryController.updateProduct);
+router.patch(
+	"/:id",
+	protect,
+	authorize("admin", "staff", "superadmin"),
+	upload.single("image"),
+	inventoryController.updateProduct
+);
 
 router.delete("/:id", protect, authorize("superadmin"), inventoryController.deleteProduct);
 

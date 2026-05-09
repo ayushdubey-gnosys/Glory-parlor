@@ -13,51 +13,28 @@ const {
   authorize,
 } = require("../middleware/authMiddleware");
 
-// CUSTOMER CAN CREATE
-
+// CREATE inquiry (customers + staff/admin allowed)
 router.post(
   "/",
   protect,
-  authorize(
-    "customer",
-    "admin",
-    "staff",
-    "superadmin"
-  ),
+  authorize("customer", "admin", "staff", "superadmin"),
   inquiryController.createInquiry
 );
 
-// STAFF + ADMIN CAN VIEW
+// GET inquiries: role-based in controller (customers see own, staff/admin see all)
+router.get("/", protect, inquiryController.getInquiries);
 
-router.get(
-  "/",
-  protect,
-  authorize(
-    "admin",
-    "staff",
-    "superadmin"
-  ),
-  inquiryController.getInquiries
-);
+// GET single inquiry
+router.get("/:id", protect, inquiryController.getInquiryById);
 
-// ADMIN ONLY UPDATE
+// UPDATE inquiry (customers can update own; staff/admin can update/respond)
+router.patch("/:id", protect, inquiryController.updateInquiry);
 
-router.patch(
-  "/:id",
-  protect,
-  authorize(
-    "admin",
-    "superadmin"
-  ),
-  inquiryController.updateInquiry
-);
-
-// SUPERADMIN DELETE
-
+// DELETE inquiry (admin + superadmin)
 router.delete(
   "/:id",
   protect,
-  authorize("superadmin"),
+  authorize("admin", "superadmin"),
   inquiryController.deleteInquiry
 );
 
