@@ -3,7 +3,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import CustomersPage from "../pages/customers/CustomersPage";
-import AppointmentsPage from "../pages/appointments/AppointmentsPage";
+import CustomerDetailPage from "../pages/customers/CustomerDetailPage";
+import CustomerProfilePage from "../pages/customers/CustomerProfilePage";
+import AppointmentsDashboard from "../pages/appointments/AppointmentsDashboard";
+import BookAppointmentPage from "../pages/appointments/BookAppointmentPage";
+import AllAppointmentsPage from "../pages/appointments/AllAppointmentsPage";
+import StaffPageAppointments from "../pages/appointments/StaffPage";
 import ServicesPage from "../pages/services/ServicesPage";
 import StaffPage from "../pages/staff/StaffPage";
 import StaffDetailPage from "../pages/staff/StaffDetailPage";
@@ -11,6 +16,8 @@ import StaffDetailPage from "../pages/staff/StaffDetailPage";
 import InventoryPage from "../pages/inventory/InventoryPage";
 import BillingPage from "../pages/billing/BillingPage";
 import InquiryPage from "../pages/inquiries/InquiryPage";
+import CreateInquiryPage from "../pages/inquiries/CreateInquiryPage";
+import InquiryDetailPage from "../pages/inquiries/InquiryDetailPage";
 import AcademyPage from "../pages/academy/AcademyPage";
 import CourseDetailPage from "../pages/academy/CourseDetailPage";
 import MarketingPage from "../pages/marketing/MarketingPage";
@@ -44,22 +51,60 @@ const RoutesProvider = () => {
             }
           />
 
-          <Route path="customers" element={<CustomersPage />} />
+          <Route path="customers" element={
+            <RequireRole roles={["superadmin","admin","staff"]}>
+              <CustomersPage />
+            </RequireRole>
+          } />
+          <Route path="customers/me" element={
+            <RequireRole roles={["customer","superadmin","admin","staff"]}>
+              <CustomerProfilePage />
+            </RequireRole>
+          } />
+          <Route path="customers/:id" element={
+            <RequireRole roles={["superadmin","admin","staff"]}>
+              <CustomerDetailPage />
+            </RequireRole>
+          } />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="appointments" element={<AppointmentsPage />} />
+          <Route path="appointments">
+            <Route index element={<AppointmentsDashboard />} />
+            <Route path="book" element={<BookAppointmentPage />} />
+            <Route path="all" element={<AllAppointmentsPage />} />
+            <Route path="staff" element={<StaffPageAppointments />} />
+          </Route>
           <Route path="services" element={<ServicesPage />} />
           <Route path="staff" element={<StaffPage />} />
           <Route path="staff/:id" element={<StaffDetailPage />} />
           <Route path="inventory" element={<InventoryPage />} />
           <Route path="billing" element={<BillingPage />} />
-          <Route
-            path="inquiries"
-            element={
-              <RequireRole roles={["superadmin", "admin", "staff"]}>
-                <InquiryPage />
-              </RequireRole>
-            }
-          />
+          <Route path="inquiries">
+            <Route
+              index
+              element={
+                <RequireRole roles={["superadmin", "admin", "staff"]}>
+                  <InquiryPage />
+                </RequireRole>
+              }
+            />
+
+            <Route
+              path="create"
+              element={
+                <RequireRole roles={["superadmin", "admin", "staff", "customer"]}>
+                  <CreateInquiryPage />
+                </RequireRole>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <RequireRole roles={["superadmin", "admin", "staff"]}>
+                  <InquiryDetailPage />
+                </RequireRole>
+              }
+            />
+          </Route>
 
           <Route
             path="inquiry"

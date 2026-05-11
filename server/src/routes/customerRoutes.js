@@ -23,6 +23,11 @@ router.post(
   customerController.createCustomer
 );
 
+// current authenticated user's customer profile
+router.get("/me", protect, customerController.getMyCustomer);
+router.post("/me", protect, upload.single("profilePic"), customerController.createMyCustomer);
+router.patch("/me", protect, upload.single("profilePic"), customerController.updateMyCustomer);
+
 // GET ALL
 router.get(
   "/",

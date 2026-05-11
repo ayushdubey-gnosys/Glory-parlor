@@ -10,6 +10,7 @@ import {
   Sparkles,
   ChevronDown,
 } from "lucide-react";
+import ProfileDropdown from "./ProfileDropdown";
 
 import { useNotifications } from "../services/notifiucation/useNotificationQuery";
 
@@ -21,6 +22,7 @@ const Navbar = () => {
 
   const [open, setOpen] =
     useState(false);
+  const [profileOpen, setProfileOpen] = React.useState(false);
 
   return (
     <>
@@ -292,10 +294,8 @@ const Navbar = () => {
 
             {/* USER */}
             {user ? (
-              <Link
-                to="/profile"
-                className="flex items-center gap-4 bg-white/[0.03] border border-white/5 rounded-2xl px-4 py-2 hover:bg-white/[0.05] transition-all duration-300"
-              >
+              <div className="relative">
+                <button onClick={() => setProfileOpen((s) => !s)} className="flex items-center gap-4 bg-white/[0.03] border border-white/5 rounded-2xl px-4 py-2 hover:bg-white/[0.05] transition-all duration-300">
                 
                 <img
                   src={
@@ -321,7 +321,12 @@ const Navbar = () => {
                   size={16}
                   className="text-zinc-600"
                 />
-              </Link>
+                </button>
+
+                {profileOpen && (
+                  <ProfileDropdown open={profileOpen} onClose={() => setProfileOpen(false)} />
+                )}
+              </div>
             ) : (
               <div className="dm text-zinc-500 text-sm">
                 Guest

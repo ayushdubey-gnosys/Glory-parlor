@@ -50,11 +50,31 @@ exports.sendCampaign = async (req, res) => {
       customers = await customerModel.find(filter);
     }
 
-    // LOOP CUSTOMERS
-    for (const customer of customers) {
+    // Build recipients list preserving requested order when IDs provided
+    let recipients = customers;
+    if (typeof selectedCustomers !== "undefined") {
+      // preserve order of selectedCustomers array
+      const byId = new Map(customers.map((c) => [String(c._id), c]));
+      recipients = selectedCustomers.map((id) => byId.get(String(id))).filter(Boolean);
+    }
+
+    const sent = [];
+    const skipped = [];
+
+    // LOOP RECIPIENTS
+    for (const customer of recipients) {
       // SEND WHATSAPP MESSAGE
 
-      if (customer.phone) {
+      if (customer && customer.phone) {
+        // normalize phone: strip non-digits
+        const digits = String(customer.phone).replace(/\D/g, "");
+        // basic validation: expect 10 digits (local Indian numbers)
+        if (digits.length < 9) {
+          skipped.push({ id: customer._id, phone: customer.phone, reason: "invalid phone" });
+          continue;
+        }
+
+        const toNumber = `whatsapp:+91${digits.slice(-10)}`;
         try {
           await client.messages.create({
             body: message,
@@ -62,17 +82,17 @@ exports.sendCampaign = async (req, res) => {
             from:
               process.env.TWILIO_WHATSAPP_NUMBER,
 
-            to: `whatsapp:+91${customer.phone}`,
+            to: toNumber,
           });
 
-          console.log(
-            `WhatsApp sent to ${customer.phone}`
-          );
+          console.log(`WhatsApp sent to ${toNumber} (customer ${customer._id})`);
+          sent.push({ id: customer._id, phone: customer.phone, to: toNumber });
         } catch (err) {
           console.log(
             "WhatsApp Error:",
             err.message
           );
+          skipped.push({ id: customer._id, phone: customer.phone, reason: err.message });
         }
       }
 
@@ -87,11 +107,10 @@ exports.sendCampaign = async (req, res) => {
 
     res.status(200).json({
       success: true,
-
-      count: customers.length,
-
-      message:
-        "Campaign sent successfully",
+      count: recipients.length,
+      sent,
+      skipped,
+      message: "Campaign processed",
     });
   } catch (error) {
     console.log(

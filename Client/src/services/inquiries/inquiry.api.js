@@ -17,10 +17,11 @@ export const createInquiry = async (
 
 // GET ALL INQUIRIES
 
-export const getInquiries = async ({ page = 1, limit = 10, q = "" } = {}) => {
-  const response = await api.get("/inquiries", {
-    params: { page, limit, q },
-  });
+export const getInquiries = async ({ page = 1, limit = 10, q = "", status } = {}) => {
+  const params = { page, limit, q };
+  if (status) params.status = status;
+
+  const response = await api.get("/inquiries", { params });
 
   return response.data;
 };
@@ -48,5 +49,11 @@ export const deleteInquiry = async (
     `/inquiries/${id}`
   );
 
+  return response.data;
+};
+
+// GET SINGLE INQUIRY
+export const getInquiry = async (id) => {
+  const response = await api.get(`/inquiries/${id}`);
   return response.data;
 };

@@ -12,10 +12,10 @@ export const createAppointment = async (
   return response.data;
 };
 
-// GET ALL APPOINTMENTS
-export const getAppointments = async () => {
+// GET ALL APPOINTMENTS (supports pagination)
+export const getAppointments = async ({ page = 1, limit = 10 } = {}) => {
   const response = await api.get(
-    "/appointments"
+    `/appointments?page=${page}&limit=${limit}`
   );
 
   return response.data;

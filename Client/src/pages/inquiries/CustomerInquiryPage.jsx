@@ -1,91 +1,114 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-import InquiryForm from "../../components/inquiry/InquiryForm";
+import InquiryCard from "../../components/inquiry/InquiryCard";
 import InquiryList from "../../components/inquiry/InquiryList";
-import { useServices } from "../../services/Services/useServiceQuery";
 import { useGetInquiries } from "../../services/inquiries/useInquiryQuery";
-import { useCreateInquiry, useDeleteInquiry } from "../../services/inquiries/useInquiryMutation";
+import { useDeleteInquiry } from "../../services/inquiries/useInquiryMutation";
 
 const CustomerInquiryPage = () => {
-  const { data: services } = useServices();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [q, setQ] = useState("");
+  const [filter, setFilter] = useState("all");
 
-  const { data: resp, isLoading } = useGetInquiries({ page, limit, q });
+  const { data: resp, isLoading } = useGetInquiries({ page, limit, q, status: filter === 'all' ? undefined : filter });
   const inquiries = resp?.data || [];
-  const total = resp?.total || 0;
-  const totalPages = resp?.totalPages || 1;
+  const total = resp?.total || inquiries.length;
+  const totalPages = resp?.totalPages || Math.max(1, Math.ceil(total / limit));
 
-  const queryClient = useQueryClient();
-  const { mutate: createInquiry, isPending } = useCreateInquiry();
   const { mutate: deleteInquiry } = useDeleteInquiry();
 
-  const handleCreate = (form) => {
-    createInquiry(form, {
-      onSuccess: () => {
-        toast.success("Inquiry created");
-        queryClient.invalidateQueries(["inquiries"]);
-      },
-      onError: (err) => toast.error(err?.response?.data?.message || "Failed to create"),
-    });
-  };
-
   const handleDelete = (id) => {
-    if (!confirm("Delete this inquiry?")) return;
+    if (!window.confirm("Delete this inquiry?")) return;
     deleteInquiry(id, {
       onSuccess: () => {
         toast.success("Inquiry deleted");
-        queryClient.invalidateQueries(["inquiries"]);
+        queryClient.invalidateQueries({ queryKey: ["inquiries"] });
       },
       onError: () => toast.error("Delete failed"),
     });
   };
 
   return (
-    <div className="min-h-screen p-8" style={{ background: "linear-gradient(135deg,#fff7f0 0%,#f0f9ff 100%)" }}>
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">My Inquiries</h1>
+    <div className="min-h-screen bg-zinc-50 p-6 md:p-10">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-3xl font-extrabold text-zinc-900">My Inquiries</h1>
+          <p className="text-zinc-500 mt-2">Your submitted inquiries</p>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            <InquiryForm services={services} onSubmit={handleCreate} loading={isPending} />
-          </div>
-
-          <div className="lg:col-span-2">
-            <div className="mb-4 flex items-center gap-3">
+        <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div className="flex items-center gap-4 flex-1">
               <input
                 value={q}
-                onChange={(e) => {
-                  setQ(e.target.value);
-                  setPage(1);
-                }}
+                onChange={(e) => { setQ(e.target.value); setPage(1); }}
                 placeholder="Search your inquiries..."
-                className="border rounded-lg px-3 py-2 w-full"
+                className="flex-1 border border-zinc-200 rounded-xl px-4 py-2 focus:outline-none"
               />
-              <select
-                value={limit}
-                onChange={(e) => setLimit(Number(e.target.value))}
-                className="border rounded-lg px-3 py-2"
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
+
+              <select value={filter} onChange={(e) => { setFilter(e.target.value); setPage(1); }} className="border border-zinc-200 rounded-xl px-3 py-2 bg-white">
+                <option value="all">All statuses</option>
+                <option value="new">New</option>
+                <option value="follow-up">Follow-up</option>
+                <option value="converted">Converted</option>
+                <option value="lost">Lost</option>
               </select>
             </div>
 
-            <InquiryList items={inquiries} loading={isLoading} onDelete={handleDelete} />
-
-            <div className="mt-4 flex items-center justify-between">
-              <div>Page {page} of {totalPages}</div>
-
-              <div className="flex items-center gap-2">
-                <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="px-3 py-1 border rounded disabled:opacity-50">Prev</button>
-                <button disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} className="px-3 py-1 border rounded disabled:opacity-50">Next</button>
+            <div className="flex items-center gap-4">
+              <div className="hidden md:flex flex-col items-end">
+                <span className="text-xs text-zinc-500">Total</span>
+                <span className="text-lg font-semibold text-zinc-900">{total}</span>
               </div>
+
+              <button onClick={() => navigate('/inquiries/create')} className="inline-flex items-center gap-2 bg-zinc-900 text-white px-4 py-2 rounded-2xl">Create Inquiry</button>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm">
+            {isLoading ? (
+              <div className="space-y-3">
+                <div className="h-6 w-40 bg-zinc-200 rounded animate-pulse" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="h-44 bg-zinc-100 rounded-3xl animate-pulse" />
+                  ))}
+                </div>
+              </div>
+            ) : !inquiries.length ? (
+              <div className="px-6 py-12 text-center">
+                <h3 className="text-lg font-semibold text-zinc-900">No inquiries yet</h3>
+                <p className="text-sm text-zinc-500 mt-2">Submit an inquiry to get started.</p>
+                <div className="mt-4">
+                  <button onClick={() => navigate('/inquiries/create')} className="bg-zinc-900 text-white px-4 py-2 rounded-2xl">Create Inquiry</button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {inquiries.map((inq) => (
+                  <InquiryCard key={inq._id || inq.id} inquiry={inq} onDelete={handleDelete} />
+                ))}
+              </div>
+            )}
+
+            {inquiries.length > 0 && (
+              <div className="mt-6 flex items-center justify-between">
+                <div className="text-sm text-zinc-500">Page {page} of {totalPages}</div>
+                <div className="flex gap-2">
+                  <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="px-3 py-1 rounded border bg-white disabled:opacity-50">Prev</button>
+                  <button disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))} className="px-3 py-1 rounded border bg-white disabled:opacity-50">Next</button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

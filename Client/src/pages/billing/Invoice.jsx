@@ -69,34 +69,6 @@ const InvoiceForm = () => {
     });
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    let total = 0;
-
-    formData.products.forEach(p => {
-      total +=
-        Number(p.price) *
-        Number(p.qty);
-    });
-
-    formData.services.forEach(s => {
-      total += Number(s.price);
-    });
-
-    const finalData = {
-      ...formData,
-      totalAmount: total,
-      finalAmount:
-        total -
-        Number(formData.discount),
-    };
-
-    const res =
-      await mutateAsync(finalData);
-
-    setInvoice(res);
-  };
 
   return (
     <div className="p-5">

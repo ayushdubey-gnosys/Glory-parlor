@@ -45,7 +45,11 @@ exports.createAppointment = async (req, res) => {
       customerId = cust._id;
     }
 
+    // Prevent customers from setting status to booked directly
     const payload = { ...req.body, customer: customerId };
+    if (req.user && req.user.role === "customer") {
+      payload.status = "unbooked";
+    }
 
     const appointment = await appointmentModel.create(payload);
 
@@ -82,14 +86,24 @@ exports.getAppointments = async (req, res) => {
       query = { customer: cust._id };
     }
 
-    // use lean() + exec() for more predictable populated results
-    const data = await appointmentModel
-      .find(query)
-      .populate("customer")
-      .populate("service")
-      .populate("staff")
-      .lean()
-      .exec();
+    // Pagination & sorting (latest first by createdAt)
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = (page - 1) * limit;
+
+    const [total, data] = await Promise.all([
+      appointmentModel.countDocuments(query),
+      appointmentModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("customer")
+        .populate("service")
+        .populate("staff")
+        .lean()
+        .exec(),
+    ]);
 
     // normalize dates to ISO strings
     const normalized = data.map((a) => {
@@ -97,7 +111,9 @@ exports.getAppointments = async (req, res) => {
       return a;
     });
 
-    return res.json(normalized);
+    const totalPages = Math.ceil(total / limit) || 1;
+
+    return res.json({ data: normalized, page, limit, totalPages, total });
   } catch (err) {
     console.error("Error in getAppointments:", err);
     return res.status(500).json({ error: "Failed to fetch appointments" });
@@ -121,6 +137,10 @@ exports.updateAppointment = async (req, res) => {
 
       if (!cust || ownerId.toString() !== cust._id.toString()) {
         return res.status(403).json({ error: "Not authorized" });
+      }
+      // customers are not allowed to change appointment status
+      if (req.body && Object.prototype.hasOwnProperty.call(req.body, "status")) {
+        return res.status(403).json({ error: "Not authorized to change status" });
       }
     }
 

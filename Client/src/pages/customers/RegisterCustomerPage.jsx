@@ -62,6 +62,15 @@ const RegisterCustomerPage = () => {
         </div>
 
         <div className="flex flex-col gap-2">
+          <label>Address</label>
+          <input
+            {...register("address")}
+            placeholder="Enter address"
+            className="border p-2 rounded"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
           <label>Notes (optional)</label>
           <textarea
             {...register("notes")}

@@ -10,32 +10,26 @@ const InquiryCard = ({
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition">
+    <div className="bg-white border border-zinc-200 rounded-3xl p-5 shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition">
       
       {/* TOP */}
       <div className="flex items-start justify-between gap-4">
         
         <div>
-          <h3 className="text-xl font-semibold text-gray-900">
-            {inquiry.name}
-          </h3>
+          <h3 className="text-xl font-semibold text-zinc-900">{inquiry.name}</h3>
 
-          <p className="text-gray-500 mt-1">
-            {inquiry.phone} {inquiry.email && (<span className="ml-3 text-sm text-gray-400">{inquiry.email}</span>)}
+          <p className="text-zinc-500 mt-1">
+            {inquiry.phone} {inquiry.email && (<span className="ml-3 text-sm text-zinc-400">{inquiry.email}</span>)}
           </p>
         </div>
 
-        <span
-          className={`px-3 py-1 rounded-full text-xs font-medium ${(() => {
-            const s = inquiry.status || "new";
-            if (s === "converted") return "bg-green-100 text-green-700";
-            if (s === "lost") return "bg-red-100 text-red-700";
-            if (s === "follow-up") return "bg-indigo-100 text-indigo-700";
-            return "bg-yellow-100 text-yellow-700";
-          })()}`}
-        >
-          {inquiry.status || "new"}
-        </span>
+        <span className={`px-3 py-1 rounded-full text-xs font-medium ${(() => {
+          const s = inquiry.status || "new";
+          if (s === "converted") return "bg-green-100 text-green-700";
+          if (s === "lost") return "bg-red-100 text-red-700";
+          if (s === "follow-up") return "bg-indigo-100 text-indigo-700";
+          return "bg-zinc-100 text-zinc-700";
+        })()}`}>{inquiry.status || "new"}</span>
       </div>
 
       {/* DETAILS */}
@@ -43,61 +37,39 @@ const InquiryCard = ({
         
         {inquiry.serviceInterest && (
           <div>
-            <span className="font-semibold text-gray-700">
+            <span className="font-semibold text-zinc-700">
               Service:
             </span>
-
-            <span className="text-gray-600 ml-2">
-              {inquiry.serviceInterest}
-            </span>
+            <span className="text-zinc-600 ml-2">{inquiry.serviceInterest}</span>
           </div>
         )}
 
         {inquiry.reference && (
           <div>
-            <span className="font-semibold text-gray-700">
-              Source:
-            </span>
-
-            <span className="text-gray-600 ml-2 capitalize">
-              {inquiry.reference}
-            </span>
+            <span className="font-semibold text-zinc-700">Source:</span>
+            <span className="text-zinc-600 ml-2 capitalize">{inquiry.reference}</span>
           </div>
         )}
 
         {inquiry.preferredDate && (
           <div>
-            <span className="font-semibold text-gray-700">
-              Date:
-            </span>
-
-            <span className="text-gray-600 ml-2">
-              {new Date(
-                inquiry.preferredDate
-              ).toLocaleDateString()}
-            </span>
+            <span className="font-semibold text-zinc-700">Date:</span>
+            <span className="text-zinc-600 ml-2">{new Date(inquiry.preferredDate).toLocaleDateString()}</span>
           </div>
         )}
       </div>
 
       {/* MESSAGE */}
       {inquiry.message && (
-        <div className="mt-5 bg-gray-50 rounded-xl p-4">
-          <p className="text-gray-700 text-sm leading-relaxed">
-            {inquiry.message}
-          </p>
+        <div className="mt-5 bg-zinc-50 rounded-xl p-4">
+          <p className="text-zinc-700 text-sm leading-relaxed">{inquiry.message}</p>
         </div>
       )}
 
       {/* RESPONSE */}
       {inquiry.response && (
-        <div className="mt-4 bg-indigo-50 border border-indigo-100 rounded-xl p-4">
-          <p className="text-sm text-indigo-700">
-            <span className="font-semibold">
-              Response:
-            </span>{" "}
-            {inquiry.response}
-          </p>
+        <div className="mt-4 bg-zinc-50 border border-zinc-100 rounded-xl p-4">
+          <p className="text-sm text-zinc-700"><span className="font-semibold">Response:</span> {inquiry.response}</p>
         </div>
       )}
 
@@ -107,7 +79,7 @@ const InquiryCard = ({
           <div>
             <button
               onClick={() => setReplyOpen((s) => !s)}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl font-medium"
+              className="w-full bg-zinc-900 hover:bg-zinc-800 text-white py-2.5 rounded-xl font-medium"
             >
               {replyOpen ? "Cancel" : "Respond"}
             </button>
@@ -117,7 +89,7 @@ const InquiryCard = ({
                 <textarea
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
-                  className="w-full border rounded p-2 h-24"
+                  className="w-full border border-zinc-200 rounded-xl p-3 h-24 text-zinc-900"
                   placeholder="Write a response visible to customer"
                 />
 

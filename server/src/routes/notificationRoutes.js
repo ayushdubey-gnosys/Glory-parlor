@@ -30,7 +30,12 @@ router.get("/my", protect, async (req, res) => {
   try {
     // resolve Customer record from authenticated user
     const cust = await customerModel.findOne({
-      $or: [{ email: req.user.email }, { phone: req.user.mobile }],
+      $or: [
+        { createdBy: req.user._id },
+        { email: req.user.email },
+        { phone: req.user.mobile },
+        { phone: req.user.phone },
+      ],
     });
 
     if (!cust) {

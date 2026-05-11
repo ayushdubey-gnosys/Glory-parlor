@@ -4,7 +4,7 @@ const CustomerCard = ({ customer, onClick }) => {
   return (
     <div
       onClick={() => onClick && onClick(customer)}
-      className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md flex items-center gap-4"
+      className="bg-zinc-900 border border-zinc-800 p-4 rounded-2xl cursor-pointer hover:shadow-lg flex items-center gap-4"
     >
       <img
         src={customer.profilePic || "https://via.placeholder.com/80"}
@@ -13,11 +13,12 @@ const CustomerCard = ({ customer, onClick }) => {
       />
 
       <div className="flex-1">
-        <div className="font-semibold text-lg">{customer.name}</div>
-        <div className="text-sm text-gray-600">{customer.email || "-"}</div>
+        <div className="font-semibold text-lg text-white">{customer.name}</div>
+        <div className="text-sm text-zinc-400">{customer.email || "-"} • {customer.phone || "-"}</div>
+        <div className="text-xs text-zinc-500 mt-1">Status: {customer.status || "active"} • Created: {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString() : "-"}</div>
       </div>
 
-      <div className="text-sm text-gray-500">{customer.category || "--"}</div>
+      <div className="text-sm text-zinc-400">{customer.category || "--"}</div>
     </div>
   );
 };

@@ -24,6 +24,7 @@ exports.getInquiries = async (req, res) => {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 10);
     const q = req.query.q ? String(req.query.q).trim() : "";
+    const status = req.query.status ? String(req.query.status).trim() : undefined;
 
     // If customer, return only their inquiries (no pagination/search across other users)
     if (req.user && req.user.role === "customer") {
@@ -37,6 +38,10 @@ exports.getInquiries = async (req, res) => {
           { serviceInterest: regex },
           { reference: regex },
         ];
+      }
+
+      if (status) {
+        filter.status = status;
       }
 
       const total = await inquiryModel.countDocuments(filter);
@@ -60,6 +65,11 @@ exports.getInquiries = async (req, res) => {
         { reference: regex },
         { response: regex },
       ];
+    }
+
+    // allow filtering by status
+    if (status) {
+      filter.status = status;
     }
 
     const total = await inquiryModel.countDocuments(filter);

@@ -1,327 +1,1052 @@
-import React, { useMemo, useState } from "react";
+// InvoiceForm.jsx
+
+import React, {
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  Plus,
+  Trash2,
+  Search,
+  User,
+  ShoppingBag,
+  Scissors,
+} from "lucide-react";
+
+import { toast } from "react-toastify";
 
 import { useGenerateInvoice } from "../../services/billing/useBillingMutation";
+
 import { useCustomers } from "../../services/customers/useCustomerQuery";
+
 import { useCreateCustomer } from "../../services/customers/useCustomerMutation";
+
 import { useServices } from "../../services/Services/useServiceQuery";
+
 import { useProducts } from "../../services/inventory/useInventoryQuery";
 
 import InvoicePreview from "./InvoicePreview";
 
 const InvoiceForm = () => {
-  const { mutateAsync } = useGenerateInvoice();
+  const generateInvoiceMutation =
+    useGenerateInvoice();
 
-  const { data: customers = [] } = useCustomers();
-  const { data: services = [] } = useServices();
-  const { data: products = [] } = useProducts();
+  const {
+    mutateAsync: generateAsync,
+    isLoading: isGenerating,
+  } = generateInvoiceMutation;
 
-  const [invoice, setInvoice] = useState(null);
+  // CUSTOMERS
 
-  const [formData, setFormData] = useState({
-    customer: null, // will store { _id, name }
+  const {
+    data: customersData,
+  } = useCustomers();
 
-    services: [
-      {
-        service: "",
-        price: 0,
-      },
-    ],
+  const customers =
+    Array.isArray(
+      customersData
+    )
+      ? customersData
+      : customersData?.customers ||
+        [];
 
-    products: [
-      {
-        product: "",
-        price: 0,
+  // SERVICES
+
+  const {
+    data: servicesData,
+  } = useServices();
+
+  const services =
+    Array.isArray(
+      servicesData
+    )
+      ? servicesData
+      : servicesData?.services ||
+        [];
+
+  // PRODUCTS
+
+  const {
+    data: productsData,
+  } = useProducts();
+
+  const products =
+    Array.isArray(
+      productsData
+    )
+      ? productsData
+      : productsData?.products ||
+        [];
+
+  // CREATE CUSTOMER
+
+  const createCustomerMutation =
+    useCreateCustomer();
+
+  const {
+    mutateAsync:
+      createCustomerAsync,
+    isLoading: isCreating,
+  } =
+    createCustomerMutation;
+
+  const [invoice, setInvoice] =
+    useState(null);
+
+  const [
+    customerQuery,
+    setCustomerQuery,
+  ] = useState("");
+
+  const [
+    newCustomerPhone,
+    setNewCustomerPhone,
+  ] = useState("");
+
+  const [formData, setFormData] =
+    useState({
+      customer: null,
+
+      services: [
+        {
+          service: "",
+          price: 0,
+        },
+      ],
+
+      products: [
+        {
+          product: "",
+          price: 0,
+          qty: 1,
+        },
+      ],
+
+      paymentMethod:
+        "Cash",
+
+      discount: 0,
+    });
+
+  // SEARCH CUSTOMER
+
+  const matchedCustomers =
+    useMemo(() => {
+      if (
+        !customerQuery
+      )
+        return [];
+
+      return customers.filter(
+        (c) =>
+          c.name
+            ?.toLowerCase()
+            .includes(
+              customerQuery.toLowerCase()
+            ) ||
+          c.phone?.includes(
+            customerQuery
+          )
+      );
+    }, [
+      customerQuery,
+      customers,
+    ]);
+
+  // SELECT CUSTOMER
+
+  const handleSelectCustomer =
+    (cust) => {
+      setFormData((prev) => ({
+        ...prev,
+
+        customer: {
+          _id: cust._id,
+
+          name: cust.name,
+
+          phone: cust.phone,
+
+          email:
+            cust.email || "",
+
+          address:
+            cust.address ||
+            "",
+        },
+      }));
+
+      setCustomerQuery(
+        cust.name
+      );
+
+      setNewCustomerPhone(
+        cust.phone
+      );
+    };
+
+  // SERVICE SELECT
+
+  const handleServiceSelect =
+    (
+      index,
+      serviceId
+    ) => {
+      const svc =
+        services.find(
+          (s) =>
+            s._id ===
+            serviceId
+        );
+
+      const updated = [
+        ...formData.services,
+      ];
+
+      updated[index] = {
+        service:
+          svc?._id ||
+          "",
+
+        price:
+          svc?.price ||
+          0,
+      };
+
+      setFormData({
+        ...formData,
+        services:
+          updated,
+      });
+    };
+
+  // PRODUCT SELECT
+
+  const handleProductSelect =
+    (
+      index,
+      productId
+    ) => {
+      const prod =
+        products.find(
+          (p) =>
+            p._id ===
+            productId
+        );
+
+      const updated = [
+        ...formData.products,
+      ];
+
+      updated[index] = {
+        product:
+          prod?._id ||
+          "",
+
+        price:
+          prod
+            ?.sellingPrice ||
+          0,
+
         qty: 1,
-      },
-    ],
+      };
 
-    paymentMethod: "Cash",
-    discount: 0,
-  });
+      setFormData({
+        ...formData,
+        products:
+          updated,
+      });
+    };
 
-  const [newCustomerPhone, setNewCustomerPhone] = useState("");
+  // SERVICE CHANGE
 
-  const createCustomerMutation = useCreateCustomer();
+  const handleServiceChange =
+    (
+      index,
+      field,
+      value
+    ) => {
+      const updated = [
+        ...formData.services,
+      ];
 
-  const [customerQuery, setCustomerQuery] = useState("");
+      updated[index][field] =
+        value;
 
-  const matchedCustomers = useMemo(() => {
-    if (!customerQuery) return [];
-    const q = customerQuery.toLowerCase();
-    return customers.filter((c) => (c.name || "").toLowerCase().includes(q));
-  }, [customerQuery, customers]);
+      setFormData({
+        ...formData,
+        services:
+          updated,
+      });
+    };
 
-  const handleSelectCustomer = (cust) => {
-    setFormData({ ...formData, customer: { _id: cust._id, name: cust.name } });
-    setCustomerQuery(cust.name);
-  };
+  // PRODUCT CHANGE
 
-  const handleServiceSelect = (index, serviceId) => {
-    const svc = services.find((s) => s._id === serviceId) || null;
-    const updated = [...formData.services];
-    updated[index].service = svc ? svc._id : "";
-    updated[index].price = svc ? svc.price || 0 : 0;
-    setFormData({ ...formData, services: updated });
-  };
+  const handleProductChange =
+    (
+      index,
+      field,
+      value
+    ) => {
+      const updated = [
+        ...formData.products,
+      ];
 
-  const handleProductSelect = (index, productId) => {
-    const prod = products.find((p) => p._id === productId) || null;
-    const updated = [...formData.products];
-    updated[index].product = prod ? prod._id : "";
-    updated[index].price = prod ? prod.price || 0 : 0;
-    if (!updated[index].qty) updated[index].qty = 1;
-    setFormData({ ...formData, products: updated });
-  };
+      updated[index][field] =
+        value;
 
-  const handleServiceChange = (index, field, value) => {
-    const updated = [...formData.services];
-    updated[index][field] = value;
-    setFormData({ ...formData, services: updated });
-  };
+      setFormData({
+        ...formData,
+        products:
+          updated,
+      });
+    };
 
-  const handleProductChange = (index, field, value) => {
-    const updated = [...formData.products];
-    updated[index][field] = value;
-    setFormData({ ...formData, products: updated });
-  };
+  // ADD SERVICE
 
   const addService = () => {
-    setFormData({ ...formData, services: [...formData.services, { service: "", price: 0 }] });
+    setFormData({
+      ...formData,
+
+      services: [
+        ...formData.services,
+
+        {
+          service: "",
+          price: 0,
+        },
+      ],
+    });
   };
 
-  const removeService = (index) => {
-    const updated = formData.services.filter((_, i) => i !== index);
-    setFormData({ ...formData, services: updated.length ? updated : [{ service: "", price: 0 }] });
-  };
+  // REMOVE SERVICE
+
+  const removeService =
+    (index) => {
+      const updated =
+        formData.services.filter(
+          (_, i) =>
+            i !== index
+        );
+
+      setFormData({
+        ...formData,
+
+        services:
+          updated.length
+            ? updated
+            : [
+                {
+                  service:
+                    "",
+
+                  price: 0,
+                },
+              ],
+      });
+    };
+
+  // ADD PRODUCT
 
   const addProduct = () => {
-    setFormData({ ...formData, products: [...formData.products, { product: "", price: 0, qty: 1 }] });
+    setFormData({
+      ...formData,
+
+      products: [
+        ...formData.products,
+
+        {
+          product: "",
+          price: 0,
+          qty: 1,
+        },
+      ],
+    });
   };
 
-  const removeProduct = (index) => {
-    const updated = formData.products.filter((_, i) => i !== index);
-    setFormData({ ...formData, products: updated.length ? updated : [{ product: "", price: 0, qty: 1 }] });
-  };
+  // REMOVE PRODUCT
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const removeProduct =
+    (index) => {
+      const updated =
+        formData.products.filter(
+          (_, i) =>
+            i !== index
+        );
 
-    let customerId = null;
+      setFormData({
+        ...formData,
 
-    if (formData.customer && formData.customer._id) {
-      customerId = formData.customer._id;
-    } else if (customerQuery && !formData.customer) {
-      // create new customer with provided name and phone
-      if (!newCustomerPhone) {
-        return alert("Please provide phone number for new customer");
-      }
+        products:
+          updated.length
+            ? updated
+            : [
+                {
+                  product:
+                    "",
+
+                  price: 0,
+
+                  qty: 1,
+                },
+              ],
+      });
+    };
+
+  // SUBMIT
+
+  const handleSubmit =
+    async (e) => {
+      e.preventDefault();
 
       try {
-        const created = await createCustomerMutation.mutateAsync({
-          name: customerQuery,
-          phone: newCustomerPhone,
-          email: "",
-        });
+        let customerId =
+          null;
 
-        customerId = created._id || created.id;
-        // set selection to created customer for preview
-        setFormData({ ...formData, customer: { _id: customerId, name: created.name, phone: created.phone } });
+        let createdCustomer =
+          null;
+
+        // EXISTING CUSTOMER
+
+        if (
+          formData.customer
+            ?._id
+        ) {
+          customerId =
+            formData.customer
+              ._id;
+        } else {
+          // CHECK IF PHONE EXISTS
+
+          const existing =
+            customers.find(
+              (c) =>
+                c.phone ===
+                newCustomerPhone
+            );
+
+          if (existing) {
+            customerId =
+              existing._id;
+
+            createdCustomer =
+              existing;
+          } else {
+            // CREATE CUSTOMER
+
+            if (!customerQuery || !newCustomerPhone) {
+              toast.error("Customer name & phone required");
+              return;
+            }
+
+            try {
+              createdCustomer = await createCustomerAsync({
+                name: customerQuery,
+                phone: newCustomerPhone,
+              });
+
+              customerId = createdCustomer._id;
+            } catch (createErr) {
+              // If server reports duplicate key or customer exists, try to reuse cached customer
+              const msg = createErr?.response?.data?.message || createErr?.message || "Failed to create customer";
+
+              if (msg && msg.toLowerCase().includes("already exists")) {
+                const existingFallback = customers.find((c) => c.phone === newCustomerPhone || (c.name || "").toLowerCase() === customerQuery.toLowerCase());
+
+                if (existingFallback) {
+                  createdCustomer = existingFallback;
+                  customerId = existingFallback._id;
+                  toast.info("Using existing customer record");
+                } else {
+                  toast.error("Customer already exists — please search and select the customer");
+                  return;
+                }
+              } else {
+                console.error("CREATE CUSTOMER ERROR:", createErr);
+                toast.error(msg);
+                return;
+              }
+            }
+          }
+        }
+
+        // TOTALS
+
+        let total = 0;
+
+        formData.services.forEach(
+          (s) => {
+            total +=
+              Number(
+                s.price
+              ) || 0;
+          }
+        );
+
+        formData.products.forEach(
+          (p) => {
+            total +=
+              (Number(
+                p.price
+              ) || 0) *
+              (Number(
+                p.qty
+              ) || 0);
+          }
+        );
+
+        const discount =
+          Number(
+            formData.discount
+          ) || 0;
+
+        const payload = {
+          customer:
+            customerId,
+
+          services:
+            formData.services,
+
+          products:
+            formData.products,
+
+          paymentMethod:
+            formData.paymentMethod,
+
+          discount,
+
+          totalAmount:
+            total,
+
+          finalAmount:
+            total -
+            discount,
+        };
+
+        // GENERATE INVOICE
+
+        const invoiceRes =
+          await generateAsync(
+            payload
+          );
+
+        // CUSTOMER DATA
+
+        const selectedCustomerData =
+          customers.find(
+            (c) =>
+              c._id ===
+              customerId
+          ) ||
+          createdCustomer;
+
+        // PREVIEW
+
+        const preview = {
+          ...invoiceRes,
+
+          customer: {
+            _id:
+              selectedCustomerData?._id,
+
+            name:
+              selectedCustomerData?.name ||
+              customerQuery,
+
+            phone:
+              selectedCustomerData?.phone ||
+              newCustomerPhone,
+
+            email:
+              selectedCustomerData?.email ||
+              "",
+
+            address:
+              selectedCustomerData?.address ||
+              "",
+          },
+
+          services:
+            formData.services.map(
+              (s) => ({
+                ...s,
+
+                service:
+                  services.find(
+                    (
+                      sv
+                    ) =>
+                      sv._id ===
+                      s.service
+                  ) || {
+                    name: "Service",
+                  },
+              })
+            ),
+
+          products:
+            formData.products.map(
+              (p) => ({
+                ...p,
+
+                product:
+                  products.find(
+                    (
+                      pr
+                    ) =>
+                      pr._id ===
+                      p.product
+                  ) || {
+                    name: "Product",
+                  },
+              })
+            ),
+
+          totalAmount:
+            payload.totalAmount,
+
+          finalAmount:
+            payload.finalAmount,
+
+          discount,
+
+          paymentMethod:
+            payload.paymentMethod,
+        };
+
+        setInvoice(
+          preview
+        );
+
+        toast.success(
+          "Invoice generated successfully"
+        );
       } catch (err) {
-        console.error("Create customer failed", err);
-        return alert("Failed to create customer");
+        console.log(
+          "INVOICE ERROR:",
+          err
+        );
+
+        toast.error(
+          err?.response?.data
+            ?.message ||
+            "Invoice failed"
+        );
       }
-    } else {
-      return alert("Please select a customer from the list or enter a new one");
-    }
-
-    let total = 0;
-
-    formData.products.forEach((p) => {
-      total += Number(p.price || 0) * Number(p.qty || 0);
-    });
-
-    formData.services.forEach((s) => {
-      total += Number(s.price || 0);
-    });
-
-    const payload = {
-      customer: formData.customer._id,
-      services: formData.services.map((s) => ({ service: s.service, price: s.price })),
-      products: formData.products.map((p) => ({ product: p.product, price: p.price, qty: p.qty })),
-      paymentMethod: formData.paymentMethod,
-      discount: Number(formData.discount || 0),
-      totalAmount: total,
-      finalAmount: total - Number(formData.discount || 0),
     };
-
-    const res = await mutateAsync(payload);
-    // build enriched services/products with names for preview
-    const enrichedServices = payload.services.map((s) => {
-      const svc = services.find((x) => x._id === s.service) || {};
-      return { ...s, name: svc.name || "" };
-    });
-
-    const enrichedProducts = payload.products.map((p) => {
-      const prod = products.find((x) => x._id === p.product) || {};
-      return { ...p, name: prod.name || "" };
-    });
-
-    const invoiceOut = {
-      ...res,
-      customer: formData.customer ? formData.customer : { _id: customerId, name: customerQuery, phone: newCustomerPhone },
-      services: enrichedServices,
-      products: enrichedProducts,
-      totalAmount: payload.totalAmount,
-      finalAmount: payload.finalAmount,
-    };
-
-    setInvoice(invoiceOut);
-  };
 
   return (
-    <div className="p-5">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3 relative">
-          <input
-            type="text"
-            placeholder="Search customer by name"
-            className="border p-2 w-full"
-            value={customerQuery}
-            onChange={(e) => {
-              setCustomerQuery(e.target.value);
-              // clear selection if typing
-              setFormData({ ...formData, customer: null });
-            }}
-          />
+    <div className="min-h-screen bg-black text-white p-6">
+      <div className="max-w-6xl mx-auto">
 
-          {customerQuery && matchedCustomers.length > 0 && (
-            <div className="absolute z-40 bg-white border w-full mt-1 max-h-40 overflow-y-auto">
-              {matchedCustomers.map((c) => (
-                <div
-                  key={c._id}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleSelectCustomer(c)}
-                >
-                  {c.name} — {c.phone}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <h1 className="text-4xl font-bold mb-8">
+          Billing
+        </h1>
 
-        {/* New-customer phone input (shown when a customer is not selected) */}
-        {!formData.customer && (
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Phone (WhatsApp) for new customer"
-              className="border p-2 w-full"
-              value={newCustomerPhone}
-              onChange={(e) => setNewCustomerPhone(e.target.value)}
-            />
-          </div>
-        )}
-
-        <h2 className="font-bold mb-2">Services</h2>
-
-        {formData.services.map((service, index) => (
-          <div key={index} className="flex gap-2 mb-2 items-center">
-            <select
-              className="border p-2 flex-1"
-              value={service.service}
-              onChange={(e) => handleServiceSelect(index, e.target.value)}
-            >
-              <option value="">Select service</option>
-              {services.map((s) => (
-                <option key={s._id} value={s._id}>
-                  {s.name} — {s.price}
-                </option>
-              ))}
-            </select>
-
-            <input
-              type="number"
-              placeholder="Price"
-              className="border p-2 w-36"
-              value={service.price}
-              onChange={(e) => handleServiceChange(index, "price", e.target.value)}
-            />
-
-            <button type="button" className="text-sm text-red-600" onClick={() => removeService(index)}>
-              Remove
-            </button>
-          </div>
-        ))}
-
-        <button type="button" className="bg-black text-white px-3 py-2 mb-4" onClick={addService}>
-          Add Service
-        </button>
-
-        <h2 className="font-bold mb-2">Products</h2>
-
-        {formData.products.map((product, index) => (
-          <div key={index} className="flex gap-2 mb-2 items-center">
-            <select
-              className="border p-2"
-              value={product.product}
-              onChange={(e) => handleProductSelect(index, e.target.value)}
-            >
-              <option value="">Select product</option>
-              {products.map((p) => (
-                <option key={p._id} value={p._id}>
-                  {p.name} — {p.price}
-                </option>
-              ))}
-            </select>
-
-            <input
-              type="number"
-              placeholder="Price"
-              className="border p-2 w-32"
-              value={product.price}
-              onChange={(e) => handleProductChange(index, "price", e.target.value)}
-            />
-
-            <input
-              type="number"
-              placeholder="Qty"
-              className="border p-2 w-24"
-              value={product.qty}
-              onChange={(e) => handleProductChange(index, "qty", e.target.value)}
-            />
-
-            <button type="button" className="text-sm text-red-600" onClick={() => removeProduct(index)}>
-              Remove
-            </button>
-          </div>
-        ))}
-
-        <button type="button" className="bg-black text-white px-3 py-2 mb-4" onClick={addProduct}>
-          Add Product
-        </button>
-
-        <input
-          type="number"
-          placeholder="Discount"
-          className="border p-2 w-full mb-3"
-          value={formData.discount}
-          onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-        />
-
-        <select
-          className="border p-2 w-full mb-4"
-          value={formData.paymentMethod}
-          onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+        <form
+          onSubmit={
+            handleSubmit
+          }
+          className="bg-zinc-950 border border-zinc-800 rounded-3xl p-6 space-y-8"
         >
-          <option>Cash</option>
-          <option>UPI</option>
-          <option>Card</option>
-        </select>
 
-        <button className="bg-blue-600 text-white px-5 py-2 rounded">Generate Invoice</button>
-      </form>
+          {/* CUSTOMER */}
 
-      {invoice && <InvoicePreview invoice={invoice} />}
+          <div>
+            <h2 className="flex items-center gap-2 text-xl font-semibold mb-4">
+              <User size={20} />
+              Customer
+            </h2>
+
+            <div className="relative">
+              <Search
+                size={18}
+                className="absolute left-4 top-4 text-zinc-500"
+              />
+
+              <input
+                type="text"
+                placeholder="Search customer..."
+                value={
+                  customerQuery
+                }
+                onChange={(
+                  e
+                ) => {
+                  setCustomerQuery(
+                    e.target
+                      .value
+                  );
+
+                  setFormData({
+                    ...formData,
+                    customer:
+                      null,
+                  });
+                }}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl pl-12 pr-4 py-4 outline-none"
+              />
+
+              {matchedCustomers.length >
+                0 && (
+                <div className="absolute w-full bg-zinc-900 border border-zinc-800 rounded-2xl mt-2 z-50 overflow-hidden">
+                  {matchedCustomers.map(
+                    (
+                      c
+                    ) => (
+                      <div
+                        key={
+                          c._id
+                        }
+                        onClick={() =>
+                          handleSelectCustomer(
+                            c
+                          )
+                        }
+                        className="p-4 hover:bg-zinc-800 cursor-pointer border-b border-zinc-800"
+                      >
+                        {
+                          c.name
+                        }{" "}
+                        -{" "}
+                        {
+                          c.phone
+                        }
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            {!formData.customer && (
+              <input
+                type="text"
+                placeholder="Phone number"
+                value={
+                  newCustomerPhone
+                }
+                onChange={(
+                  e
+                ) =>
+                  setNewCustomerPhone(
+                    e.target
+                      .value
+                  )
+                }
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4 mt-4 outline-none"
+              />
+            )}
+          </div>
+
+          {/* SERVICES */}
+
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="flex items-center gap-2 text-xl font-semibold">
+                <Scissors size={20} />
+                Services
+              </h2>
+
+              <button
+                type="button"
+                onClick={
+                  addService
+                }
+                className="bg-white text-black px-4 py-2 rounded-xl flex items-center gap-2"
+              >
+                <Plus size={16} />
+                Add
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {formData.services.map(
+                (
+                  service,
+                  index
+                ) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                  >
+                    <select
+                      value={
+                        service.service
+                      }
+                      onChange={(
+                        e
+                      ) =>
+                        handleServiceSelect(
+                          index,
+                          e.target
+                            .value
+                        )
+                      }
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                    >
+                      <option value="">
+                        Select Service
+                      </option>
+
+                      {services.map(
+                        (
+                          s
+                        ) => (
+                          <option
+                            key={
+                              s._id
+                            }
+                            value={
+                              s._id
+                            }
+                          >
+                            {
+                              s.name
+                            }
+                          </option>
+                        )
+                      )}
+                    </select>
+
+                    <input
+                      type="number"
+                      value={
+                        service.price
+                      }
+                      onChange={(
+                        e
+                      ) =>
+                        handleServiceChange(
+                          index,
+                          "price",
+                          e.target
+                            .value
+                        )
+                      }
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeService(
+                          index
+                        )
+                      }
+                      className="bg-red-500 rounded-2xl"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* PRODUCTS */}
+
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="flex items-center gap-2 text-xl font-semibold">
+                <ShoppingBag size={20} />
+                Products
+              </h2>
+
+              <button
+                type="button"
+                onClick={
+                  addProduct
+                }
+                className="bg-white text-black px-4 py-2 rounded-xl flex items-center gap-2"
+              >
+                <Plus size={16} />
+                Add
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {formData.products.map(
+                (
+                  product,
+                  index
+                ) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 md:grid-cols-4 gap-4"
+                  >
+                    <select
+                      value={
+                        product.product
+                      }
+                      onChange={(
+                        e
+                      ) =>
+                        handleProductSelect(
+                          index,
+                          e.target
+                            .value
+                        )
+                      }
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                    >
+                      <option value="">
+                        Select Product
+                      </option>
+
+                      {products.map(
+                        (
+                          p
+                        ) => (
+                          <option
+                            key={
+                              p._id
+                            }
+                            value={
+                              p._id
+                            }
+                          >
+                            {
+                              p.name
+                            }
+                          </option>
+                        )
+                      )}
+                    </select>
+
+                    <input
+                      type="number"
+                      value={
+                        product.price
+                      }
+                      onChange={(
+                        e
+                      ) =>
+                        handleProductChange(
+                          index,
+                          "price",
+                          e.target
+                            .value
+                        )
+                      }
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                    />
+
+                    <input
+                      type="number"
+                      value={
+                        product.qty
+                      }
+                      onChange={(
+                        e
+                      ) =>
+                        handleProductChange(
+                          index,
+                          "qty",
+                          e.target
+                            .value
+                        )
+                      }
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeProduct(
+                          index
+                        )
+                      }
+                      className="bg-red-500 rounded-2xl"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* PAYMENT */}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              type="number"
+              placeholder="Discount"
+              value={
+                formData.discount
+              }
+              onChange={(
+                e
+              ) =>
+                setFormData({
+                  ...formData,
+                  discount:
+                    e.target
+                      .value,
+                })
+              }
+              className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+            />
+
+            <select
+              value={
+                formData.paymentMethod
+              }
+              onChange={(
+                e
+              ) =>
+                setFormData({
+                  ...formData,
+                  paymentMethod:
+                    e.target
+                      .value,
+                })
+              }
+              className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+            >
+              <option>
+                Cash
+              </option>
+
+              <option>
+                UPI
+              </option>
+
+              <option>
+                Card
+              </option>
+            </select>
+          </div>
+
+          {/* BUTTON */}
+
+          <button
+            type="submit"
+            disabled={
+              isGenerating ||
+              isCreating
+            }
+            className="w-full py-4 rounded-2xl text-lg font-bold bg-white text-black hover:bg-zinc-200 transition"
+          >
+            {isGenerating ||
+            isCreating
+              ? "Generating..."
+              : "Generate Invoice"}
+          </button>
+        </form>
+
+        {/* PREVIEW */}
+
+        {invoice && (
+          <InvoicePreview
+            invoice={
+              invoice
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };
