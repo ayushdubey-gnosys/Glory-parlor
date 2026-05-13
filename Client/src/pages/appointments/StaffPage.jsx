@@ -17,7 +17,7 @@ const StaffPage = () => {
     useState(false);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white px-4 py-8 sm:px-6 lg:px-10">
+    <div className="min-h-screen bg-white text-zinc px-4 py-8 sm:px-6 lg:px-10">
       
       {/* HEADER */}
 
@@ -54,14 +54,15 @@ const StaffPage = () => {
 
         <div
           className="
-            bg-zinc-900
-            border border-zinc-800
+            
+            border-2 border-green-600
             rounded-2xl
+           
             px-5 py-4
             w-fit
           "
         >
-          <p className="text-2xl font-bold">
+          <p className="text-2xl  text-zinc-800 font-bold">
             {staffList?.length || 0}
           </p>
 

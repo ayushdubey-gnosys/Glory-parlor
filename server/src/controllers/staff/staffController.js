@@ -150,15 +150,15 @@ exports.deleteStaff = async (req, res) => {
 
 //   res.json({ incentive });
 // };
-
 exports.calculateIncentive = async (req, res) => {
   try {
     const {
       staffId,
-      productSalesCount,
-      serviceSalesAmount,
+      productSalesCount = 0,
+      serviceSalesAmount = 0,
     } = req.body;
 
+    // CHECK STAFF
     const staff = await staffModel.findById(staffId);
 
     if (!staff) {
@@ -167,12 +167,15 @@ exports.calculateIncentive = async (req, res) => {
       });
     }
 
+    // =========================
     // PRODUCT COMMISSION
+    // =========================
     const productCommission =
       productSalesCount * 30;
 
+    // =========================
     // SERVICE COMMISSION
-    let serviceCommission = 0;
+    // =========================
     let percentage = 0;
 
     if (serviceSalesAmount >= 150000) {
@@ -181,32 +184,43 @@ exports.calculateIncentive = async (req, res) => {
       percentage = 2;
     }
 
-    serviceCommission =
+    const serviceCommission =
       serviceSalesAmount *
       (percentage / 100);
 
-    // TOTAL
+    // =========================
+    // TOTAL INCENTIVE
+    // =========================
     const totalIncentive =
       productCommission +
       serviceCommission;
 
-    res.json({
-      staff: staff.name,
-      role: staff.role,
+    // RESPONSE
+    res.status(200).json({
+      success: true,
 
-      productSalesCount,
-      productCommission,
+      staff: {
+        id: staff._id,
+        name: staff.name,
+        role: staff.role,
+      },
 
-      serviceSalesAmount,
-      serviceCommissionPercentage:
-        `${percentage}%`,
-      serviceCommission,
+      incentiveDetails: {
+        productSalesCount,
+        productCommission,
 
-      totalIncentive,
+        serviceSalesAmount,
+        serviceCommissionPercentage:
+          `${percentage}%`,
+        serviceCommission,
+
+        totalIncentive,
+      },
     });
 
   } catch (err) {
     res.status(500).json({
+      success: false,
       error: err.message,
     });
   }

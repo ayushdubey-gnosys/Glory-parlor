@@ -17,6 +17,7 @@ import {
   Megaphone,
   Sparkles,
   ChevronRight,
+  X,
 } from "lucide-react";
 
 const links = [
@@ -24,21 +25,14 @@ const links = [
     to: "/",
     label: "Dashboard",
     icon: <LayoutDashboard size={18} />,
-    roles: [
-      "superadmin",
-      "admin",
-      "staff",
-    ],
+    roles: ["superadmin", "admin", "staff"],
   },
 
   {
     to: "/customers",
     label: "Customers",
     icon: <Users size={18} />,
-    roles: [
-      "superadmin",
-      "admin",
-    ],
+    roles: ["superadmin", "admin"],
   },
 
   {
@@ -60,6 +54,8 @@ const links = [
     roles: [
       "superadmin",
       "admin",
+      "staff",
+      "customer",
     ],
   },
 
@@ -70,6 +66,8 @@ const links = [
     roles: [
       "superadmin",
       "admin",
+      "staff",
+      "customer",
     ],
   },
 
@@ -77,20 +75,14 @@ const links = [
     to: "/inventory",
     label: "Inventory",
     icon: <Package size={18} />,
-    roles: [
-      "superadmin",
-      "admin",
-    ],
+    roles: ["superadmin", "admin"],
   },
 
   {
     to: "/billing",
     label: "Billing",
     icon: <Receipt size={18} />,
-    roles: [
-      "superadmin",
-      "admin",
-    ],
+    roles: ["superadmin", "admin"],
   },
 
   {
@@ -118,6 +110,8 @@ const links = [
     roles: [
       "superadmin",
       "admin",
+      "staff",
+      "customer",
     ],
   },
 
@@ -125,16 +119,29 @@ const links = [
     to: "/marketing",
     label: "Marketing",
     icon: <Megaphone size={18} />,
-    roles: [
-      "superadmin",
-      "admin",
-    ],
+    roles: ["superadmin", "admin"],
+  },
+
+  {
+    to: "/admin/incentive",
+    label: "Incentives",
+    icon: <Receipt size={18} />,
+    roles: ["superadmin", "admin"],
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({
+  mobileOpen,
+  setMobileOpen,
+}) => {
   const { user, hasRole } =
     useAuth();
+
+  const handleCloseSidebar = () => {
+    if (window.innerWidth < 768) {
+      setMobileOpen(false);
+    }
+  };
 
   return (
     <>
@@ -161,10 +168,56 @@ const Sidebar = () => {
         .fade-left {
           animation: fadeLeft .4s ease;
         }
+
+        .sidebar-scroll {
+          scrollbar-width: none;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+          width: 0px;
+          background: transparent;
+        }
+
+        .sidebar-scroll:hover::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.12);
+          border-radius: 8px;
+        }
       `}</style>
 
+      {/* MOBILE OVERLAY */}
+      {mobileOpen && (
+        <div
+          onClick={() =>
+            setMobileOpen(false)
+          }
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
+        />
+      )}
+
       <aside
-        className="hidden md:flex flex-col w-[290px] min-h-screen border-r border-white/5 backdrop-blur-2xl px-6 py-7 overflow-hidden"
+        className={`
+          fixed md:sticky
+          top-0 left-0
+          flex flex-col
+          w-[290px]
+          h-screen
+          border-r border-white/5
+          backdrop-blur-2xl
+          px-6 py-7
+          sidebar-scroll
+          z-50
+          overflow-y-auto
+          transition-transform duration-300
+          ${
+            mobileOpen
+              ? "translate-x-0"
+              : "-translate-x-full md:translate-x-0"
+          }
+        `}
         style={{
           background:
             "rgba(10,10,10,0.95)",
@@ -174,37 +227,49 @@ const Sidebar = () => {
         <div className="absolute top-[-120px] left-[-120px] w-[260px] h-[260px] bg-yellow-700/10 rounded-full blur-[120px]" />
 
         {/* LOGO */}
-        <div className="relative z-10 flex items-center gap-4 mb-12">
-          
-          <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xl"
-            style={{
-              background:
-                "linear-gradient(135deg,#c9a96e,#8a6535)",
-            }}
+        <div className="relative z-10 flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
+            <div
+              className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xl"
+              style={{
+                background:
+                  "linear-gradient(135deg,#c9a96e,#8a6535)",
+              }}
+            >
+              <Sparkles
+                size={18}
+                className="text-white"
+              />
+            </div>
+
+            <div>
+              <h1 className="text-white text-xl uppercase tracking-[5px] font-light">
+                Glory PMS
+              </h1>
+
+              <p className="dm text-[10px] uppercase tracking-[3px] text-zinc-600 mt-1">
+                Luxury Salon Software
+              </p>
+            </div>
+          </div>
+
+          {/* MOBILE CLOSE BUTTON */}
+          <button
+            type="button"
+            onClick={() =>
+              setMobileOpen(false)
+            }
+            className="md:hidden w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center"
           >
-            <Sparkles
-              size={18}
+            <X
+              size={20}
               className="text-white"
             />
-          </div>
-
-          <div>
-            <h1 className="text-white text-xl uppercase tracking-[5px] font-light">
-              Glory PMS
-            </h1>
-
-            <p className="dm text-[10px] uppercase tracking-[3px] text-zinc-600 mt-1">
-              Luxury Salon Software
-            </p>
-          </div>
+          </button>
         </div>
-
-      
 
         {/* MENU TITLE */}
         <div className="relative z-10 mb-5 px-2">
-          
           <p className="dm text-[11px] uppercase tracking-[3px] text-zinc-600">
             Main Navigation
           </p>
@@ -212,19 +277,18 @@ const Sidebar = () => {
 
         {/* NAVIGATION */}
         <nav className="relative z-10 flex flex-col gap-2">
-          
           {links
-            .filter(l =>
+            .filter((l) =>
               user
-                ? hasRole(
-                    l.roles
-                  )
+                ? hasRole(l.roles)
                 : false
             )
             .map((l, i) => (
               <NavLink
                 key={l.to}
                 to={l.to}
+                end={l.to === "/"}
+                onClick={handleCloseSidebar}
                 className={({
                   isActive,
                 }) =>
@@ -257,7 +321,6 @@ const Sidebar = () => {
                 }) => (
                   <>
                     <div className="flex items-center gap-4">
-                      
                       <div
                         className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
                           isActive
@@ -312,9 +375,6 @@ const Sidebar = () => {
               </NavLink>
             ))}
         </nav>
-
-        {/* BOTTOM CARD */}
-        
       </aside>
     </>
   );

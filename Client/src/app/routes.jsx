@@ -21,6 +21,7 @@ import InquiryDetailPage from "../pages/inquiries/InquiryDetailPage";
 import AcademyPage from "../pages/academy/AcademyPage";
 import CourseDetailPage from "../pages/academy/CourseDetailPage";
 import MarketingPage from "../pages/marketing/MarketingPage";
+import StaffIncentivePage from "../pages/admin/StaffIncentivePage";
 import LoginPage from "../pages/auth/LoginPage";
 import RequireAuth from "./RequireAuth";
 import RequireRole from "./RequireRole";
@@ -117,6 +118,7 @@ const RoutesProvider = () => {
           <Route path="academy" element={<AcademyPage />} />
           <Route path="academy/:id" element={<CourseDetailPage />} />
           <Route path="marketing" element={<MarketingPage />} />
+          <Route path="admin/incentive" element={<StaffIncentivePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

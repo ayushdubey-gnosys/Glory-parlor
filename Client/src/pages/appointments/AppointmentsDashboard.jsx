@@ -23,7 +23,7 @@ const AppointmentsDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen  text-zinc-950 p-6">
       <h1 className="text-4xl font-bold mb-10">
         Appointment Dashboard
       </h1>
@@ -34,12 +34,13 @@ const AppointmentsDashboard = () => {
             key={index}
             onClick={() => navigate(card.path)}
             className="
-              bg-zinc-900
-              border border-zinc-800
+              bg-zinc-200
+              border border-zinc-900
               rounded-3xl
               p-6
               cursor-pointer
-              hover:border-white
+              hover:shadow-2xl hover:shadow-zinc-800
+              
               transition
             "
           >
@@ -47,7 +48,7 @@ const AppointmentsDashboard = () => {
               {card.title}
             </h2>
 
-            <p className="text-zinc-400">
+            <p className="text-zinc-700">
               {card.desc}
             </p>
           </div>

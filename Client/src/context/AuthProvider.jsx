@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { useCurrentUser } from "../services/auth/useAuthQuery";
 import { useLogin, useLogout } from "../services/auth/useAuthMutation";
+import api from "../api/api";
 
 const AuthContext = createContext(null);
 
@@ -10,7 +11,13 @@ export const AuthProvider = ({ children }) => {
   const logoutMutation = useLogout();
 
   const login = async (credentials) => {
-    await loginMutation.mutateAsync(credentials);
+    const res = await loginMutation.mutateAsync(credentials);
+
+    // if server returned a token, set Authorization header for subsequent requests
+    if (res?.token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${res.token}`;
+    }
+
     await refetch();
   };
 
@@ -18,6 +25,9 @@ export const AuthProvider = ({ children }) => {
     try {
       await logoutMutation.mutateAsync();
     } finally {
+      // remove Authorization header on logout
+      delete api.defaults.headers.common["Authorization"];
+
       await refetch();
     }
   };

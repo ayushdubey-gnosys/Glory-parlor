@@ -637,7 +637,7 @@ const InvoiceForm = () => {
     };
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen bg-white text-zinc-800 shadow-2xl shadow-zinc-900 rounded-2xl p-6">
       <div className="max-w-6xl mx-auto">
 
         <h1 className="text-4xl font-bold mb-8">
@@ -648,7 +648,7 @@ const InvoiceForm = () => {
           onSubmit={
             handleSubmit
           }
-          className="bg-zinc-950 border border-zinc-800 rounded-3xl p-6 space-y-8"
+          className="bg-zinc-200 border border-zinc-800 rounded-3xl p-6 space-y-8"
         >
 
           {/* CUSTOMER */}
@@ -685,12 +685,12 @@ const InvoiceForm = () => {
                       null,
                   });
                 }}
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl pl-12 pr-4 py-4 outline-none"
+                className="w-full bg-gray-100 border border-zinc-800 rounded-2xl pl-12 pr-4 py-4 outline-none"
               />
 
               {matchedCustomers.length >
                 0 && (
-                <div className="absolute w-full bg-zinc-900 border border-zinc-800 rounded-2xl mt-2 z-50 overflow-hidden">
+                <div className="absolute w-full bg-gray-100 border border-zinc-800 rounded-2xl mt-2 z-50 overflow-hidden">
                   {matchedCustomers.map(
                     (
                       c
@@ -704,7 +704,7 @@ const InvoiceForm = () => {
                             c
                           )
                         }
-                        className="p-4 hover:bg-zinc-800 cursor-pointer border-b border-zinc-800"
+                        className="p-4 hover:bg-zinc-300 cursor-pointer border-b border-zinc-800"
                       >
                         {
                           c.name
@@ -735,7 +735,7 @@ const InvoiceForm = () => {
                       .value
                   )
                 }
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4 mt-4 outline-none"
+                className="w-full bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4 mt-4 outline-none"
               />
             )}
           </div>
@@ -784,7 +784,7 @@ const InvoiceForm = () => {
                             .value
                         )
                       }
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                      className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
                     >
                       <option value="">
                         Select Service
@@ -825,7 +825,7 @@ const InvoiceForm = () => {
                             .value
                         )
                       }
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                      className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
                     />
 
                     <button
@@ -835,7 +835,7 @@ const InvoiceForm = () => {
                           index
                         )
                       }
-                      className="bg-red-500 rounded-2xl"
+                      className="bg-transparent border-2 border-red-500 rounded-2xl"
                     >
                       Remove
                     </button>
@@ -889,7 +889,7 @@ const InvoiceForm = () => {
                             .value
                         )
                       }
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                      className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
                     >
                       <option value="">
                         Select Product
@@ -930,7 +930,7 @@ const InvoiceForm = () => {
                             .value
                         )
                       }
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                      className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
                     />
 
                     <input
@@ -948,7 +948,7 @@ const InvoiceForm = () => {
                             .value
                         )
                       }
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+                      className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
                     />
 
                     <button
@@ -958,7 +958,7 @@ const InvoiceForm = () => {
                           index
                         )
                       }
-                      className="bg-red-500 rounded-2xl"
+                      className="bg-transparent border-2 border-red-500 rounded-2xl"
                     >
                       Remove
                     </button>
@@ -987,7 +987,7 @@ const InvoiceForm = () => {
                       .value,
                 })
               }
-              className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+              className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
             />
 
             <select
@@ -1004,7 +1004,7 @@ const InvoiceForm = () => {
                       .value,
                 })
               }
-              className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-4"
+              className="bg-gray-100 border border-zinc-800 rounded-2xl px-4 py-4"
             >
               <option>
                 Cash
@@ -1028,7 +1028,7 @@ const InvoiceForm = () => {
               isGenerating ||
               isCreating
             }
-            className="w-full py-4 rounded-2xl text-lg font-bold bg-white text-black hover:bg-zinc-200 transition"
+            className="w-full py-4 rounded-2xl text-lg font-bold bg-zinc-800 text-white hover:bg-zinc-900 transition"
           >
             {isGenerating ||
             isCreating

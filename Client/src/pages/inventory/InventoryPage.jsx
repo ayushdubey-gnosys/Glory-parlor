@@ -97,8 +97,9 @@ const InventoryPage = () => {
     <div
       className="
         min-h-screen
-        bg-black
-        text-white
+        bg-white
+        text-zinc-900
+        shadow-2xl  shadow-zinc-600
         p-5
         md:p-8
       "
@@ -153,13 +154,16 @@ const InventoryPage = () => {
               flex
               items-center
               gap-2
-              bg-white
-              text-black
+              bg-zinc-200
+              text-zinc-800
+              border
+              border-zinc-800
               px-5
               py-3
               rounded-2xl
               font-semibold
               hover:bg-zinc-200
+              animate-bounce
               transition
             "
           >
@@ -204,7 +208,7 @@ const InventoryPage = () => {
             }}
             className="
               w-full
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               pl-12
@@ -263,10 +267,11 @@ const InventoryPage = () => {
                   className="
                     group
                     rounded-2xl
-                    border border-zinc-800
+                    border border-zinc-400
                     bg-zinc-900
                     overflow-hidden
                     transition-all
+                    text-white
                     duration-300
                     hover:border-zinc-700
                     hover:-translate-y-1
@@ -324,6 +329,7 @@ const InventoryPage = () => {
                     <div
                       className="
                         flex
+                        flex-col
                         items-start
                         justify-between
                         gap-3
@@ -370,6 +376,7 @@ const InventoryPage = () => {
                           product.sellingPrice
                         }
                       </div>
+                      
                     </div>
 
                     {/* DETAILS */}
@@ -441,7 +448,7 @@ const InventoryPage = () => {
                           items-center
                           justify-center
                           gap-2
-                          bg-zinc-800
+                          bg-zinc-950
                           py-2
                           rounded-xl
                           text-sm
@@ -476,7 +483,7 @@ const InventoryPage = () => {
                             items-center
                             justify-center
                             gap-2
-                            bg-blue-500
+                            bg-blue-700
                             py-2
                             rounded-xl
                             text-sm
@@ -550,8 +557,10 @@ const InventoryPage = () => {
               className="
                 px-4 py-2
                 rounded-xl
-                bg-zinc-800
-                disabled:opacity-40
+                bg-zinc-600
+                text-white
+             
+                disabled:opacity-60
               "
             >
               Prev
@@ -562,6 +571,7 @@ const InventoryPage = () => {
                 px-4 py-2
                 rounded-xl
                 bg-zinc-900
+                text-white
                 border border-zinc-800
               "
             >
@@ -583,8 +593,9 @@ const InventoryPage = () => {
               className="
                 px-4 py-2
                 rounded-xl
-                bg-zinc-800
-                disabled:opacity-40
+                  bg-zinc-500
+                text-white
+                disabled:opacity-60
               "
             >
               Next

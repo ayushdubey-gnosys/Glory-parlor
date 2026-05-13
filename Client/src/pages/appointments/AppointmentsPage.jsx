@@ -98,7 +98,7 @@ const AppointmentsPage = () => {
 
   return (
 
-  <div className="min-h-screen bg-black text-white p-4 md:p-6">
+  <div className="min-h-screen bg-zinc-700 text-white p-4 md:p-6">
     
     {/* HEADER */}
 

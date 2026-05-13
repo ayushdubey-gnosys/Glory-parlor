@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, {
+  useState,
+  useEffect,
+} from "react";
+
+import {
+  Link,
+  useParams,
+} from "react-router-dom";
 
 import {
   Plus,
@@ -37,7 +44,11 @@ const StaffPage = () => {
   const deleteMutation =
     useDeleteStaff();
 
-  const { user } = useAuth();
+  const { user, hasRole } =
+    useAuth();
+
+  const { id: editId } =
+    useParams();
 
   const [open, setOpen] =
     useState(false);
@@ -57,6 +68,33 @@ const StaffPage = () => {
       password: "",
       timing: "",
     });
+
+  const list = Array.isArray(data)
+    ? data
+    : data?.staff || [];
+
+  // FIXED HOOK ERROR
+  useEffect(() => {
+    if (!editId) return;
+
+    if (
+      !hasRole([
+        "admin",
+        "superadmin",
+      ])
+    )
+      return;
+
+    const target = list.find(
+      (s) =>
+        String(s._id) ===
+        String(editId)
+    );
+
+    if (target) {
+      openEdit(target);
+    }
+  }, [editId, list]);
 
   const openCreate = () => {
     setEditing(null);
@@ -116,16 +154,22 @@ const StaffPage = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e
+  ) => {
     e.preventDefault();
 
     try {
-      const fd = new FormData();
+      const fd =
+        new FormData();
 
       Object.entries(form).forEach(
         ([key, value]) => {
           if (value) {
-            fd.append(key, value);
+            fd.append(
+              key,
+              value
+            );
           }
         }
       );
@@ -190,68 +234,40 @@ const StaffPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-900 text-white flex items-center justify-center">
         Loading...
       </div>
     );
   }
 
-  const list = Array.isArray(data)
-    ? data
-    : data?.staff || [];
-
   return (
-    <div className="min-h-screen bg-zinc-50 p-6 md:p-10">
+    <div className="min-h-screen bg-white shadow-2xl shadow-zinc-600 text-zinc-900 p-6 md:p-10">
+
       {/* HEADER */}
 
-      <div
-        className="
-          flex
-          flex-col
-          md:flex-row
-          md:items-center
-          md:justify-between
-          gap-5
-          mb-10
-        "
-      >
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-10">
+
         <div>
-          <p
-            className="
-              text-zinc-500
-              uppercase
-              tracking-[3px]
-              text-xs
-              mb-3
-            "
-          >
+          <p className="text-zinc-400 uppercase tracking-[3px] text-xs mb-3">
             Team Management
           </p>
 
-          <h1
-            className="
-              text-4xl
-              font-bold
-            "
-          >
+          <h1 className="text-4xl font-bold">
             Staff Members
           </h1>
         </div>
 
-        {(user?.role === "admin" ||
+        {(user?.role ===
+          "admin" ||
           user?.role ===
             "superadmin") && (
           <Button
-            onClick={openCreate}
-            className="
-              flex
-              items-center
-              gap-2
-              rounded-2xl
-            "
+            onClick={
+              openCreate
+            }
+            className="flex items-center text-white  gap-2 rounded-2xl bg-zinc-800 border-[1px] border-zinc-400 hover:bg-black  hover:text-zinc-300 cursor-pointer  animate-bounce "
           >
             <Plus size={18} />
-
             Add Staff
           </Button>
         )}
@@ -260,161 +276,140 @@ const StaffPage = () => {
       {/* STAFF GRID */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+
         {list.map((s) => (
-          <div key={s._id} className="group rounded-3xl border border-zinc-200 bg-white overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div
+            key={s._id}
+            className="group rounded-3xl border border-zinc-700 bg-zinc-800 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-zinc-500 hover:-translate-y-1"
+          >
+
             <Link
               to={`/staff/${s._id}`}
             >
+
               {/* IMAGE */}
 
-            <div className="relative">
-                <img src={s.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"} alt={s.name} className="w-full h-64 object-cover" />
+              <div className="relative">
 
-                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${s.status === 'inactive' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-                  {s.status || 'active'}
+                <img
+                  src={
+                    s.profilePic ||
+                    "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
+                  }
+                  alt={s.name}
+                  className="w-full h-64 object-cover"
+                />
+
+                <div
+                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${
+                    s.status ===
+                    "inactive"
+                      ? "bg-red-500/20 text-red-300 border border-red-500/30"
+                      : "bg-green-500/20 text-green-500 border border-green-500/30"
+                  }`}
+                >
+                  {s.status ||
+                    "active"}
                 </div>
               </div>
 
               {/* CONTENT */}
 
               <div className="p-5">
-                
-                <div
-                  className="
-                    flex
-                    items-start
-                    justify-between
-                    gap-4
-                  "
-                >
+
+                {/* TOP */}
+
+                <div className="flex items-start justify-between gap-4">
+
                   <div>
-                    <h2
-                      className="
-                        text-2xl
-                        font-semibold
-                        capitalize
-                      "
-                    >
+                    <h2 className="text-2xl  text-white font-semibold capitalize">
                       {s.name}
                     </h2>
 
-                    <p
-                      className="
-                        text-zinc-500
-                        text-sm
-                        mt-1
-                      "
-                    >
+                    <p className="text-zinc-400 text-sm mt-1">
                       Staff Member
                     </p>
                   </div>
-                  <div className="bg-zinc-100 px-3 py-2 rounded-2xl text-sm font-medium text-zinc-700">{s.experience || 0} y</div>
+
+                  <div className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-2xl text-sm font-medium text-white">
+                    {s.experience || 0} y
+                  </div>
                 </div>
 
                 {/* INFO */}
 
                 <div className="mt-6 space-y-4">
-                  
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      text-sm
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-2
-                        text-zinc-500
-                      "
-                    >
-                      <Mail size={15} />
 
+                  {/* EMAIL */}
+
+                  <div className="flex items-center justify-between text-sm">
+
+                    <div className="flex items-center gap-2 text-zinc-400">
+                      <Mail size={15} />
                       Email
                     </div>
 
                     <span className="text-zinc-300 truncate">
-                      {s.email || "-"}
+                      {s.email ||
+                        "-"}
                     </span>
                   </div>
 
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      text-sm
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-2
-                        text-zinc-500
-                      "
-                    >
-                      <Phone size={15} />
+                  {/* PHONE */}
 
+                  <div className="flex items-center justify-between text-sm">
+
+                    <div className="flex items-center gap-2 text-zinc-400">
+                      <Phone size={15} />
                       Phone
                     </div>
 
                     <span className="text-zinc-300">
-                      {s.phone || "-"}
+                      {hasRole([
+                        "admin",
+                        "superadmin",
+                        "staff",
+                      ])
+                        ? s.phone ||
+                          "-"
+                        : "Hidden"}
                     </span>
                   </div>
 
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      text-sm
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-2
-                        text-zinc-500
-                      "
-                    >
-                      <Clock3 size={15} />
+                  {/* TIMING */}
 
+                  <div className="flex items-center justify-between text-sm">
+
+                    <div className="flex items-center gap-2 text-zinc-400">
+                      <Clock3 size={15} />
                       Timing
                     </div>
 
                     <span className="text-zinc-300">
-                      {s.timing || "-"}
+                      {s.timing ||
+                        "-"}
                     </span>
                   </div>
 
-                  <div
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      text-sm
-                    "
-                  >
-                    <span className="text-zinc-500">
-                      Salary
-                    </span>
+                  {/* SALARY */}
 
-                    <span
-                      className="
-                        font-semibold
-                        text-white
-                      "
-                    >
-                      ₹
-                      {s.salary || 0}
-                    </span>
-                  </div>
+                  {hasRole([
+                    "admin",
+                    "superadmin",
+                  ]) && (
+                    <div className="flex items-center justify-between text-sm">
+
+                      <span className="text-zinc-400">
+                        Salary
+                      </span>
+
+                      <span className="font-semibold text-white">
+                        ₹
+                        {s.salary ||
+                          0}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </Link>
@@ -425,28 +420,13 @@ const StaffPage = () => {
               "admin" ||
               user?.role ===
                 "superadmin") && (
-              <div
-                className="
-                  px-5
-                  pb-5
-                  flex
-                  gap-3
-                "
-              >
+              <div className="px-5 pb-5 flex gap-3">
+
                 <button
                   onClick={() =>
                     openEdit(s)
                   }
-                  className="
-                    flex-1
-                    py-3
-                    rounded-2xl
-                    bg-zinc-800
-                    text-white
-                    font-medium
-                    hover:bg-zinc-700
-                    transition
-                  "
+                  className="flex-1 py-3 rounded-2xl bg-white text-black font-medium hover:bg-zinc-200 transition"
                 >
                   Edit
                 </button>
@@ -457,16 +437,9 @@ const StaffPage = () => {
                       s._id
                     )
                   }
-                  className="
-                    flex-1
-                    py-3
-                    rounded-2xl
-                    bg-red-500
-                    text-white
-                    font-medium
-                    hover:bg-red-400
-                    transition
-                  "
+                  className="flex-1 py-3 rounded-2xl 
+                  border-2
+                border-red-500 text-white font-medium hover:bg-red-500 transition"
                 >
                   Delete
                 </button>
@@ -478,246 +451,156 @@ const StaffPage = () => {
 
       {/* MODAL */}
 
-   <FormModal
-  title={
-    editing
-      ? "Edit Staff"
-      : "Add Staff"
-  }
-  open={open}
-  onClose={() =>
-    setOpen(false)
-  }
->
-  <div
-    className="
-      w-full
-      max-w-xl
-      mx-auto
-    "
-  >
-    <form
-      onSubmit={handleSubmit}
-      className="
-        grid
-        grid-cols-1
-        md:grid-cols-2
-        gap-4
-      "
-    >
-      {/* NAME */}
-
-      <input
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        placeholder="Name"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* PHONE */}
-
-      <input
-        name="phone"
-        value={form.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* EMAIL */}
-
-      <input
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        placeholder="Email"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* PASSWORD */}
-
-      <input
-        type="password"
-        name="password"
-        value={form.password}
-        onChange={handleChange}
-        placeholder="Password"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* SALARY */}
-
-      <input
-        name="salary"
-        value={form.salary}
-        onChange={handleChange}
-        placeholder="Salary"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* EXPERIENCE */}
-
-      <input
-        name="experience"
-        value={form.experience}
-        onChange={handleChange}
-        placeholder="Experience"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* TIMING */}
-
-      <input
-        name="timing"
-        value={form.timing}
-        onChange={handleChange}
-        placeholder="Timing"
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
-      />
-
-      {/* STATUS */}
-
-      <select
-        name="status"
-        value={form.status}
-        onChange={handleChange}
-        className="
-          bg-zinc-900
-          border border-zinc-800
-          p-3
-          rounded-xl
-          outline-none
-          text-sm
-        "
+      <FormModal
+        title={
+          editing
+            ? "Edit Staff"
+            : "Add Staff"
+        }
+        open={open}
+        onClose={() =>
+          setOpen(false)
+        }
       >
-        <option value="active">
-          Active
-        </option>
 
-        <option value="inactive">
-          Inactive
-        </option>
-      </select>
+        <div className="w-full max-w-xl mx-auto">
 
-      {/* IMAGE */}
+          <form
+            onSubmit={
+              handleSubmit
+            }
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
 
-      <div className="md:col-span-2">
-        <input
-          type="file"
-          name="profilePic"
-          accept="image/*"
-          onChange={handleChange}
-          className="
-            w-full
-            text-sm
-            text-zinc-400
-            border
-            border-zinc-800
-            rounded-xl
-            p-3
-            bg-zinc-900
-          "
-        />
-      </div>
+            <input
+              name="name"
+              value={form.name}
+              onChange={
+                handleChange
+              }
+              placeholder="Name"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
 
-      {/* BUTTONS */}
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={
+                handleChange
+              }
+              placeholder="Phone"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
 
-      <div
-        className="
-          md:col-span-2
-          flex
-          gap-3
-          mt-2
-        "
-      >
-        <button
-          type="submit"
-          className="
-            flex-1
-            bg-white
-            text-black
-            py-3
-            rounded-xl
-            font-semibold
-            hover:bg-zinc-200
-            transition
-          "
-        >
-          Save
-        </button>
+            <input
+              name="email"
+              value={form.email}
+              onChange={
+                handleChange
+              }
+              placeholder="Email"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
 
-        <button
-          type="button"
-          onClick={() =>
-            setOpen(false)
-          }
-          className="
-            flex-1
-            font-semibold
-            text-zinc-900
-            border border-zinc-700
-            py-3
-            rounded-xl
-            hover:bg-zinc-200
-            transition
-          "
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
-</FormModal>
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={
+                handleChange
+              }
+              placeholder="Password"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
+
+            <input
+              name="salary"
+              value={form.salary}
+              onChange={
+                handleChange
+              }
+              placeholder="Salary"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
+
+            <input
+              name="experience"
+              value={
+                form.experience
+              }
+              onChange={
+                handleChange
+              }
+              placeholder="Experience"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
+
+            <input
+              name="timing"
+              value={form.timing}
+              onChange={
+                handleChange
+              }
+              placeholder="Timing"
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            />
+
+            <select
+              name="status"
+              value={form.status}
+              onChange={
+                handleChange
+              }
+              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
+            >
+              <option value="active">
+                Active
+              </option>
+
+              <option value="inactive">
+                Inactive
+              </option>
+            </select>
+
+            {/* IMAGE */}
+
+            <div className="md:col-span-2">
+
+              <input
+                type="file"
+                name="profilePic"
+                accept="image/*"
+                onChange={
+                  handleChange
+                }
+                className="w-full text-sm text-zinc-400 border border-zinc-700 rounded-xl p-3 bg-zinc-200"
+              />
+            </div>
+
+            {/* BUTTONS */}
+
+            <div className="md:col-span-2 flex gap-3 mt-2">
+
+              <button
+                type="submit"
+                className="flex-1 bg-zinc-800 text-white py-3 rounded-xl font-semibold hover:bg-zinc-200 transition"
+              >
+                Save
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setOpen(false)
+                }
+                className="flex-1 border border-zinc-700 py-3 rounded-xl hover:bg-zinc-800 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </FormModal>
     </div>
   );
 };

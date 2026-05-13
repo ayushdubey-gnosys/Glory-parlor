@@ -15,6 +15,7 @@ const StaffCard = ({ staff, onClick }) => {
         group
         relative
         overflow-hidden
+        text-white
         rounded-3xl
         border border-zinc-800
         bg-zinc-900

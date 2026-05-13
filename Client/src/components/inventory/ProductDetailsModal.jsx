@@ -108,7 +108,7 @@ const ProductDetailsModal = ({
 
             {/* INFO */}
 
-            <div className="space-y-4">
+            <div className="space-y-4  text-white">
               
               <div
                 className="
@@ -118,6 +118,7 @@ const ProductDetailsModal = ({
                   bg-zinc-900
                   border border-zinc-800
                   rounded-2xl
+                 
                   px-4
                   py-3
                 "
@@ -126,7 +127,7 @@ const ProductDetailsModal = ({
                   Cost Price
                 </span>
 
-                <span className="font-semibold">
+                <span className="font-semibold ">
                   ₹
                   {
                     product.costPrice

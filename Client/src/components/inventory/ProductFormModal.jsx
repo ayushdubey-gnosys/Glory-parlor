@@ -192,7 +192,7 @@ const ProductFormModal = ({
             }
             placeholder="Product Name"
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -211,7 +211,7 @@ const ProductFormModal = ({
             }
             placeholder="Brand"
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -232,7 +232,7 @@ const ProductFormModal = ({
             }
             placeholder="Cost Price"
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -253,7 +253,7 @@ const ProductFormModal = ({
             }
             placeholder="Selling Price"
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -272,7 +272,7 @@ const ProductFormModal = ({
             }
             placeholder="Stock"
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -290,7 +290,7 @@ const ProductFormModal = ({
               handleChange
             }
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -327,7 +327,7 @@ const ProductFormModal = ({
               handleChange
             }
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -346,7 +346,7 @@ const ProductFormModal = ({
               handleChange
             }
             className="
-              bg-zinc-900
+              bg-zinc-200
               border border-zinc-800
               rounded-2xl
               px-4
@@ -391,7 +391,7 @@ const ProductFormModal = ({
               }
               className="
                 flex-1
-                bg-white
+                bg-zinc-300
                 text-black
                 py-3
                 rounded-2xl

@@ -44,7 +44,7 @@ const ProfileDropdown = ({ open, onClose }) => {
   };
 
   return (
-    <div ref={ref} className="absolute right-4 top-16 w-80 bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-xl z-50 animate-fadeIn">
+    <div ref={ref} className="absolute right-4 top-16 w-80 bg-zinc-800 text-white border border-white/10 rounded-2xl p-4 shadow-xl z-50 animate-fadeIn">
       <div className="flex items-center gap-3">
         <img src={avatar} alt={name} className="w-14 h-14 rounded-full object-cover ring-2 ring-white/10" />
         <div className="flex-1">
@@ -59,7 +59,7 @@ const ProfileDropdown = ({ open, onClose }) => {
 
       <div className="mt-4 flex flex-col gap-2">
         <button onClick={handleUpdate} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition"><Edit2 size={16} /> Update Profile</button>
-        <button onClick={handleLogout} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition text-rose-300"><LogOut size={16} /> Logout</button>
+        <button onClick={handleLogout} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition text-rose-700"><LogOut size={16} /> Logout</button>
       </div>
     </div>
   );

@@ -9,12 +9,13 @@ import {
   Search,
   Sparkles,
   ChevronDown,
+  Menu,
 } from "lucide-react";
 import ProfileDropdown from "./ProfileDropdown";
 
 import { useNotifications } from "../services/notifiucation/useNotificationQuery";
 
-const Navbar = () => {
+const Navbar = ({ onMobileToggle }) => {
   const { user } = useAuth();
 
   const { data: notifications = [] } =
@@ -62,6 +63,10 @@ const Navbar = () => {
           
           {/* LEFT */}
           <div className="flex items-center gap-12">
+            {/* MOBILE HAMBURGER -> toggles sidebar on mobile */}
+            <button onClick={onMobileToggle} className="md:hidden mr-2 rounded-lg p-2 bg-white/[0.03] border border-white/5">
+              <Menu size={18} className="text-white" />
+            </button>
             
             {/* LOGO */}
             <Link
@@ -93,19 +98,7 @@ const Navbar = () => {
             </Link>
 
             {/* SEARCH */}
-            <div className="hidden lg:flex items-center w-[340px] h-[50px] rounded-2xl bg-white/[0.03] border border-white/5 px-4">
-              
-              <Search
-                size={18}
-                className="text-zinc-500"
-              />
-
-              <input
-                type="text"
-                placeholder="Search customers, invoices..."
-                className="flex-1 bg-transparent outline-none border-none px-3 text-sm text-zinc-300 placeholder:text-zinc-600 dm"
-              />
-            </div>
+          
           </div>
 
           {/* RIGHT */}
