@@ -4,91 +4,91 @@ const courseModel = require("../../models/course.model");
 
 
 
+
 // CREATE COURSE
-exports.createCourse = async (
-  req,
-  res
-) => {
+exports.createCourse = async (req, res) => {
   try {
-    console.log("BODY:", req.body);
+    console.log("BODY =>", req.body);
+    console.log("FILE =>", req.file);
 
-    console.log("FILE:", req.file);
-
+    // create payload
     const payload = {
       ...req.body,
     };
 
-    if (
-      req.file &&
-      req.file.path
-    ) {
-      payload.image =
-        req.file.path;
+    // image upload
+    if (req.file && req.file.path) {
+      payload.image = req.file.path;
     }
 
-    if (
-      payload.durationValue ||
-      payload.durationType
-    ) {
+    // duration
+    if (payload.durationValue || payload.durationType) {
       payload.duration = {
-        value: Number(
-          payload.durationValue || 0
-        ),
+        value: Number(payload.durationValue || 0),
         type: payload.durationType,
       };
 
       delete payload.durationValue;
-
       delete payload.durationType;
     }
 
+    // instructor optional
     if (!payload.instructor) {
       delete payload.instructor;
     }
 
+    // fees
     if (payload.fees) {
-      payload.fees = Number(
-        payload.fees
-      );
+      payload.fees = Number(payload.fees);
     }
 
+    // batch size
+    if (payload.batchSize) {
+      payload.batchSize = Number(payload.batchSize);
+    }
+
+    // boolean
+    if (payload.isActive !== undefined) {
+      payload.isActive =
+        payload.isActive === "true" ||
+        payload.isActive === true;
+    }
+
+    // syllabus
     if (
       payload.syllabus &&
-      typeof payload.syllabus ===
-        "string"
+      typeof payload.syllabus === "string"
     ) {
-      payload.syllabus =
-        payload.syllabus
-          .split(",")
-          .map((s) =>
-            s.trim()
-          )
-          .filter(Boolean);
+      payload.syllabus = payload.syllabus
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
     }
 
-    const course =
-      await courseModel.create(
-        payload
-      );
+    console.log("FINAL PAYLOAD =>", payload);
 
-    res.status(201).json(course);
+    // create course
+    const course = await courseModel.create(payload);
+
+    return res.status(201).json({
+      success: true,
+      message: "Course created successfully",
+      data: course,
+    });
+
+  } catch (err) {
+    console.log(
+      "CREATE COURSE ERROR =>",
+      JSON.stringify(err, null, 2)
+    );
+
+    console.log("MESSAGE =>", err.message);
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
-  
-  catch (err) {
-  console.log(
-    "ERROR => ",
-    JSON.stringify(err, null, 2)
-  );
-
-  console.log("MESSAGE => ", err.message);
-
-  console.log("STACK => ", err.stack);
-
-  return res.status(500).json({
-    success: false,
-    message: err.message,
-  });
-}
 };
 
 

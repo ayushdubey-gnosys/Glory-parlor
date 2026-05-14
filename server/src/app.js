@@ -40,5 +40,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// Global error handler (must be after all routes)
+const errorHandler = require("./middleware/errorMiddleware");
+app.use(errorHandler);
 
 module.exports = app;

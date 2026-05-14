@@ -72,7 +72,8 @@ router.patch(
 router.delete(
   "/:id",
   protect,
-  authorize("superadmin"),
+  authorize("superadmin","admin"),
+
   academyController.deleteCourse
 );
 
