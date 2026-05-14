@@ -354,34 +354,36 @@ const AcademyPage = () => {
                   </option>
                 ))}
               </select>
+<select
+  value={form.category}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      category: e.target.value,
+    })
+  }
+  className="border border-gray-300 rounded-xl px-4 py-3"
+>
+  <option value="makeup">
+    Makeup
+  </option>
 
-              <select
-                value={form.category}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    category:
-                      e.target.value,
-                  })
-                }
-                className="border border-gray-300 rounded-xl px-4 py-3"
-              >
-                <option value="makeup">
-                  Makeup
-                </option>
+  <option value="hair">
+    Hair
+  </option>
 
-                <option value="hair">
-                  Hair
-                </option>
+  <option value="skin">
+    Skin
+  </option>
 
-                <option value="skin">
-                  Skin
-                </option>
+  <option value="nails">
+    Nails
+  </option>
 
-                <option value="nails">
-                  Nails
-                </option>
-              </select>
+  <option value="other">
+    Other
+  </option>
+</select>
 
               <select
                 value={form.level}

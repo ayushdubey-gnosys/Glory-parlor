@@ -128,19 +128,16 @@ const updateMutation =
     const formData = new FormData();
 
     Object.keys(data).forEach((key) => {
-      if (
-        key === "profilePic" &&
-        data.profilePic?.[0]
-      ) {
-        formData.append(
-          "profilePic",
-          data.profilePic[0]
-        );
+      // Only append `profilePic` when a file is provided.
+      if (key === "profilePic") {
+        if (data.profilePic?.[0]) {
+          formData.append("profilePic", data.profilePic[0]);
+        }
       } else {
-        formData.append(
-          key,
-          data[key]
-        );
+        // Skip undefined/null values to avoid overwriting existing fields on server
+        if (data[key] !== undefined && data[key] !== null) {
+          formData.append(key, data[key]);
+        }
       }
     });
 

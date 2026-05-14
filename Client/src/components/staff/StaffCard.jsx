@@ -140,25 +140,12 @@ const StaffCard = ({ staff, onClick }) => {
             <Mail size={15} />
 
             <span className="truncate">
-              {staff.email}
+             Email : {staff.email}
             </span>
           </div>
         )}
 
-        {staff?.phone && (
-          <div
-            className="
-              flex items-center
-              gap-3
-              text-sm
-              text-zinc-400
-            "
-          >
-            <Phone size={15} />
-
-            <span>{staff.phone}</span>
-          </div>
-        )}
+       
       </div>
 
       {/* BUTTON */}

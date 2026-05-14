@@ -189,28 +189,6 @@ const StaffDetailsModal = ({
 
             {/* PHONE */}
 
-            <div
-              className="
-                bg-zinc-900
-                border border-zinc-800
-                rounded-2xl
-                p-5
-              "
-            >
-              <Phone
-                size={20}
-                className="text-white mb-3"
-              />
-
-              <h4 className="text-white font-medium">
-                Phone
-              </h4>
-
-              <p className="text-zinc-400 text-sm mt-2">
-                {staff.phone || "--"}
-              </p>
-            </div>
-
             {/* TIMING */}
 
             <div

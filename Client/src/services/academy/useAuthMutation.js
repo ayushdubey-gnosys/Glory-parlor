@@ -3,6 +3,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
+import { toast } from "react-toastify";
+
 import {
   createCourse,
   updateCourse,
@@ -22,6 +24,10 @@ export const useCreateCourse = () => {
         queryKey: academyKeys.all,
       });
     },
+    onError: (err) => {
+      const msg = err?.response?.data?.error || err?.response?.data?.message || err?.message || "Failed to create course";
+      toast.error(msg);
+    },
   });
 };
 
@@ -36,6 +42,10 @@ export const useUpdateCourse = () => {
         queryKey: academyKeys.all,
       });
     },
+    onError: (err) => {
+      const msg = err?.response?.data?.error || err?.message || "Failed to update course";
+      toast.error(msg);
+    },
   });
 };
 
@@ -49,6 +59,10 @@ export const useDeleteCourse = () => {
       queryClient.invalidateQueries({
         queryKey: academyKeys.all,
       });
+    },
+    onError: (err) => {
+      const msg = err?.response?.data?.error || err?.message || "Failed to delete course";
+      toast.error(msg);
     },
   });
 };

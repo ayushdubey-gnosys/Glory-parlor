@@ -26,14 +26,15 @@ const courseSchema = new mongoose.Schema(
     instructor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",
-      required: true,
+      // instructor can be set later by admin; not required at creation
+      required: false,
     },
 
     image: String,
 
     category: {
       type: String,
-      enum: ["makeup", "hair", "skin", "nails"],
+      enum: ["makeup", "hair", "skin", "nails", "other"],
     },
 
     level: {
@@ -66,7 +67,7 @@ const courseSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Course", courseSchema);
