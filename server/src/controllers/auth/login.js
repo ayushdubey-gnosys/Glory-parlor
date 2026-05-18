@@ -55,10 +55,12 @@ exports.login = async (req, res) => {
     );
 
     // STORE TOKEN IN COOKIE
+    const isProduction = process.env.NODE_ENV === "production" || req.headers.origin?.includes("vercel.app");
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

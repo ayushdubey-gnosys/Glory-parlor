@@ -6,10 +6,12 @@ const jwt = require("jsonwebtoken");
 
 exports.logout = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production" || req.headers.origin?.includes("vercel.app");
+
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,      // true in production (HTTPS)
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
     });
 
     res.status(200).json({
