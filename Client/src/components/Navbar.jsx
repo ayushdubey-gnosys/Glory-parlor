@@ -88,7 +88,7 @@ const Navbar = ({ onMobileToggle }) => {
 
               <div>
                 <h1 className="text-xl text-white tracking-[5px] uppercase font-light">
-                  Glory PMS
+                  Astha  PMS
                 </h1>
 
                 <p className="dm text-[10px] text-zinc-500 tracking-[3px] uppercase">

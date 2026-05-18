@@ -81,7 +81,7 @@ const DashboardPage = () => {
 
             <div>
               <h3 className="text-white font-medium">
-                Glory PMS
+                Astha  PMS
               </h3>
 
               <p className="text-zinc-500 text-sm capitalize">

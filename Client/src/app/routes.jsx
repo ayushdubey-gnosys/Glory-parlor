@@ -29,8 +29,33 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import RegisterCustomerPage from "../pages/customers/RegisterCustomerPage";
 import ProfilePage from "../pages/auth/ProfilePage";
 import CustomerInquiryPage from "../pages/inquiries/CustomerInquiryPage";
-// import HomePage from "../pages/HomePage";
+import HomePage from "../pages/HomePage";
+import { useCurrentUser } from "../services/auth/useAuthQuery";
+import { Navigate } from "react-router-dom";
 
+const IndexRoute = () => {
+  const { data, isLoading, isError } = useCurrentUser();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError || !data?.user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const role = data.user.role;
+
+  if (["superadmin", "admin", "staff"].includes(role)) {
+    return <DashboardPage />;
+  }
+
+  if (role === "customer") {
+    return <HomePage />;
+  }
+
+  return <Navigate to="/login" replace />;
+};
 
 const RoutesProvider = () => {
   return (
@@ -45,11 +70,7 @@ const RoutesProvider = () => {
         <Route path="/" element={<RequireAuth><DashboardLayout /></RequireAuth>}>
           <Route
             index
-            element={
-              <RequireRole roles={["superadmin", "admin", "staff"]}>
-                <DashboardPage />
-              </RequireRole>
-            }
+            element={<IndexRoute />}
           />
 
           <Route path="customers" element={

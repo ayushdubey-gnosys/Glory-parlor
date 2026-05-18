@@ -244,7 +244,7 @@ const Sidebar = ({
 
             <div>
               <h1 className="text-white text-xl uppercase tracking-[5px] font-light">
-                Glory PMS
+                Astha PMS
               </h1>
 
               <p className="dm text-[10px] uppercase tracking-[3px] text-zinc-600 mt-1">

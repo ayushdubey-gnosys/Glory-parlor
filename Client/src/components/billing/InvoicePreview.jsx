@@ -185,7 +185,7 @@ const InvoicePreview = ({
         <div className="flex items-center justify-between border-b border-zinc-200 pb-8">
           <div>
             <h1 className="text-5xl font-black tracking-tight">
-              GLORY PMS
+              Astha  PMS
             </h1>
 
             <p className="text-zinc-500 mt-3 uppercase tracking-[4px] text-sm">
@@ -507,7 +507,7 @@ const InvoicePreview = ({
           </p>
 
           <h3 className="text-3xl font-black mt-3">
-            GLORY PMS
+            Astha  PMS
           </h3>
 
           <p className="text-zinc-400 mt-2 text-sm">

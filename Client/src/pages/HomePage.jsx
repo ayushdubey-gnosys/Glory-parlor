@@ -78,7 +78,7 @@ const HomePage = () => {
           </h1>
 
           <p className="dm max-w-2xl mx-auto mt-10 text-zinc-400 text-lg leading-8">
-            Glory PMS helps salons manage
+            Astha PMS helps salons manage
             appointments, billing,
             inventory, staff, academy,
             marketing and customer
@@ -182,7 +182,7 @@ const HomePage = () => {
 
           <div>
             <p className="dm uppercase tracking-[4px] text-xs gold mb-5">
-              Why Choose Glory PMS
+              Why Choose Astha  PMS
             </p>
 
             <h2 className="text-6xl font-light leading-tight mb-8">
@@ -393,7 +393,7 @@ const HomePage = () => {
 
           <p className="dm max-w-2xl mx-auto mt-8 text-zinc-400 leading-8">
             Join hundreds of premium salons
-            using Glory PMS to manage their
+            using Astha  PMS to manage their
             beauty business professionally.
           </p>
 
