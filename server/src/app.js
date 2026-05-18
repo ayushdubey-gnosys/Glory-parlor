@@ -6,13 +6,35 @@ const app = express();
 
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
+// Strip trailing slashes and support comma-separated origins
+const allowedOrigins = CLIENT_URL.split(",")
+  .map(url => url.trim().replace(/\/$/, ""));
+
+// Add known deployment origins and local origins to ensure seamless operation
+const additionalOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://astha-salon-management.vercel.app"
+];
+
+additionalOrigins.forEach(origin => {
+  if (!allowedOrigins.includes(origin)) {
+    allowedOrigins.push(origin);
+  }
+});
+
 app.use(
   cors({
     origin: function (origin, callback) {
       // allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
-      if (origin === CLIENT_URL) return callback(null, true);
-      return callback(new Error("Not allowed by CORS"));
+      
+      const cleanedOrigin = origin.replace(/\/$/, "");
+      if (allowedOrigins.includes(cleanedOrigin)) {
+        return callback(null, true);
+      }
+      
+      return callback(new Error(`Origin ${origin} not allowed by CORS`));
     },
     credentials: true,
   })
