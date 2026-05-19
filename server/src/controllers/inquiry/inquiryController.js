@@ -152,12 +152,19 @@ exports.updateInquiry = async (req, res) => {
 // DELETE Inquiry
 exports.deleteInquiry = async (req, res) => {
   try {
-    const deleted = await inquiryModel.findByIdAndDelete(req.params.id);
-
-    if (!deleted) {
+    const inquiry = await inquiryModel.findById(req.params.id);
+    if (!inquiry) {
       return res.status(404).json({ error: "Inquiry not found" });
     }
 
+    // Customers can only delete their own inquiries
+    if (req.user && req.user.role === "customer") {
+      if (!inquiry.createdBy || String(inquiry.createdBy) !== String(req.user._id)) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+    }
+
+    await inquiryModel.findByIdAndDelete(req.params.id);
     res.json({ msg: "Inquiry deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
