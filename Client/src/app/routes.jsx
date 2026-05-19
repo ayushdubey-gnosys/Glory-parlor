@@ -29,6 +29,7 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import RegisterCustomerPage from "../pages/customers/RegisterCustomerPage";
 import ProfilePage from "../pages/auth/ProfilePage";
 import CustomerInquiryPage from "../pages/inquiries/CustomerInquiryPage";
+import CustomerProductsPage from "../pages/inventory/CustomerProductsPage";
 import HomePage from "../pages/HomePage";
 import { useCurrentUser } from "../services/auth/useAuthQuery";
 import { Navigate } from "react-router-dom";
@@ -133,6 +134,14 @@ const RoutesProvider = () => {
             element={
               <RequireRole roles={["customer"]}>
                 <CustomerInquiryPage />
+              </RequireRole>
+            }
+          />
+          <Route
+            path="parlor-products"
+            element={
+              <RequireRole roles={["customer"]}>
+                <CustomerProductsPage />
               </RequireRole>
             }
           />

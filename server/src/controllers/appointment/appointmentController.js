@@ -35,6 +35,44 @@ const findOrCreateCustomerForUser = async (user) => {
 
 exports.createAppointment = async (req, res) => {
   try {
+    const { staff, date, time } = req.body;
+
+    // Slot Conflict Check: 30 minutes gap
+    if (staff && date && time) {
+      const [hours, minutes] = time.split(":").map(Number);
+      const targetDate = new Date(date);
+      targetDate.setHours(hours, minutes, 0, 0);
+
+      const dayStart = new Date(date);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(date);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      // Find other active appointments for this staff on this day
+      const existing = await appointmentModel.find({
+        staff,
+        date: { $gte: dayStart, $lte: dayEnd },
+        status: { $ne: "cancelled" }
+      });
+
+      for (const appt of existing) {
+        if (!appt.time) continue;
+        const [h, m] = appt.time.split(":").map(Number);
+        const apptDate = new Date(appt.date);
+        apptDate.setHours(h, m, 0, 0);
+
+        const diffMs = Math.abs(targetDate.getTime() - apptDate.getTime());
+        const diffMins = diffMs / (1000 * 60);
+
+        if (diffMins < 30) {
+          return res.status(400).json({
+            error: "This time slot is already booked. You can book by increasing the time by 30 minutes.",
+            message: "This time slot is already booked. You can book by increasing the time by 30 minutes."
+          });
+        }
+      }
+    }
+
     // Ensure appointment.customer references a Customer document (not User)
     const customerModel = require("../../models/customer.model");
 

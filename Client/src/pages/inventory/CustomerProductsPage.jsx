@@ -1,0 +1,165 @@
+import React, { useState } from "react";
+import { useProducts } from "../../services/inventory/useInventoryQuery";
+import FormModal from "../../components/Modal/FormModal";
+
+const CustomerProductsPage = () => {
+  const { data: productsData, isLoading } = useProducts();
+  const products = Array.isArray(productsData) ? productsData : productsData || [];
+
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenDetails = (prod) => {
+    setSelectedProduct(prod);
+    setOpenModal(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-zinc-50 p-6 md:p-10 text-zinc-900">
+      <div className="max-w-7xl mx-auto space-y-8">
+        
+        {/* HEADER */}
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight">Our Parlor Products</h1>
+          <p className="text-zinc-500 text-sm mt-1">
+            Browse high-quality products used and recommended in our luxury parlor sessions.
+          </p>
+        </div>
+
+        {/* PRODUCTS GRID */}
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="h-80 bg-zinc-100 rounded-3xl animate-pulse" />
+            ))}
+          </div>
+        ) : products.length === 0 ? (
+          <div className="p-12 text-center bg-white rounded-3xl border border-zinc-200 text-zinc-500">
+            No products are currently available in the parlor inventory.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((p) => (
+              <div
+                key={p._id}
+                className="group bg-white border border-zinc-200/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              >
+                {/* Image */}
+                <div className="h-48 w-full overflow-hidden bg-zinc-50 relative border-b border-zinc-100">
+                  <img
+                    src={
+                      p.image ||
+                      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=300&auto=format&fit=crop"
+                    }
+                    alt={p.name}
+                    className="w-full h-full object-contain p-2 bg-white group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {p.brand && (
+                    <span className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">
+                      {p.brand}
+                    </span>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                  <div>
+                    <h3 className="text-base font-bold text-zinc-900 group-hover:text-zinc-700 transition">
+                      {p.name}
+                    </h3>
+                    <p className="text-zinc-500 text-xs mt-1 capitalize font-light">
+                      Type: {p.type || "Parlor Use"}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-lg font-bold text-zinc-950">
+                      ₹{p.sellingPrice || 0}
+                    </span>
+                    <button
+                      onClick={() => handleOpenDetails(p)}
+                      className="px-3.5 py-1.5 bg-zinc-950 text-white hover:bg-zinc-800 rounded-xl text-xs font-semibold transition"
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+      </div>
+
+      {/* PRODUCT DETAILS MODAL */}
+      {selectedProduct && (
+        <FormModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          title="Product Details"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            
+            {/* LEFT SIDE: PRODUCT IMAGE */}
+            <div className="w-full h-[300px] md:h-[450px] max-h-[600px] rounded-2xl overflow-hidden bg-white border border-zinc-100 flex items-center justify-center">
+              <img
+                src={
+                  selectedProduct.image ||
+                  "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=400&auto=format&fit=crop"
+                }
+                alt={selectedProduct.name}
+                className="w-full h-full object-contain p-4"
+              />
+            </div>
+
+            {/* RIGHT SIDE: PRODUCT DETAILS */}
+            <div className="flex flex-col justify-between h-full space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <span className="inline-block text-[10px] uppercase font-bold tracking-widest text-zinc-400 bg-zinc-100 px-3 py-1 rounded-full">
+                    {selectedProduct.brand || "Exclusive Brand"}
+                  </span>
+                  <h2 className="text-2xl font-extrabold text-zinc-900 mt-3 leading-tight">
+                    {selectedProduct.name}
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 border-t border-zinc-100 pt-4">
+                  <div>
+                    <span className="block text-[11px] uppercase tracking-wider text-zinc-400">Brand</span>
+                    <span className="font-semibold text-zinc-800 text-sm">{selectedProduct.brand || "N/A"}</span>
+                  </div>
+                  <div>
+                    <span className="block text-[11px] uppercase tracking-wider text-zinc-400">Selling Price</span>
+                    <span className="font-extrabold text-zinc-950 text-xl">₹{selectedProduct.sellingPrice || 0}</span>
+                  </div>
+                  <div>
+                    <span className="block text-[11px] uppercase tracking-wider text-zinc-400">Usage Type</span>
+                    <span className="font-semibold text-zinc-800 text-sm capitalize">{selectedProduct.type || "Dual Use"}</span>
+                  </div>
+                  <div>
+                    <span className="block text-[11px] uppercase tracking-wider text-zinc-400">Status</span>
+                    <span className="font-semibold text-emerald-600 text-sm">Available</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex justify-end pt-4 border-t border-zinc-100">
+                <button
+                  onClick={() => setOpenModal(false)}
+                  className="w-full md:w-auto px-6 py-2.5 bg-black hover:bg-zinc-800 text-white text-sm font-semibold rounded-xl transition shadow-md shadow-zinc-950/10"
+                >
+                  Close View
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </FormModal>
+      )}
+    </div>
+  );
+};
+
+export default CustomerProductsPage;

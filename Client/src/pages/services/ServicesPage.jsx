@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthProvider";
 
 import ServiceFormModal from "../../components/services/ServiceFormModal";
 import ServiceDetailsModal from "../../components/services/ServiceDetailsModal";
+import ServiceInquiryModal from "../../components/services/ServiceInquiryModal";
 
 const ServicesPage = () => {
   const { data, isLoading } =
@@ -27,6 +28,12 @@ const ServicesPage = () => {
     useState(false);
 
   const [selected, setSelected] =
+    useState(null);
+
+  const [openInquiry, setOpenInquiry] =
+    useState(false);
+
+  const [selectedForInquiry, setSelectedForInquiry] =
     useState(null);
 
   if (isLoading) {
@@ -154,6 +161,18 @@ const ServicesPage = () => {
                   Details
                 </button>
 
+                {hasRole("customer") && (
+                  <button
+                    onClick={() => {
+                      setSelectedForInquiry(service);
+                      setOpenInquiry(true);
+                    }}
+                    className="flex-1 bg-black text-white py-2 rounded-xl hover:bg-gray-800 transition"
+                  >
+                    Inquire
+                  </button>
+                )}
+
                 {hasRole([
                   "admin",
                   "superadmin",
@@ -206,6 +225,18 @@ const ServicesPage = () => {
         open={openDetail}
         onClose={() =>
           setOpenDetail(false)
+        }
+        onInquiry={(service) => {
+          setSelectedForInquiry(service);
+          setOpenInquiry(true);
+        }}
+      />
+
+      <ServiceInquiryModal
+        service={selectedForInquiry}
+        open={openInquiry}
+        onClose={() =>
+          setOpenInquiry(false)
         }
       />
     </div>

@@ -104,6 +104,13 @@ const links = [
   },
 
   {
+    to: "/parlor-products",
+    label: "Parlor Products",
+    icon: <Package size={18} />,
+    roles: ["customer"],
+  },
+
+  {
     to: "/academy",
     label: "Academy",
     icon: <GraduationCap size={18} />,

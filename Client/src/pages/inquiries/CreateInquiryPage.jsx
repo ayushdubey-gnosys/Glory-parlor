@@ -3,6 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import InquiryForm from "../../components/inquiry/InquiryForm";
 import { useServices } from "../../services/Services/useServiceQuery";
+import { useCourses } from "../../services/academy/useAuthQuery";
+import { useProducts } from "../../services/inventory/useInventoryQuery";
 import { useCreateInquiry } from "../../services/inquiries/useInquiryMutation";
 
 const CreateInquiryPage = () => {
@@ -10,6 +12,12 @@ const CreateInquiryPage = () => {
 
   const { data: servicesData } = useServices();
   const services = Array.isArray(servicesData) ? servicesData : servicesData?.services || [];
+
+  const { data: coursesData } = useCourses();
+  const courses = Array.isArray(coursesData) ? coursesData : coursesData?.courses || [];
+
+  const { data: productsData } = useProducts();
+  const products = Array.isArray(productsData) ? productsData : productsData || [];
 
   const { mutate: createInquiry, isPending } = useCreateInquiry();
 
@@ -34,7 +42,13 @@ const CreateInquiryPage = () => {
         </div>
 
         <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow">
-          <InquiryForm services={services} onSubmit={handleCreate} loading={isPending} />
+          <InquiryForm
+            services={services}
+            courses={courses}
+            products={products}
+            onSubmit={handleCreate}
+            loading={isPending}
+          />
         </div>
       </div>
     </div>

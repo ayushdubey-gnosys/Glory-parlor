@@ -1,7 +1,10 @@
 import React from "react";
 import FormModal from "../Modal/FormModal";
+import { useAuth } from "../../context/AuthProvider";
 
-const ServiceDetailsModal = ({ service, open, onClose }) => {
+const ServiceDetailsModal = ({ service, open, onClose, onInquiry }) => {
+  const { hasRole } = useAuth();
+
   if (!service) return null;
 
   return (
@@ -21,7 +24,18 @@ const ServiceDetailsModal = ({ service, open, onClose }) => {
         </div>
       </div>
 
-      <div className="flex justify-end mt-4">
+      <div className="flex justify-end gap-3 mt-4">
+        {hasRole("customer") && (
+          <button
+            onClick={() => {
+              onClose();
+              if (onInquiry) onInquiry(service);
+            }}
+            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition"
+          >
+            Inquire Now
+          </button>
+        )}
         <button onClick={onClose} className="px-4 py-2 rounded border">Close</button>
       </div>
     </FormModal>
