@@ -412,6 +412,12 @@ const InquiryPage = () => {
                                     {inquiry.serviceInterest ||
                                       "-"}
                                   </div>
+
+                                  {inquiry.message && (
+                                    <div className="text-xs text-zinc-500 mt-2 line-clamp-2 max-w-sm italic border-l-2 border-zinc-200 pl-2">
+                                      "{inquiry.message}"
+                                    </div>
+                                  )}
                                 </td>
 
                                 <td className="px-6 py-5 text-sm">
@@ -516,7 +522,28 @@ const InquiryPage = () => {
                                     }
                                     className="px-6 py-5"
                                   >
-                                    <div className="max-w-2xl">
+                                    <div className="max-w-2xl space-y-4">
+                                      {inquiry.message && (
+                                        <div className="bg-white border border-zinc-200 rounded-2xl p-4 shadow-sm">
+                                          <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1">
+                                            Customer Message
+                                          </span>
+                                          <p className="text-sm text-zinc-700 italic">
+                                            "{inquiry.message}"
+                                          </p>
+                                        </div>
+                                      )}
+
+                                      {inquiry.response && (
+                                        <div className="bg-zinc-900 text-zinc-100 rounded-2xl p-4 shadow-sm">
+                                          <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider block mb-1 text-zinc-400">
+                                            Previous Response
+                                          </span>
+                                          <p className="text-sm leading-relaxed">
+                                            {inquiry.response}
+                                          </p>
+                                        </div>
+                                      )}
                                       
                                       <textarea
                                         value={
