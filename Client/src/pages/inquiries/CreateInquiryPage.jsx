@@ -1,6 +1,7 @@
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 import InquiryForm from "../../components/inquiry/InquiryForm";
 import { useServices } from "../../services/Services/useServiceQuery";
 import { useCourses } from "../../services/academy/useAuthQuery";
@@ -9,6 +10,8 @@ import { useCreateInquiry } from "../../services/inquiries/useInquiryMutation";
 
 const CreateInquiryPage = () => {
   const queryClient = useQueryClient();
+  const location = useLocation();
+  const prefilledData = location.state || {};
 
   const { data: servicesData } = useServices();
   const services = Array.isArray(servicesData) ? servicesData : servicesData?.services || [];
@@ -48,6 +51,7 @@ const CreateInquiryPage = () => {
             products={products}
             onSubmit={handleCreate}
             loading={isPending}
+            prefilledData={prefilledData}
           />
         </div>
       </div>

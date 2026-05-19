@@ -30,9 +30,9 @@ const InquiryPage = () => {
   const [q, setQ] =
     useState("");
 
-  // DEFAULT NEW
+  // DEFAULT ALL
   const [filter, setFilter] =
-    useState("new");
+    useState("all");
 
   // DESKTOP RESPONSE
   const [

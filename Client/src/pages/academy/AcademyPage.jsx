@@ -208,10 +208,10 @@ const AcademyPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* HEADER */}
         <div className="flex items-center justify-between mb-8">
-          
+
           <div>
             <h1 className="text-4xl font-bold text-gray-900">
               Academy Courses
@@ -227,16 +227,16 @@ const AcademyPage = () => {
             "admin",
             "superadmin",
           ]) && (
-            <button
-              onClick={() => {
-                setShowForm((s) => !s);
-                setEditing(null);
-              }}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-medium transition"
-            >
-              New Course
-            </button>
-          )}
+              <button
+                onClick={() => {
+                  setShowForm((s) => !s);
+                  setEditing(null);
+                }}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-medium transition"
+              >
+                New Course
+              </button>
+            )}
         </div>
 
         {/* FORM */}
@@ -246,7 +246,7 @@ const AcademyPage = () => {
             className="bg-white rounded-3xl p-6 shadow-sm mb-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              
+
               <input
                 value={form.name}
                 onChange={(e) =>
@@ -354,36 +354,36 @@ const AcademyPage = () => {
                   </option>
                 ))}
               </select>
-<select
-  value={form.category}
-  onChange={(e) =>
-    setForm({
-      ...form,
-      category: e.target.value,
-    })
-  }
-  className="border border-gray-300 rounded-xl px-4 py-3"
->
-  <option value="makeup">
-    Makeup
-  </option>
+              <select
+                value={form.category}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    category: e.target.value,
+                  })
+                }
+                className="border border-gray-300 rounded-xl px-4 py-3"
+              >
+                <option value="makeup">
+                  Makeup
+                </option>
 
-  <option value="hair">
-    Hair
-  </option>
+                <option value="hair">
+                  Hair
+                </option>
 
-  <option value="skin">
-    Skin
-  </option>
+                <option value="skin">
+                  Skin
+                </option>
 
-  <option value="nails">
-    Nails
-  </option>
+                <option value="nails">
+                  Nails
+                </option>
 
-  <option value="other">
-    Other
-  </option>
-</select>
+                <option value="other">
+                  Other
+                </option>
+              </select>
 
               <select
                 value={form.level}
@@ -481,7 +481,7 @@ const AcademyPage = () => {
             </div>
 
             <div className="mt-6 flex gap-3">
-              
+
               <button
                 type="submit"
                 className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl transition"
@@ -512,7 +512,7 @@ const AcademyPage = () => {
             >
               {/* IMAGE */}
               <div className="relative h-56 w-full overflow-hidden">
-                
+
                 <img
                   src={
                     course.image ||
@@ -531,7 +531,7 @@ const AcademyPage = () => {
 
               {/* CONTENT */}
               <div className="p-5">
-                
+
                 <h2 className="text-2xl font-bold text-gray-900 line-clamp-1">
                   {renderValue(course.name)}
                 </h2>
@@ -544,7 +544,7 @@ const AcademyPage = () => {
 
                 {/* INFO */}
                 <div className="mt-5 space-y-2 text-sm">
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-gray-500">
                       Fees
@@ -594,32 +594,32 @@ const AcademyPage = () => {
                 {/* SYLLABUS */}
                 {course.syllabus
                   ?.length > 0 && (
-                  <div className="mt-5">
-                    <p className="text-sm font-semibold mb-2">
-                      Course Includes
-                    </p>
+                    <div className="mt-5">
+                      <p className="text-sm font-semibold mb-2">
+                        Course Includes
+                      </p>
 
-                    <div className="flex flex-wrap gap-2">
-                      {course.syllabus
-                        ?.slice(0, 3)
-                        .map((item, i) => (
-                          <span
-                            key={i}
-                            className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full"
-                          >
-                            {item}
-                          </span>
-                        ))}
+                      <div className="flex flex-wrap gap-2">
+                        {course.syllabus
+                          ?.slice(0, 3)
+                          .map((item, i) => (
+                            <span
+                              key={i}
+                              className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full"
+                            >
+                              {item}
+                            </span>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* ACTIONS */}
                 <div className="mt-6 flex items-center gap-3">
-                  
+
                   <Link
                     to={`/academy/${course._id}`}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-center py-3 rounded-xl font-medium transition"
+                    className="flex-1 bg-zinc-800 hover:bg-zinc-950 text-white text-center py-3 rounded-xl font-medium transition"
                   >
                     View Details
                   </Link>
@@ -628,28 +628,28 @@ const AcademyPage = () => {
                     "admin",
                     "superadmin",
                   ]) && (
-                    <>
-                      <button
-                        onClick={() =>
-                          startEdit(course)
-                        }
-                        className="px-4 py-3 rounded-xl border border-gray-300 hover:bg-gray-100"
-                      >
-                        Edit
-                      </button>
+                      <>
+                        <button
+                          onClick={() =>
+                            startEdit(course)
+                          }
+                          className="px-4 py-3 rounded-xl border border-gray-300 hover:bg-gray-100"
+                        >
+                          Edit
+                        </button>
 
-                      <button
-                        onClick={() =>
-                          handleDelete(
-                            course._id
-                          )
-                        }
-                        className="px-4 py-3 rounded-xl border border-red-200 text-red-600 hover:bg-red-50"
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
+                        <button
+                          onClick={() =>
+                            handleDelete(
+                              course._id
+                            )
+                          }
+                          className="px-4 py-3 rounded-xl border border-red-200 text-red-600 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                 </div>
               </div>
             </div>

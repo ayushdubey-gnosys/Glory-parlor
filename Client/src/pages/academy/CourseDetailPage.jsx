@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { useCourse } from "../../services/academy/useAuthQuery";
 
@@ -9,6 +9,7 @@ import { useEnrollCourse } from "../../services/academy/useAcademyMutation";
 
 const CourseDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // HOOKS ALWAYS AT TOP
   const { user, hasRole } = useAuth();
@@ -72,7 +73,7 @@ const CourseDetailPage = () => {
             {/* STATUS */}
             <div className="flex items-center gap-3 mb-4">
 
-              <span className="bg-indigo-600 text-white text-sm px-4 py-1 rounded-full capitalize">
+              <span className="bg-zinc-900 text-white text-sm px-4 py-1 rounded-full capitalize">
                 {course.level}
               </span>
 
@@ -214,7 +215,7 @@ const CourseDetailPage = () => {
           </div>
         </div>
 
-        {/* ENROLL BUTTON */}
+        {/* INQUIRY ACTION BUTTON */}
         <div className="px-8 pb-8">
 
           {!hasRole([
@@ -224,29 +225,19 @@ const CourseDetailPage = () => {
             <div className="mt-4">
 
               {user?.role === "customer" ? (
-                <>
-                  {isEnrolled ? (
-                    <div className="bg-green-100 text-green-700 px-5 py-3 rounded-xl font-semibold inline-block">
-                      You are already enrolled in this course
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        enrollMutation.mutate(
-                          course._id
-                        )
-                      }
-                      disabled={
-                        enrollMutation.isPending
-                      }
-                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transition"
-                    >
-                      {enrollMutation.isPending
-                        ? "Enrolling..."
-                        : "Enroll Now"}
-                    </button>
-                  )}
-                </>
+                <button
+                  onClick={() =>
+                    navigate("/inquiries/create", {
+                      state: {
+                        inquiryType: "course",
+                        serviceInterest: course.name,
+                      },
+                    })
+                  }
+                  className="bg-zinc-900 hover:bg-zinc-800 text-white px-6 py-3 rounded-xl font-semibold transition"
+                >
+                  Course Inquiry
+                </button>
               ) : (
                 <div className="text-gray-500">
                   Staff can only view this course.

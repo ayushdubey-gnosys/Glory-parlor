@@ -8,6 +8,7 @@ const InquiryForm = ({
   products = [],
   onSubmit,
   loading,
+  prefilledData = {},
 }) => {
   const { user } = useAuth();
   
@@ -35,10 +36,22 @@ const InquiryForm = ({
     }
   }, [user, setValue]);
 
-  // Reset secondary interest field when inquiry type changes
+  // Prefill details from external state (e.g., Academy Course Inquiries)
   useEffect(() => {
-    setValue("serviceInterest", "");
-  }, [inquiryType, setValue]);
+    if (prefilledData.inquiryType) {
+      setValue("inquiryType", prefilledData.inquiryType);
+    }
+    if (prefilledData.serviceInterest) {
+      setValue("serviceInterest", prefilledData.serviceInterest);
+    }
+  }, [prefilledData, setValue]);
+
+  // Reset secondary interest field when inquiry type changes (excluding initial prefill)
+  useEffect(() => {
+    if (inquiryType && inquiryType !== prefilledData.inquiryType) {
+      setValue("serviceInterest", "");
+    }
+  }, [inquiryType, setValue, prefilledData.inquiryType]);
 
   const submitHandler = (data) => {
     // We can prepend the type to the serviceInterest or submit as is

@@ -33,7 +33,7 @@ const AppointmentsDashboard = () => {
     return (
       <div className="min-h-screen bg-zinc-50 p-6 md:p-10 text-zinc-900">
         <div className="max-w-7xl mx-auto space-y-10">
-          
+
           {/* WELCOME BANNER */}
           <div className="relative overflow-hidden rounded-3xl bg-zinc-950 p-8 md:p-12 text-white shadow-xl">
             <div className="absolute right-0 top-0 -mr-20 -mt-20 h-80 w-80 rounded-full bg-zinc-800 opacity-20 blur-3xl"></div>
@@ -93,13 +93,12 @@ const AppointmentsDashboard = () => {
                         />
                         {/* ROLE BADGE ON PHOTO */}
                         <span
-                          className={`absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm ${
-                            isExpert
+                          className={`absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm ${isExpert
                               ? "bg-amber-100 text-amber-800 border border-amber-200"
                               : isSenior
-                              ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                              : "bg-zinc-100 text-zinc-800 border border-zinc-200"
-                          }`}
+                                ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                : "bg-zinc-100 text-zinc-800 border border-zinc-200"
+                            }`}
                         >
                           {staffMember.role || "Stylist"}
                         </span>
@@ -181,15 +180,14 @@ const AppointmentsDashboard = () => {
                             {appt.service?.name || "Salon Service"}
                           </h4>
                           <span
-                            className={`text-xs font-semibold px-2 py-0.5 rounded-full capitalize ${
-                              isCompleted
+                            className={`text-xs font-semibold px-2 py-0.5 rounded-full capitalize ${isCompleted
                                 ? "bg-green-50 text-green-700"
                                 : isBooked
-                                ? "bg-blue-50 text-blue-700"
-                                : isCancelled
-                                ? "bg-red-50 text-red-700"
-                                : "bg-zinc-50 text-zinc-700"
-                            }`}
+                                  ? "bg-blue-50 text-blue-700"
+                                  : isCancelled
+                                    ? "bg-red-50 text-red-700"
+                                    : "bg-zinc-50 text-zinc-700"
+                              }`}
                           >
                             {appt.status}
                           </span>
