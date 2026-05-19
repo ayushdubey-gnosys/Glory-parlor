@@ -6,6 +6,7 @@ import { useCourse } from "../../services/academy/useAuthQuery";
 import { useAuth } from "../../context/AuthProvider";
 
 import { useEnrollCourse } from "../../services/academy/useAcademyMutation";
+import Loader from "../../components/common/Loader";
 
 const CourseDetailPage = () => {
   const { id } = useParams();
@@ -20,11 +21,7 @@ const CourseDetailPage = () => {
 
   // LOADING
   if (isLoading) {
-    return (
-      <div className="p-10 text-xl">
-        Loading...
-      </div>
-    );
+    return <Loader />;
   }
 
   // NOT FOUND

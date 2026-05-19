@@ -14,6 +14,7 @@ import {
   useDeleteInquiry,
   useUpdateInquiry,
 } from "../../services/inquiries/useInquiryMutation";
+import Loader from "../../components/common/Loader";
 
 const InquiryPage = () => {
   const queryClient =
@@ -346,11 +347,8 @@ const InquiryPage = () => {
         {/* CONTENT */}
         <div className="mt-6">
           
-          {/* LOADING */}
           {isLoading ? (
-            <div className="text-center py-20 text-zinc-500">
-              Loading inquiries...
-            </div>
+            <Loader />
           ) : (
             <>
               {/* DESKTOP TABLE */}

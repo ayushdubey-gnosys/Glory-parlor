@@ -33,12 +33,14 @@ import CustomerProductsPage from "../pages/inventory/CustomerProductsPage";
 import HomePage from "../pages/HomePage";
 import { useCurrentUser } from "../services/auth/useAuthQuery";
 import { Navigate } from "react-router-dom";
+import Loader from "../components/common/Loader";
+import NotFoundPage from "../pages/NotFoundPage";
 
 const IndexRoute = () => {
   const { data, isLoading, isError } = useCurrentUser();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader fullScreen />;
   }
 
   if (isError || !data?.user) {
@@ -149,7 +151,9 @@ const RoutesProvider = () => {
           <Route path="academy/:id" element={<CourseDetailPage />} />
           <Route path="marketing" element={<MarketingPage />} />
           <Route path="admin/incentive" element={<StaffIncentivePage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
