@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useCurrentUser } from "../services/auth/useAuthQuery";
+import Loader from "../components/common/Loader";
 
 const RequireRole = ({ roles = [], children }) => {
   const { data, isLoading, isError } = useCurrentUser();
 
   // Loading State
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader fullScreen />;
   }
 
   // Not Logged In
