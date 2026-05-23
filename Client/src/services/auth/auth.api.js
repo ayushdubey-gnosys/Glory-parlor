@@ -37,3 +37,8 @@ export const updateProfile = async (formData) => {
 
   return response.data;
 };
+
+export const changePassword = async (payload) => {
+  const response = await api.patch("/auth/change-password", payload);
+  return response.data;
+};

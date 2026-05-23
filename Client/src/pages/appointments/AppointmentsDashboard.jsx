@@ -223,11 +223,7 @@ const AppointmentsDashboard = () => {
 
   // RENDER ORIGINAL ADMIN/STAFF DASHBOARD
   const cards = [
-    {
-      title: "Book Appointment",
-      desc: "Create new appointment",
-      path: "/appointments/book",
-    },
+   
     {
       title: "All Appointments",
       desc: "View all appointments",

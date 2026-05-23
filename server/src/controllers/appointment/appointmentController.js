@@ -37,9 +37,29 @@ exports.createAppointment = async (req, res) => {
   try {
     const { staff, date, time } = req.body;
 
+    const parseTimeStr = (t) => {
+      if (!t || typeof t !== "string") return null;
+      // handle formats like "07:12", "7:12", "07:12 PM", "7:12 am"
+      const ampmMatch = t.match(/\b(am|pm)\b/i);
+      const hhmmMatch = t.match(/(\d{1,2}):(\d{2})/);
+      if (!hhmmMatch) return null;
+      let hours = parseInt(hhmmMatch[1], 10);
+      const minutes = parseInt(hhmmMatch[2], 10);
+      if (ampmMatch) {
+        const ampm = ampmMatch[1].toLowerCase();
+        if (ampm === "pm" && hours < 12) hours += 12;
+        if (ampm === "am" && hours === 12) hours = 0;
+      }
+      return { hours, minutes };
+    };
+
     // Slot Conflict Check: 30 minutes gap
     if (staff && date && time) {
-      const [hours, minutes] = time.split(":").map(Number);
+      const parsed = parseTimeStr(time);
+      if (!parsed) {
+        return res.status(400).json({ error: "Invalid time format" });
+      }
+      const { hours, minutes } = parsed;
       const targetDate = new Date(date);
       targetDate.setHours(hours, minutes, 0, 0);
 
@@ -77,6 +97,40 @@ exports.createAppointment = async (req, res) => {
     const customerModel = require("../../models/customer.model");
 
     let customerId = req.body.customer;
+    let isOffline = false;
+
+    // If client passed a customer object (offline/walk-in), create a Customer record
+    if (customerId && typeof customerId === "object") {
+      const { name, phone, email, address, notes } = customerId;
+      try {
+        const created = await customerModel.create({
+          name: name || phone || "Walk-in",
+          phone: phone || "",
+          email: email || "",
+          address: address || "",
+          notes: notes || "",
+          createdBy: req.user?._id || null,
+        });
+
+        customerId = created._id;
+        isOffline = true;
+      } catch (err) {
+        // handle duplicate key (unique index) by finding existing customer
+        if (err && err.code === 11000) {
+          const existing = await customerModel.findOne({ $or: [{ phone }, { email }] });
+          if (existing) {
+            customerId = existing._id;
+            isOffline = true;
+          } else {
+            console.error("Duplicate key error but no existing customer found", err);
+            return res.status(500).json({ error: "Failed to create or resolve customer (duplicate)" });
+          }
+        } else {
+          console.error("Error creating customer for offline appointment:", err);
+          return res.status(500).json({ error: "Failed to create customer for appointment" });
+        }
+      }
+    }
 
     if (req.user && req.user.role === "customer") {
       const cust = await findOrCreateCustomerForUser(req.user);
@@ -88,6 +142,9 @@ exports.createAppointment = async (req, res) => {
     if (req.user && req.user.role === "customer") {
       payload.status = "unbooked";
     }
+
+    // respect explicit offline flag or detected offline customer
+    if (req.body.isOffline || isOffline) payload.isOffline = true;
 
     const appointment = await appointmentModel.create(payload);
 
@@ -103,14 +160,20 @@ exports.createAppointment = async (req, res) => {
 
     res.status(201).json(out);
   } catch (err) {
-    console.error("Error in createAppointment:", err);
-    res.status(500).json({ error: "Failed to create appointment" });
+    console.error("Error in createAppointment:", err && err.stack ? err.stack : err);
+    const msg = err && err.message ? err.message : "Failed to create appointment";
+    res.status(500).json({ error: `Failed to create appointment: ${msg}` });
   }
 };
 
 exports.getAppointments = async (req, res) => {
   try {
     let query = {};
+
+    // Support filtering by mode: ?mode=offline|online|all
+    const mode = req.query.mode;
+    if (mode === "offline") query.isOffline = true;
+    else if (mode === "online") query.isOffline = { $ne: true };
 
     if (req.user && req.user.role === "customer") {
       // resolve Customer record from authenticated user

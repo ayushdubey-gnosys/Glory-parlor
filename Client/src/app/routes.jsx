@@ -93,7 +93,7 @@ const RoutesProvider = () => {
           } />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="appointments">
-            <Route index element={<AppointmentsDashboard />} />
+            <Route index element={<Navigate to="all" replace />} />
             <Route path="book" element={<BookAppointmentPage />} />
             <Route path="all" element={<AllAppointmentsPage />} />
             <Route path="staff" element={<StaffPageAppointments />} />

@@ -7,10 +7,10 @@ import {
 import { appointmentKeys } from "./appointment.key";
 
 // GET ALL APPOINTMENTS
-export const useAppointments = (page = 1, limit = 10) => {
+export const useAppointments = (page = 1, limit = 10, mode) => {
   return useQuery({
-    queryKey: [...appointmentKeys.all, page, limit],
+    queryKey: [...appointmentKeys.all, page, limit, mode || "all"],
 
-    queryFn: () => getAppointments({ page, limit }),
+    queryFn: () => getAppointments({ page, limit, mode }),
   });
 };

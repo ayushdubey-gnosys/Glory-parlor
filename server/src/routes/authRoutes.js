@@ -20,6 +20,7 @@ const {
   me,
 } = require("../controllers/auth/me");
 const { updateProfile } = require("../controllers/auth/updateProfile");
+const { changePassword } = require("../controllers/auth/changePassword");
 
 const {
   protect,
@@ -65,6 +66,13 @@ router.patch(
   protect,
   upload.single("profilePic"),
   updateProfile
+);
+
+// CHANGE PASSWORD (authenticated user)
+router.patch(
+  "/change-password",
+  protect,
+  changePassword
 );
 
 module.exports = router;

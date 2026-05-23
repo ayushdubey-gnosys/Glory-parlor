@@ -14,7 +14,6 @@ import {
 
 import { useAuth } from "../../context/AuthProvider";
 import { renderValue } from "../../utils/helpers";
-import Loader from "../../components/common/Loader";
 
 const AcademyPage = () => {
   const { hasRole } = useAuth();
@@ -201,7 +200,7 @@ const AcademyPage = () => {
   if (isLoading) {
     return (
       <div className="p-10">
-        <Loader />
+        Loading...
       </div>
     );
   }

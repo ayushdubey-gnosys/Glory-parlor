@@ -4,8 +4,9 @@ import {
   registerUser,
   loginUser,
   logoutUser,
+  updateProfile,
+  changePassword,
 } from "./auth.api";
-import { updateProfile } from "./auth.api";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const useRegister = () => {
@@ -34,5 +35,11 @@ export const useUpdateProfile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
     },
+  });
+};
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: changePassword,
   });
 };

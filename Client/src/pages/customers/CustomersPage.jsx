@@ -5,6 +5,7 @@ import { useCustomers } from "../../services/customers/useCustomerQuery";
 import CustomerCard from "../../components/customers/CustomerCard";
 
 import CustomerDetailsModal from "../../components/customers/CustomerDetailsModal";
+import CreateCustomerModal from "../../components/customers/CreateCustomerModal";
 
 const CustomersPage = () => {
   const [page, setPage] =
@@ -36,6 +37,7 @@ const CustomersPage = () => {
 
   const [modalOpen, setModalOpen] =
     React.useState(false);
+  const [createOpen, setCreateOpen] = React.useState(false);
 
   if (isLoading)
     return (
@@ -109,6 +111,12 @@ const CustomersPage = () => {
 
         <div className="flex items-center gap-4">
           
+          <button
+            onClick={() => setCreateOpen(true)}
+            className="bg-black text-white px-4 py-2 rounded-xl"
+          >
+            Add Customer
+          </button>
           <select
             value={category}
             onChange={(e) => {
@@ -215,6 +223,10 @@ const CustomersPage = () => {
             null
           );
         }}
+      />
+      <CreateCustomerModal
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
       />
     </div>
   );

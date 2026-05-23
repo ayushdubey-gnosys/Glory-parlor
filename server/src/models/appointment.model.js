@@ -12,6 +12,10 @@ const appointmentSchema = new mongoose.Schema(
       enum: ["unbooked", "booked", "completed", "cancelled"],
       default: "unbooked",
     },
+    isOffline: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

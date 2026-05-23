@@ -27,7 +27,8 @@ export const createMyCustomer = async (payload) => {
 
 export const updateMyCustomer = async (payload) => {
   const res = await api.patch(`/customers/me`, payload);
-  return res.data?.customer ?? res.data;
+  // return full response so caller can access both `customer` and `user` when provided by server
+  return res.data;
 };
 
 export const createCustomer = async (payload) => {
