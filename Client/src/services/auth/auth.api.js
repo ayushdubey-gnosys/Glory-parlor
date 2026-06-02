@@ -21,8 +21,17 @@ export const loginUser = async (data) => {
 };
 
 export const getCurrentUser = async () => {
-  const response = await api.get("/auth/me");
-  return response.data;
+  try {
+    const response = await api.get("/auth/me");
+    return response.data;
+  } catch (err) {
+    // If user is not authenticated, backend returns 401. Treat as no user instead of throwing.
+    if (err?.response?.status === 401) {
+      return { user: null };
+    }
+
+    throw err;
+  }
 };
 
 export const logoutUser = async () => {

@@ -86,6 +86,9 @@ const AllAppointmentsPage = () => {
   const [createOpen, setCreateOpen] =
     useState(false);
 
+  const [createMode, setCreateMode] =
+    useState("offline");
+
   const [offlineForm, setOfflineForm] =
     useState({
       name: "",
@@ -96,42 +99,26 @@ const AllAppointmentsPage = () => {
       time: "",
     });
 
-  const handleCreateOffline =
-    async () => {
+  const handleCreateAppointment =
+    async (isOffline) => {
       try {
         const payload = {
           customer: {
             name: offlineForm.name,
-            phone:
-              offlineForm.phone,
+            phone: offlineForm.phone,
           },
 
-          service:
-            offlineForm.service ||
-            undefined,
+          service: offlineForm.service || undefined,
+          staff: offlineForm.staff || undefined,
+          date: offlineForm.date || undefined,
+          time: offlineForm.time || undefined,
 
-          staff:
-            offlineForm.staff ||
-            undefined,
-
-          date:
-            offlineForm.date ||
-            undefined,
-
-          time:
-            offlineForm.time ||
-            undefined,
-
-          isOffline: true,
+          isOffline: !!isOffline,
         };
 
-        await createMutation.mutateAsync(
-          payload
-        );
+        await createMutation.mutateAsync(payload);
 
-        toast.success(
-          "Appointment created"
-        );
+        toast.success("Appointment created");
 
         setCreateOpen(false);
 
@@ -145,8 +132,7 @@ const AllAppointmentsPage = () => {
         });
       } catch (err) {
         toast.error(
-          err?.response?.data
-            ?.message ||
+          err?.response?.data?.message ||
             "Failed to create appointment"
         );
       }
@@ -180,25 +166,49 @@ const AllAppointmentsPage = () => {
             </p>
           </div>
 
-          {(user?.role ===
-            "admin" ||
-            user?.role ===
-              "superadmin") && (
+          {(user?.role === "admin" ||
+            user?.role === "superadmin") && (
             <button
-              onClick={() =>
-                setCreateOpen(true)
-              }
-              className="
+              onClick={() => {
+                setCreateMode("offline");
+                setCreateOpen(true);
+              }}
+              className={`
                 flex items-center gap-2
                 bg-black
                 text-white
                 px-5 py-3
                 rounded-2xl
                 hover:bg-zinc-800
-              "
+              `}
             >
               <Plus size={18} />
               Create Offline
+            </button>
+          )}
+
+          {user?.role === "customer" && (
+            <button
+              onClick={() => {
+                setCreateMode("online");
+                setOfflineForm((f) => ({
+                  ...f,
+                  name: user?.name || "",
+                  phone: user?.mobile || user?.phone || "",
+                }));
+                setCreateOpen(true);
+              }}
+              className={`
+                flex items-center gap-2
+                bg-emerald-600
+                text-white
+                px-5 py-3
+                rounded-2xl
+                hover:bg-emerald-500
+              `}
+            >
+              <Plus size={18} />
+              Create Appointment
             </button>
           )}
         </div>
@@ -559,7 +569,9 @@ const AllAppointmentsPage = () => {
           <div className="bg-white rounded-3xl p-6 w-full max-w-md">
             
             <h2 className="text-2xl font-bold text-zinc-900 mb-5">
-              Create Offline Appointment
+              {createMode === "offline"
+                ? "Create Offline Appointment"
+                : "Create Appointment"}
             </h2>
 
             <div className="space-y-4">
@@ -731,9 +743,7 @@ const AllAppointmentsPage = () => {
             <div className="flex justify-end gap-3 mt-6">
               
               <button
-                onClick={() =>
-                  setCreateOpen(false)
-                }
+                onClick={() => setCreateOpen(false)}
                 className="
                   px-4 py-2
                   border
@@ -744,8 +754,10 @@ const AllAppointmentsPage = () => {
               </button>
 
               <button
-                onClick={
-                  handleCreateOffline
+                onClick={() =>
+                  handleCreateAppointment(
+                    createMode === "offline"
+                  )
                 }
                 className="
                   px-5 py-2

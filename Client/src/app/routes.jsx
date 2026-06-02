@@ -54,12 +54,30 @@ const IndexRoute = () => {
   }
 
   if (role === "customer") {
-    return <HomePage />;
+    // Redirect customers to their profile/dashboard after login
+    return <Navigate to="/customers/me" replace />;
   }
 
   return <Navigate to="/login" replace />;
 };
 
+// RootLayout: if user not logged in -> show HomePage
+// if logged in -> render protected DashboardLayout (with nested routes)
+const RootLayout = () => {
+  const { data, isLoading } = useCurrentUser();
+
+  if (isLoading) return <Loader fullScreen />;
+
+  if (!data?.user) {
+    return <HomePage />;
+  }
+
+  return (
+    <RequireAuth>
+      <DashboardLayout />
+    </RequireAuth>
+  );
+};
 const RoutesProvider = () => {
   return (
     <BrowserRouter>
@@ -70,7 +88,7 @@ const RoutesProvider = () => {
         <Route path="/login" element={<LoginPage />} />
        
 
-        <Route path="/" element={<RequireAuth><DashboardLayout /></RequireAuth>}>
+        <Route path="/" element={<RootLayout />}>
           <Route
             index
             element={<IndexRoute />}
