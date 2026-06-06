@@ -141,8 +141,9 @@ const Sidebar = ({
   mobileOpen,
   setMobileOpen,
 }) => {
-  const { user, hasRole } =
-    useAuth();
+  const { user, hasRole } = useAuth();
+
+  if (user?.role === 'customer') return null;
 
   const handleCloseSidebar = () => {
     if (window.innerWidth < 768) {

@@ -11,6 +11,10 @@ const serviceSchema = new mongoose.Schema(
     price: Number,
     duration: Number, // minutes
     description: String,
+    parlor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Parlor",
+    },
   },
   { timestamps: true }
 );

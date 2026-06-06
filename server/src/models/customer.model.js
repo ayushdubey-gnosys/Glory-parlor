@@ -78,6 +78,21 @@ const customerSchema =
         type: Number,
         default: 0,
       },
+
+      parlor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Parlor",
+      },
+
+      lifetimeValue: {
+        type: Number,
+        default: 0,
+      },
+      
+      productUsage: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductUsage"
+      }],
     },
     {
       timestamps: true,

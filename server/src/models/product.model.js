@@ -13,6 +13,18 @@ const productSchema = new mongoose.Schema(
       enum: ["salon-use", "sale-only", "dual-use"],
     },
     expiryDate: Date,
+    parlor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Parlor",
+    },
+    lowStockThreshold: {
+      type: Number,
+      default: 5,
+    },
+    isDeadStock: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

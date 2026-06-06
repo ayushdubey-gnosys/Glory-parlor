@@ -54,8 +54,7 @@ const IndexRoute = () => {
   }
 
   if (role === "customer") {
-    // Redirect customers to their profile/dashboard after login
-    return <Navigate to="/customers/me" replace />;
+    return <HomePage />;
   }
 
   return <Navigate to="/login" replace />;

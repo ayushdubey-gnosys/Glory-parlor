@@ -20,6 +20,10 @@ const invoiceSchema = new mongoose.Schema(
     discount: Number,
     finalAmount: Number,
     paymentMethod: String,
+    parlor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Parlor",
+    },
   },
   { timestamps: true }
 );

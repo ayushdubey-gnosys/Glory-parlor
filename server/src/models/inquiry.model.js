@@ -24,6 +24,10 @@ const inquirySchema = new mongoose.Schema(
       enum: ["new", "follow-up", "converted", "lost"],
       default: "new",
     },
+    parlor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Parlor",
+    },
   },
   { timestamps: true }
 );

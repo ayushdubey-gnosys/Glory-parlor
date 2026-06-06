@@ -2,8 +2,16 @@ import React, { useState } from "react";
 
 import { useAuth } from "../context/AuthProvider";
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
+const customerLinks = [
+  { to: "/appointments", label: "Appointments" },
+  { to: "/services", label: "Services" },
+  { to: "/staff", label: "Staff" },
+  { to: "/inquiry", label: "My Inquiries" },
+  { to: "/parlor-products", label: "Parlor Products" },
+  { to: "/academy", label: "Academy" },
+];
 import {
   Bell,
   Search,
@@ -62,11 +70,13 @@ const Navbar = ({ onMobileToggle }) => {
         <div className="max-w-7xl mx-auto px-6 h-[82px] flex items-center justify-between">
           
           {/* LEFT */}
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-12 flex-1">
             {/* MOBILE HAMBURGER -> toggles sidebar on mobile */}
-            <button onClick={onMobileToggle} className="md:hidden mr-2 rounded-lg p-2 bg-white/[0.03] border border-white/5">
-              <Menu size={18} className="text-white" />
-            </button>
+            {user?.role !== 'customer' && (
+              <button onClick={onMobileToggle} className="md:hidden mr-2 rounded-lg p-2 bg-white/[0.03] border border-white/5">
+                <Menu size={18} className="text-white" />
+              </button>
+            )}
             
             {/* LOGO */}
             <Link
@@ -96,6 +106,27 @@ const Navbar = ({ onMobileToggle }) => {
                 </p>
               </div>
             </Link>
+
+            {/* CUSTOMER DESKTOP NAV */}
+            {user?.role === 'customer' && (
+              <nav className="hidden md:flex items-center gap-8 ml-8">
+                {customerLinks.map(link => (
+                  <NavLink
+                    key={link.to}
+                    to={link.to}
+                    className={({ isActive }) =>
+                      `dm text-sm transition-all duration-300 font-medium ${
+                        isActive
+                          ? "text-[#c9a96e] border-b-2 border-[#c9a96e] pb-1"
+                          : "text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-white/20"
+                      }`
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                ))}
+              </nav>
+            )}
 
             {/* SEARCH */}
           

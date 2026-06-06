@@ -16,6 +16,15 @@ const appointmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    parlor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Parlor",
+    },
+    onlineBookingId: String,
+    slot: {
+      startTime: String,
+      endTime: String
+    },
   },
   { timestamps: true }
 );
