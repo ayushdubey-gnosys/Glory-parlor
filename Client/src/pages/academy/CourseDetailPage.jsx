@@ -221,16 +221,20 @@ const CourseDetailPage = () => {
           ]) && (
             <div className="mt-4">
 
-              {user?.role === "customer" ? (
+              {(!user || user?.role === "customer") ? (
                 <button
-                  onClick={() =>
+                  onClick={() => {
+                    if (!user) {
+                      navigate(`/register?redirect=/academy/${course._id}`);
+                      return;
+                    }
                     navigate("/inquiries/create", {
                       state: {
                         inquiryType: "course",
                         serviceInterest: course.name,
                       },
-                    })
-                  }
+                    });
+                  }}
                   className="bg-zinc-900 hover:bg-zinc-800 text-white px-6 py-3 rounded-xl font-semibold transition"
                 >
                   Course Inquiry

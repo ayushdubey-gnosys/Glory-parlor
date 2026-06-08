@@ -1,14 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useRegister, useLogin } from "../../services/auth/useAuthMutation";
+import { useRegister } from "../../services/auth/useAuthMutation";
+import { useAuth } from "../../context/AuthProvider";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
 
   const { mutate, isPending } = useRegister();
-  const loginMutation = useLogin();
+  const { login } = useAuth();
 
   const {
     register,
@@ -36,16 +39,16 @@ const RegisterPage = () => {
         );
 
         try {
-          await loginMutation.mutateAsync({
+          await login({
             email: data.email,
             password: data.password,
           });
 
           reset();
-          navigate("/profile");
+          navigate(redirectUrl || "/profile");
         } catch (error) {
           reset();
-          navigate("/login");
+          navigate(redirectUrl ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : "/login");
         }
       },
 
@@ -282,7 +285,7 @@ const RegisterPage = () => {
             <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}
               <Link
-                to="/login"
+                to={redirectUrl ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : "/login"}
                 className="text-[#caa04d] font-semibold"
               >
                 Sign In

@@ -17,7 +17,7 @@ router.post(
 	inventoryController.addProduct
 );
 
-router.get("/", protect, authorize("admin", "staff", "superadmin", "customer"), inventoryController.getProducts);
+router.get("/", inventoryController.getProducts);
 
 router.patch(
 	"/:id",

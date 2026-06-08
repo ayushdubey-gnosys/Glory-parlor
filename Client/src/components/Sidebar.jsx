@@ -143,7 +143,7 @@ const Sidebar = ({
 }) => {
   const { user, hasRole } = useAuth();
 
-  if (user?.role === 'customer') return null;
+  if (!user || user.role === 'customer') return null;
 
   const handleCloseSidebar = () => {
     if (window.innerWidth < 768) {
@@ -356,7 +356,7 @@ const Sidebar = ({
                         <p
                           className={`dm text-sm transition-all ${
                             isActive
-                              ? "text-white font-medium"
+                              ? "text-white font-light"
                               : "text-zinc-400 group-hover:text-white"
                           }`}
                         >

@@ -60,32 +60,30 @@ const IndexRoute = () => {
   return <Navigate to="/login" replace />;
 };
 
-// RootLayout: if user not logged in -> show HomePage
-// if logged in -> render protected DashboardLayout (with nested routes)
+// RootLayout: if user not logged in AND path is '/', show HomePage
+// otherwise render DashboardLayout (which will render Outlet)
+import { useLocation } from "react-router-dom";
+
 const RootLayout = () => {
   const { data, isLoading } = useCurrentUser();
+  const location = useLocation();
 
   if (isLoading) return <Loader fullScreen />;
 
-  if (!data?.user) {
+  if (!data?.user && location.pathname === "/") {
     return <HomePage />;
   }
 
-  return (
-    <RequireAuth>
-      <DashboardLayout />
-    </RequireAuth>
-  );
+  return <DashboardLayout />;
 };
+
 const RoutesProvider = () => {
   return (
     <BrowserRouter>
       <Routes>
-      {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-customer" element={<RegisterCustomerPage />} />
         <Route path="/login" element={<LoginPage />} />
-       
 
         <Route path="/" element={<RootLayout />}>
           <Route
@@ -108,18 +106,45 @@ const RoutesProvider = () => {
               <CustomerDetailPage />
             </RequireRole>
           } />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile" element={
+            <RequireAuth>
+              <ProfilePage />
+            </RequireAuth>
+          } />
           <Route path="appointments">
             <Route index element={<Navigate to="all" replace />} />
-            <Route path="book" element={<BookAppointmentPage />} />
-            <Route path="all" element={<AllAppointmentsPage />} />
-            <Route path="staff" element={<StaffPageAppointments />} />
+            <Route path="book" element={
+              <RequireAuth>
+                <BookAppointmentPage />
+              </RequireAuth>
+            } />
+            <Route path="all" element={
+              <RequireAuth>
+                <AllAppointmentsPage />
+              </RequireAuth>
+            } />
+            <Route path="staff" element={
+              <RequireAuth>
+                <StaffPageAppointments />
+              </RequireAuth>
+            } />
           </Route>
+          {/* Public routes */}
           <Route path="services" element={<ServicesPage />} />
           <Route path="staff" element={<StaffPage />} />
           <Route path="staff/:id" element={<StaffDetailPage />} />
-          <Route path="inventory" element={<InventoryPage />} />
-          <Route path="billing" element={<BillingPage />} />
+          
+          <Route path="inventory" element={
+            <RequireRole roles={["superadmin","admin"]}>
+              <InventoryPage />
+            </RequireRole>
+          } />
+          <Route path="billing" element={
+            <RequireRole roles={["superadmin","admin"]}>
+              <BillingPage />
+            </RequireRole>
+          } />
+          
           <Route path="inquiries">
             <Route
               index
@@ -129,7 +154,6 @@ const RoutesProvider = () => {
                 </RequireRole>
               }
             />
-
             <Route
               path="create"
               element={
@@ -156,18 +180,24 @@ const RoutesProvider = () => {
               </RequireRole>
             }
           />
+          {/* Public route */}
           <Route
             path="parlor-products"
-            element={
-              <RequireRole roles={["customer"]}>
-                <CustomerProductsPage />
-              </RequireRole>
-            }
+            element={<CustomerProductsPage />}
           />
           <Route path="academy" element={<AcademyPage />} />
           <Route path="academy/:id" element={<CourseDetailPage />} />
-          <Route path="marketing" element={<MarketingPage />} />
-          <Route path="admin/incentive" element={<StaffIncentivePage />} />
+          
+          <Route path="marketing" element={
+            <RequireRole roles={["superadmin","admin"]}>
+              <MarketingPage />
+            </RequireRole>
+          } />
+          <Route path="admin/incentive" element={
+            <RequireRole roles={["superadmin","admin"]}>
+              <StaffIncentivePage />
+            </RequireRole>
+          } />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

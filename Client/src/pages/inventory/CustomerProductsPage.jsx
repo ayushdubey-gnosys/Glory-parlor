@@ -1,17 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useProducts } from "../../services/inventory/useInventoryQuery";
 import FormModal from "../../components/Modal/FormModal";
+import { useAuth } from "../../context/AuthProvider";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CustomerProductsPage = () => {
   const { data: productsData, isLoading } = useProducts();
   const products = Array.isArray(productsData) ? productsData : productsData || [];
 
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+
+  useEffect(() => {
+    if (products.length > 0 && user) {
+      const productId = searchParams.get("productId");
+      if (productId) {
+        const prod = products.find(p => p._id === productId);
+        if (prod) {
+          setSelectedProduct(prod);
+          setOpenModal(true);
+        }
+        setSearchParams({});
+      }
+    }
+  }, [products, user, searchParams, setSearchParams]);
 
   const handleOpenDetails = (prod) => {
     setSelectedProduct(prod);
     setOpenModal(true);
+  };
+
+  const handleBuyNow = () => {
+    if (!user) {
+      navigate(`/register?redirect=/parlor-products?productId=${selectedProduct._id}`);
+      return;
+    }
+    // Logic to add to cart or inquire about the product
+    toast.success(`${selectedProduct.name} added to your cart/inquiry!`);
+    setOpenModal(false);
   };
 
   return (
@@ -145,7 +176,13 @@ const CustomerProductsPage = () => {
               </div>
 
               {/* Actions */}
-              <div className="flex justify-end pt-4 border-t border-zinc-100">
+              <div className="flex justify-end gap-3 pt-4 border-t border-zinc-100">
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full md:w-auto px-6 py-2.5 bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-semibold rounded-xl transition shadow-md"
+                >
+                  Buy Now
+                </button>
                 <button
                   onClick={() => setOpenModal(false)}
                   className="w-full md:w-auto px-6 py-2.5 bg-black hover:bg-zinc-800 text-white text-sm font-semibold rounded-xl transition shadow-md shadow-zinc-950/10"

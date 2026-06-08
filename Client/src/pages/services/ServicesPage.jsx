@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useServices } from "../../services/Services/useServiceQuery";
 import { useDeleteService } from "../../services/Services/useServiceMutation";
@@ -13,7 +14,9 @@ const ServicesPage = () => {
   const { data, isLoading } =
     useServices();
 
-  const { hasRole } = useAuth();
+  const { user, hasRole } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const deleteMutation =
     useDeleteService();
@@ -35,6 +38,21 @@ const ServicesPage = () => {
 
   const [selectedForInquiry, setSelectedForInquiry] =
     useState(null);
+
+  useEffect(() => {
+    if (data && user) {
+      const serviceId = searchParams.get("serviceId");
+      if (serviceId) {
+        const srv = data.find(s => s._id === serviceId);
+        if (srv) {
+          setSelectedForInquiry(srv);
+          setOpenInquiry(true);
+        }
+        // clear search param
+        setSearchParams({});
+      }
+    }
+  }, [data, user, searchParams, setSearchParams]);
 
   if (isLoading) {
     return (
@@ -161,9 +179,13 @@ const ServicesPage = () => {
                   Details
                 </button>
 
-                {hasRole("customer") && (
+                {(!user || hasRole("customer")) && (
                   <button
                     onClick={() => {
+                      if (!user) {
+                        navigate(`/register?redirect=/services?serviceId=${service._id}`);
+                        return;
+                      }
                       setSelectedForInquiry(service);
                       setOpenInquiry(true);
                     }}

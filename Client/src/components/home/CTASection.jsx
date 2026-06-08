@@ -1,102 +1,192 @@
 import React from "react";
+import {
+  GraduationCap,
+  Award,
+  Briefcase,
+  Clock,
+  ArrowRight,
+} from "lucide-react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Phone, Calendar, Star } from "lucide-react";
 
-const CTASection = () => {
+const courses = [
+  {
+    duration: "1 Week",
+    title: "Basic Grooming Course",
+    description:
+      "Learn essential beauty, grooming and salon fundamentals.",
+  },
+  {
+    duration: "1 Month",
+    title: "Professional Beauty Course",
+    description:
+      "Hands-on training in hair styling, facials and skincare.",
+  },
+  {
+    duration: "3 Months",
+    title: "Advanced Makeup & Salon Training",
+    description:
+      "Master bridal makeup, hair treatments and salon management.",
+  },
+  {
+    duration: "6 Months",
+    title: "Professional Beauty Academy Program",
+    description:
+      "Complete beauty, grooming, makeup and business certification.",
+  },
+];
+
+const AcademySection = () => {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-24">
-      <div className="relative overflow-hidden rounded-[40px] min-h-[500px]">
+    <section className="relative py-32 bg-[#faf9f5] overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-[#D68B2A]/5 blur-[180px] rounded-full" />
 
-        {/* Background Image */}
-        <img
-          src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=2000&auto=format&fit=crop"
-          alt="Luxury Salon"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div className="text-center max-w-4xl mx-auto">
+          <span className="inline-flex px-5 py-2 rounded-full bg-[#D68B2A]/10 text-[#D68B2A] text-xs font-bold uppercase tracking-[0.3em]">
+            Beauty Academy
+          </span>
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/70" />
-
-        {/* Gradient Glow */}
-        <div className="absolute top-0 right-0 h-80 w-80 bg-amber-400/20 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-80 w-80 bg-yellow-300/10 blur-[120px]" />
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-8 py-20">
-
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-400/30 bg-amber-400/10 backdrop-blur-md mb-6">
-            <Star size={14} className="text-amber-400 fill-amber-400" />
-            <span className="text-xs uppercase tracking-[3px] text-amber-300 font-medium">
-              Book Your Beauty Session
-            </span>
-          </div>
-
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight max-w-4xl">
-            Ready To Experience
-            <br />
-            <span className="italic text-amber-400">
-              Premium Beauty & Wellness?
-            </span>
+          <h2 className="mt-8 text-5xl md:text-7xl font-light text-neutral-900">
+            Professional Salon
           </h2>
 
-          <p className="max-w-2xl mt-6 text-slate-300 text-base md:text-lg leading-relaxed">
-            Whether it's a bridal makeover, luxury facial, hair transformation,
-            or professional grooming, our experts are ready to create your
-            perfect look.
+          <h2 className="text-5xl md:text-7xl italic font-serif text-[#D68B2A] mt-2">
+            Training Courses
+          </h2>
+
+          <p className="mt-8 text-lg text-neutral-500 leading-relaxed">
+            Build your career in the beauty industry with our certified
+            training programs designed for both men and women.
+          </p>
+        </div>
+
+        {/* Hero Banner */}
+        <div className="mt-20 relative overflow-hidden rounded-[40px] h-[550px]">
+          <img
+            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1600&auto=format&fit=crop"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+
+          <div className="absolute left-10 top-1/2 -translate-y-1/2 max-w-xl text-white">
+            <span className="bg-white/10 backdrop-blur-xl border border-white/20 px-4 py-2 rounded-full text-xs uppercase tracking-[0.25em]">
+              Certified Academy
+            </span>
+
+            <h3 className="mt-6 text-5xl font-light leading-tight">
+              Learn. Practice.
+              <br />
+              Get Certified.
+            </h3>
+
+            <p className="mt-6 text-white/80 text-lg">
+              Industry-recognized beauty training with professional
+              certification, practical sessions and career guidance.
+            </p>
+
+            <Link
+              to="/courses"
+              className="inline-flex items-center gap-3 mt-8 px-8 py-4 rounded-2xl bg-[#D68B2A] text-white font-light hover:bg-[#c77d21] transition"
+            >
+              Explore Courses
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="grid md:grid-cols-3 gap-6 mt-16">
+          <div className="bg-white rounded-[30px] p-8 shadow-xl">
+            <Award className="text-[#D68B2A]" size={36} />
+            <h3 className="mt-5 text-2xl font-light">
+              Certification
+            </h3>
+            <p className="mt-3 text-neutral-500">
+              Receive professional course completion certificates.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[30px] p-8 shadow-xl">
+            <GraduationCap className="text-[#D68B2A]" size={36} />
+            <h3 className="mt-5 text-2xl font-light">
+              Practical Training
+            </h3>
+            <p className="mt-3 text-neutral-500">
+              Hands-on learning with live salon practice sessions.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[30px] p-8 shadow-xl">
+            <Briefcase className="text-[#D68B2A]" size={36} />
+            <h3 className="mt-5 text-2xl font-light">
+              Career Support
+            </h3>
+            <p className="mt-3 text-neutral-500">
+              Job assistance and salon business guidance.
+            </p>
+          </div>
+        </div>
+
+        {/* Courses */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+          {courses.map((course, index) => (
+            <div
+              key={index}
+              className="group bg-white rounded-[30px] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+            >
+              <div className="flex items-center gap-2 text-[#D68B2A]">
+                <Clock size={18} />
+                <span className="font-light">
+                  {course.duration}
+                </span>
+              </div>
+
+              <h3 className="mt-5 text-2xl font-light text-neutral-900">
+                {course.title}
+              </h3>
+
+              <p className="mt-4 text-neutral-500 leading-relaxed">
+                {course.description}
+              </p>
+
+              <Link
+                to="/courses"
+                className="inline-flex items-center gap-2 mt-6 text-[#D68B2A] font-light"
+              >
+                Learn More
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Banner */}
+        <div className="mt-20 rounded-[40px] bg-gradient-to-r from-[#111] via-[#1d1d1d] to-[#111] text-white p-16 text-center">
+          <h3 className="text-5xl font-light">
+            Start Your Beauty Career Today
+          </h3>
+
+          <p className="max-w-3xl mx-auto mt-6 text-white/70 text-lg">
+            Join our academy and become a certified beauty professional.
+            Courses available for both men and women with flexible
+            durations from 1 week to 6 months.
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            <Link
-              to="/register"
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-medium bg-gradient-to-r from-amber-600 to-yellow-700 hover:scale-105 transition-all duration-300 shadow-xl"
-            >
-              <Calendar size={18} />
-              Book Appointment
-              <ArrowRight
-                size={18}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </Link>
-
-            <a
-              href="tel:+919999999999"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-all"
-            >
-              <Phone size={18} />
-              Call Now
-            </a>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-14 w-full max-w-4xl">
-
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h3 className="text-4xl font-bold text-white">10K+</h3>
-              <p className="text-slate-300 mt-2">
-                Happy Clients
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h3 className="text-4xl font-bold text-white">15+</h3>
-              <p className="text-slate-300 mt-2">
-                Years Experience
-              </p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h3 className="text-4xl font-bold text-white">50+</h3>
-              <p className="text-slate-300 mt-2">
-                Premium Services
-              </p>
-            </div>
-
-          </div>
+          <Link
+            to="/courses"
+            className="inline-flex items-center gap-3 mt-8 px-10 py-5 rounded-2xl bg-[#D68B2A] text-white font-light"
+          >
+            Enroll Now
+            <ArrowRight size={20} />
+          </Link>
         </div>
       </div>
     </section>
   );
 };
 
-export default CTASection;
+export default AcademySection;

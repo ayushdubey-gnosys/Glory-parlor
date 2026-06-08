@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useLogin } from "../../services/auth/useAuthMutation";
+import { useAuth } from "../../context/AuthProvider";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { mutate, isPending } = useLogin();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
+
+  const { login } = useAuth();
+  const [isPending, setIsPending] = useState(false);
 
   const {
     register,
@@ -14,22 +18,17 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    mutate(data, {
-      onSuccess: (response) => {
-        toast.success(
-          response?.message || "Login Successful"
-        );
-        navigate("/");
-      },
-
-      onError: (error) => {
-        toast.error(
-          error?.response?.data?.message ||
-          "Login Failed"
-        );
-      },
-    });
+  const onSubmit = async (data) => {
+    try {
+      setIsPending(true);
+      await login(data);
+      toast.success("Login Successful");
+      navigate(redirectUrl);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Login Failed");
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -216,7 +215,7 @@ const LoginPage = () => {
           <p className="text-center text-gray-600 text-sm">
             Don't have an account?{" "}
             <Link
-              to="/register"
+              to={searchParams.get("redirect") ? `/register?redirect=${encodeURIComponent(searchParams.get("redirect"))}` : "/register"}
               className="text-[#C49A4A] font-semibold hover:underline"
             >
               Create Account

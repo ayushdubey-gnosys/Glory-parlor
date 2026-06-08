@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
-import bgVideo from "../../assets/vido.mp4";
+import bgVideo from "../../assets/home.mp4";
+import { useAuth } from "../../context/AuthProvider";
 
 const HeroSection = () => {
+  const { user } = useAuth();
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Background Video */}
@@ -19,10 +21,10 @@ const HeroSection = () => {
       </video>
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-black/10" />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40" />
 
       {/* Decorative Glow */}
       <div className="absolute top-20 left-10 h-72 w-72 rounded-full bg-amber-400/20 blur-[120px]" />
@@ -34,7 +36,7 @@ const HeroSection = () => {
           {/* Badge */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 backdrop-blur-xl">
             <Star size={14} className="text-amber-400 fill-amber-400" />
-            <span className="text-xs font-medium uppercase tracking-[3px] text-white">
+            <span className="text-xs font-light uppercase tracking-[3px] text-white">
               Luxury Beauty & Wellness
             </span>
           </div>
@@ -63,8 +65,8 @@ const HeroSection = () => {
           {/* Buttons */}
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
-              to="/register"
-              className="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-700 px-8 py-4 font-medium text-white transition-all duration-300 hover:scale-105"
+              to={user ? "/appointments/book" : "/register?redirect=/appointments/book"}
+              className="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-700 px-8 py-4 font-light text-white transition-all duration-300 hover:scale-105"
             >
               Book Appointment
               <ArrowRight
@@ -75,7 +77,7 @@ const HeroSection = () => {
 
             <a
               href="#services"
-              className="rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-xl transition-all hover:bg-white/20"
+              className="rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-light text-white backdrop-blur-xl transition-all hover:bg-white/20"
             >
               View Services
             </a>

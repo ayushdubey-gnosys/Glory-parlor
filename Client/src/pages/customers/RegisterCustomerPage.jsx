@@ -1,12 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useCreateCustomer } from "../../services/customers/useCustomerMutation";
 
 const RegisterCustomerPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
 
   const { mutate, isLoading } = useCreateCustomer();
 
@@ -17,7 +19,7 @@ const RegisterCustomerPage = () => {
       onSuccess: (res) => {
         toast.success(res?.message || "Customer registered successfully");
         reset();
-        navigate("/login");
+        navigate(redirectUrl ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : "/login");
       },
       onError: (err) => {
         toast.error(err?.response?.data?.message || "Registration failed");

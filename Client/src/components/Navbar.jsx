@@ -11,6 +11,7 @@ const customerLinks = [
   { to: "/inquiry", label: "My Inquiries" },
   { to: "/parlor-products", label: "Parlor Products" },
   { to: "/academy", label: "Academy" },
+  { to: "/#about", label: "About" },
 ];
 import {
   Bell,
@@ -70,9 +71,9 @@ const Navbar = ({ onMobileToggle }) => {
         <div className="max-w-7xl mx-auto px-6 h-[82px] flex items-center justify-between">
           
           {/* LEFT */}
-          <div className="flex items-center gap-12 flex-1">
+          <div className="flex items-center gap-4 lg:gap-8 flex-1">
             {/* MOBILE HAMBURGER -> toggles sidebar on mobile */}
-            {user?.role !== 'customer' && (
+            {user && user.role !== 'customer' && (
               <button onClick={onMobileToggle} className="md:hidden mr-2 rounded-lg p-2 bg-white/[0.03] border border-white/5">
                 <Menu size={18} className="text-white" />
               </button>
@@ -108,23 +109,39 @@ const Navbar = ({ onMobileToggle }) => {
             </Link>
 
             {/* CUSTOMER DESKTOP NAV */}
-            {user?.role === 'customer' && (
-              <nav className="hidden md:flex items-center gap-8 ml-8">
-                {customerLinks.map(link => (
-                  <NavLink
-                    key={link.to}
-                    to={link.to}
-                    className={({ isActive }) =>
-                      `dm text-sm transition-all duration-300 font-medium ${
-                        isActive
-                          ? "text-[#c9a96e] border-b-2 border-[#c9a96e] pb-1"
-                          : "text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-white/20"
-                      }`
+            {(!user || user?.role === 'customer') && (
+              <nav className="hidden lg:flex items-center gap-4 xl:gap-6 ml-4">
+                {customerLinks
+                  .filter(link => !(!user && link.label === "My Inquiries"))
+                  .map(link => {
+                    const isHashLink = link.to.startsWith("/#");
+                    if (isHashLink) {
+                      return (
+                        <a
+                          key={link.to}
+                          href={link.to}
+                          className="dm text-[13px] xl:text-sm transition-all duration-300 font-light text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-white/20"
+                        >
+                          {link.label}
+                        </a>
+                      );
                     }
-                  >
-                    {link.label}
-                  </NavLink>
-                ))}
+                    return (
+                      <NavLink
+                        key={link.to}
+                        to={link.to}
+                        className={({ isActive }) =>
+                          `dm text-[13px] xl:text-sm transition-all duration-300 font-light ${
+                            isActive
+                              ? "text-[#c9a96e] border-b-2 border-[#c9a96e] pb-1"
+                              : "text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-white/20"
+                          }`
+                        }
+                      >
+                        {link.label}
+                      </NavLink>
+                    );
+                  })}
               </nav>
             )}
 
@@ -136,185 +153,187 @@ const Navbar = ({ onMobileToggle }) => {
           <div className="flex items-center gap-4">
             
             {/* NOTIFICATION */}
-            <div className="relative">
-              
-              <button
-                onClick={() =>
-                  setOpen(!open)
-                }
-                className="relative w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center hover:bg-white/[0.06] transition-all duration-300"
-              >
-                <Bell
-                  size={20}
-                  className="text-zinc-300"
-                />
-
-                {notifications.length >
-                  0 && (
-                  <div
-                    className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-[11px] text-black font-semibold"
-                    style={{
-                      background:
-                        "linear-gradient(135deg,#c9a96e,#a07840)",
-                    }}
-                  >
-                    {
-                      notifications.length
-                    }
-                  </div>
-                )}
-              </button>
-
-              {/* DROPDOWN */}
-              {open && (
-                <div
-                  className="dropdown-animation absolute right-0 mt-4 w-[420px] rounded-[30px] overflow-hidden border border-white/10 shadow-2xl"
-                  style={{
-                    background:
-                      "rgba(15,15,15,0.96)",
-                    backdropFilter:
-                      "blur(30px)",
-                  }}
+            {user && (
+              <div className="relative">
+                
+                <button
+                  onClick={() =>
+                    setOpen(!open)
+                  }
+                  className="relative w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center hover:bg-white/[0.06] transition-all duration-300"
                 >
-                  
-                  {/* TOP */}
-                  <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                    
-                    <div>
-                      <h2 className="text-xl font-light text-white">
-                        Notifications
-                      </h2>
+                  <Bell
+                    size={20}
+                    className="text-zinc-300"
+                  />
 
-                      <p className="dm text-sm text-zinc-500 mt-1">
-                        Latest salon updates
-                      </p>
-                    </div>
-
+                  {notifications.length >
+                    0 && (
                     <div
-                      className="px-3 py-1 rounded-full text-xs dm"
-                      style={{
-                        background:
-                          "rgba(201,169,110,0.12)",
-                        color: "#c9a96e",
-                      }}
-                    >
-                      {
-                        notifications.length
-                      }{" "}
-                      New
-                    </div>
-                  </div>
-
-                  {/* BODY */}
-                  <div className="max-h-[500px] overflow-y-auto">
-                    
-                    {notifications.length ===
-                    0 ? (
-                      <div className="p-10 text-center">
-                        
-                        <Bell
-                          size={40}
-                          className="mx-auto text-zinc-700 mb-4"
-                        />
-
-                        <h3 className="text-lg text-white font-light">
-                          No Notifications
-                        </h3>
-
-                        <p className="dm text-zinc-500 text-sm mt-2">
-                          Everything looks
-                          clean right now.
-                        </p>
-                      </div>
-                    ) : (
-                      notifications.map(
-                        item => (
-                          <div
-                            key={item._id}
-                            className="p-5 border-b border-white/5 hover:bg-white/[0.03] transition-all duration-300"
-                          >
-                            
-                            <div className="flex gap-4">
-                              
-                              <img
-                                src={
-                                  item
-                                    ?.customer
-                                    ?.profilePic ||
-                                  "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-                                }
-                                alt="customer"
-                                className="w-14 h-14 rounded-2xl object-cover border border-white/10"
-                              />
-
-                              <div className="flex-1">
-                                
-                                <div className="flex items-center justify-between">
-                                  
-                                  <h3 className="text-white font-medium dm">
-                                    {
-                                      item
-                                        ?.customer
-                                        ?.name
-                                    }
-                                  </h3>
-
-                                  <span className="dm text-xs text-zinc-600">
-                                    {new Date(
-                                      item.createdAt
-                                    ).toLocaleDateString()}
-                                  </span>
-                                </div>
-
-                                <p className="dm text-sm text-zinc-400 leading-6 mt-2">
-                                  {
-                                    item.message
-                                  }
-                                </p>
-
-                                <div className="mt-4 flex items-center justify-between">
-                                  
-                                  <span
-                                    className="inline-flex px-3 py-1 rounded-full text-xs capitalize dm"
-                                    style={{
-                                      background:
-                                        "rgba(201,169,110,0.12)",
-                                      color:
-                                        "#c9a96e",
-                                    }}
-                                  >
-                                    {
-                                      item.type
-                                    }
-                                  </span>
-
-                                  <button className="dm text-xs text-zinc-500 hover:text-white transition">
-                                    View
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )
-                      )
-                    )}
-                  </div>
-
-                  {/* FOOTER */}
-                  <div className="p-4 border-t border-white/5">
-                    
-                    <button className="w-full h-[48px] rounded-2xl text-sm dm text-black font-medium transition-all duration-300 hover:scale-[1.01]"
+                      className="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center text-[11px] text-black font-semibold"
                       style={{
                         background:
                           "linear-gradient(135deg,#c9a96e,#a07840)",
                       }}
                     >
-                      View All Notifications
-                    </button>
+                      {
+                        notifications.length
+                      }
+                    </div>
+                  )}
+                </button>
+
+                {/* DROPDOWN */}
+                {open && (
+                  <div
+                    className="dropdown-animation absolute right-0 mt-4 w-[420px] rounded-[30px] overflow-hidden border border-white/10 shadow-2xl"
+                    style={{
+                      background:
+                        "rgba(15,15,15,0.96)",
+                      backdropFilter:
+                        "blur(30px)",
+                    }}
+                  >
+                    
+                    {/* TOP */}
+                    <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                      
+                      <div>
+                        <h2 className="text-xl font-light text-white">
+                          Notifications
+                        </h2>
+
+                        <p className="dm text-sm text-zinc-500 mt-1">
+                          Latest salon updates
+                        </p>
+                      </div>
+
+                      <div
+                        className="px-3 py-1 rounded-full text-xs dm"
+                        style={{
+                          background:
+                            "rgba(201,169,110,0.12)",
+                          color: "#c9a96e",
+                        }}
+                      >
+                        {
+                          notifications.length
+                        }{" "}
+                        New
+                      </div>
+                    </div>
+
+                    {/* BODY */}
+                    <div className="max-h-[500px] overflow-y-auto">
+                      
+                      {notifications.length ===
+                      0 ? (
+                        <div className="p-10 text-center">
+                          
+                          <Bell
+                            size={40}
+                            className="mx-auto text-zinc-700 mb-4"
+                          />
+
+                          <h3 className="text-lg text-white font-light">
+                            No Notifications
+                          </h3>
+
+                          <p className="dm text-zinc-500 text-sm mt-2">
+                            Everything looks
+                            clean right now.
+                          </p>
+                        </div>
+                      ) : (
+                        notifications.map(
+                          item => (
+                            <div
+                              key={item._id}
+                              className="p-5 border-b border-white/5 hover:bg-white/[0.03] transition-all duration-300"
+                            >
+                              
+                              <div className="flex gap-4">
+                                
+                                <img
+                                  src={
+                                    item
+                                      ?.customer
+                                      ?.profilePic ||
+                                    "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
+                                  }
+                                  alt="customer"
+                                  className="w-14 h-14 rounded-2xl object-cover border border-white/10"
+                                />
+
+                                <div className="flex-1">
+                                  
+                                  <div className="flex items-center justify-between">
+                                    
+                                    <h3 className="text-white font-light dm">
+                                      {
+                                        item
+                                          ?.customer
+                                          ?.name
+                                      }
+                                    </h3>
+
+                                    <span className="dm text-xs text-zinc-600">
+                                      {new Date(
+                                        item.createdAt
+                                      ).toLocaleDateString()}
+                                    </span>
+                                  </div>
+
+                                  <p className="dm text-sm text-zinc-400 leading-6 mt-2">
+                                    {
+                                      item.message
+                                    }
+                                  </p>
+
+                                  <div className="mt-4 flex items-center justify-between">
+                                    
+                                    <span
+                                      className="inline-flex px-3 py-1 rounded-full text-xs capitalize dm"
+                                      style={{
+                                        background:
+                                          "rgba(201,169,110,0.12)",
+                                        color:
+                                          "#c9a96e",
+                                      }}
+                                    >
+                                      {
+                                        item.type
+                                      }
+                                    </span>
+
+                                    <button className="dm text-xs text-zinc-500 hover:text-white transition">
+                                      View
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        )
+                      )}
+                    </div>
+
+                    {/* FOOTER */}
+                    <div className="p-4 border-t border-white/5">
+                      
+                      <button className="w-full h-[48px] rounded-2xl text-sm dm text-black font-light transition-all duration-300 hover:scale-[1.01]"
+                        style={{
+                          background:
+                            "linear-gradient(135deg,#c9a96e,#a07840)",
+                        }}
+                      >
+                        View All Notifications
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             {/* USER */}
             {user ? (
@@ -332,7 +351,7 @@ const Navbar = ({ onMobileToggle }) => {
 
                 <div className="hidden md:block">
                   
-                  <p className="dm text-sm text-white font-medium">
+                  <p className="dm text-sm text-white font-light">
                     {user.name}
                   </p>
 
@@ -352,8 +371,17 @@ const Navbar = ({ onMobileToggle }) => {
                 )}
               </div>
             ) : (
-              <div className="dm text-zinc-500 text-sm">
-                Guest
+              <div className="flex items-center gap-4 dm">
+                <Link to="/login" className="text-sm font-light text-zinc-300 hover:text-white transition-colors">
+                  Sign In
+                </Link>
+                <Link to="/register" className="px-5 py-2 rounded-xl text-sm font-light text-black transition-all hover:scale-105"
+                  style={{
+                    background: "linear-gradient(135deg, #c9a96e, #a07840)",
+                  }}
+                >
+                  Sign Up
+                </Link>
               </div>
             )}
           </div>

@@ -8,16 +8,19 @@ import GenderSection from "../components/home/GenderSection";
 import ServicesSection from "../components/home/ServicesSection";
 import StatsSection from "../components/home/StatsSection";
 import AboutSection from "../components/home/AboutSection";
-import GallerySection from "../components/home/GallerySection";
+import ProductShowcaseSection from "../components/home/GallerySection";
 import TestimonialsSection from "../components/home/TestimonialsSection";
-import CTASection from "../components/home/CTASection";
+import AcademySection from "../components/home/CTASection";
+import Navbar from "../components/Navbar";
+import Footer from "../components/home/Footer";
+
 
 const HomePage = () => {
   const { user } = useAuth();
 
   return (
     <div
-      className="min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-amber-100"
+      className="relative overflow-hidden min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-amber-100"
       style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
     >
       <style>{`
@@ -80,55 +83,23 @@ const HomePage = () => {
 
       {/* ── NAVBAR ── */}
       {!user && (
-        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
-          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-sm text-white transition-transform group-hover:scale-105">
-                <Sparkles className="w-5 h-5 text-amber-300" />
-              </div>
-              <div>
-                <span className="text-lg font-bold text-slate-900 tracking-tight block leading-none">Astha PMS</span>
-                <span className="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-0.5 block dm">Premium Beauty Parlor</span>
-              </div>
-            </Link>
-
-            <div className="hidden md:flex items-center gap-7 dm">
-              <a href="#services" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                <Scissors className="w-4 h-4 text-slate-400" /> Services
-              </a>
-              <a href="#for-her" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                For Her
-              </a>
-              <a href="#for-him" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                For Him
-              </a>
-              <a href="#about" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition">
-                <Info className="w-4 h-4 text-slate-400" /> About
-              </a>
-            </div>
-
-            <Link
-              to="/register"
-              className="dm hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-medium shadow-md shadow-amber-700/10 transition hover:shadow-lg active:scale-95"
-              style={{ background: "linear-gradient(135deg, #b58d4a, #967133)" }}
-            >
-              <Calendar className="w-4 h-4" />
-              Book Now
-            </Link>
-          </div>
-        </nav>
+        <Navbar />
       )}
 
       {/* ── COMPONENTS ── */}
       <HeroSection />
       <GenderSection />
       <ServicesSection />
+      <ProductShowcaseSection />
+      <AcademySection />
       <StatsSection />
       <AboutSection />
-      <GallerySection />
+
       <TestimonialsSection />
-      <CTASection />
-      
+
+      <Footer />
+
+
     </div>
   );
 };
