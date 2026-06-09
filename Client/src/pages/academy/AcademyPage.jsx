@@ -206,20 +206,23 @@ const AcademyPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-[#faf9f5] p-6">
       <div className="max-w-7xl mx-auto">
 
         {/* HEADER */}
         <div className="flex items-center justify-between mb-8">
 
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">
-              Academy Courses
+            <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+              Master Your Craft
+            </p>
+
+            <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A]">
+              Our Beauty Academy
             </h1>
 
-            <p className="text-gray-500 mt-2">
-              Manage academy courses and
-              training programs
+            <p className="max-w-2xl text-gray-500 mt-4 text-sm md:text-base leading-relaxed">
+              Unlock your potential with our professional beauty courses. Whether you're a beginner or an experienced stylist looking to upgrade your skills, our expert-led academy programs are designed to help you build a successful career in the luxury beauty industry.
             </p>
           </div>
 
@@ -232,7 +235,7 @@ const AcademyPage = () => {
                   setShowForm((s) => !s);
                   setEditing(null);
                 }}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-medium transition"
+                className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-5 py-3 rounded-xl font-medium hover:scale-105 transition-all shadow-md"
               >
                 New Course
               </button>
@@ -504,14 +507,14 @@ const AcademyPage = () => {
         )}
 
         {/* COURSES */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {data?.map((course) => (
             <div
               key={course._id}
-              className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-xl transition duration-300"
+              className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-xl transition duration-300 flex flex-col h-full"
             >
               {/* IMAGE */}
-              <div className="relative h-56 w-full overflow-hidden">
+              <div className="relative h-48 w-full overflow-hidden">
 
                 <img
                   src={
@@ -523,34 +526,28 @@ const AcademyPage = () => {
                 />
 
                 <div className="absolute top-4 right-4">
-                  <span className="bg-indigo-600 text-white text-xs px-3 py-1 rounded-full capitalize">
+                  <span className="bg-[#D68B2A]/10 border border-[#D68B2A]/30 text-[#D68B2A] text-xs px-3 py-1 rounded-full font-medium capitalize">
                     {course.level}
                   </span>
                 </div>
               </div>
 
               {/* CONTENT */}
-              <div className="p-5">
+              <div className="p-5 flex-1 flex flex-col">
 
-                <h2 className="text-2xl font-bold text-gray-900 line-clamp-1">
+                <h2 className="text-xl font-bold text-gray-900 line-clamp-1">
                   {renderValue(course.name)}
                 </h2>
 
-                <p className="text-gray-600 mt-3 text-sm leading-relaxed line-clamp-3">
-                  {renderValue(
-                    course.description
-                  )}
-                </p>
-
                 {/* INFO */}
-                <div className="mt-5 space-y-2 text-sm">
+                <div className="mt-5 space-y-3 text-sm">
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-3">
                     <span className="text-gray-500">
                       Fees
                     </span>
 
-                    <span className="font-semibold">
+                    <span className="font-semibold text-[#D68B2A] text-lg">
                       ₹
                       {renderValue(
                         course.fees
@@ -563,7 +560,7 @@ const AcademyPage = () => {
                       Duration
                     </span>
 
-                    <span className="font-semibold">
+                    <span className="font-semibold text-zinc-800">
                       {renderValue(
                         course.duration
                           ?.value
@@ -574,52 +571,14 @@ const AcademyPage = () => {
                       )}
                     </span>
                   </div>
-
-                  {course.instructor && (
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">
-                        Instructor
-                      </span>
-
-                      <span className="font-medium">
-                        {course
-                          .instructor
-                          ?.name ||
-                          course.instructor}
-                      </span>
-                    </div>
-                  )}
                 </div>
 
-                {/* SYLLABUS */}
-                {course.syllabus
-                  ?.length > 0 && (
-                    <div className="mt-5">
-                      <p className="text-sm font-semibold mb-2">
-                        Course Includes
-                      </p>
-
-                      <div className="flex flex-wrap gap-2">
-                        {course.syllabus
-                          ?.slice(0, 3)
-                          .map((item, i) => (
-                            <span
-                              key={i}
-                              className="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full"
-                            >
-                              {item}
-                            </span>
-                          ))}
-                      </div>
-                    </div>
-                  )}
-
                 {/* ACTIONS */}
-                <div className="mt-6 flex items-center gap-3">
+                <div className="mt-auto pt-6 flex items-center gap-3">
 
                   <Link
                     to={`/academy/${course._id}`}
-                    className="flex-1 bg-zinc-800 hover:bg-zinc-950 text-white text-center py-3 rounded-xl font-medium transition"
+                    className="flex-1 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white text-center py-2.5 rounded-xl font-medium hover:scale-105 transition-all shadow-sm"
                   >
                     View Details
                   </Link>

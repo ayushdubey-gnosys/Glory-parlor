@@ -241,20 +241,24 @@ const StaffPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white shadow-2xl shadow-zinc-600 text-zinc-900 p-6 md:p-10">
+    <div className="min-h-screen bg-[#faf9f5] text-zinc-900 p-6 md:p-10">
 
       {/* HEADER */}
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-10">
 
         <div>
-          <p className="text-zinc-400 uppercase tracking-[3px] text-xs mb-3">
-            Team Management
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+            Our Professionals
           </p>
 
-          <h1 className="text-4xl font-bold">
-            Staff Members
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A]">
+            Meet Our Experts
           </h1>
+
+          <p className="max-w-2xl text-gray-500 mt-4 text-sm md:text-base leading-relaxed">
+            Discover the talented artists and experienced specialists dedicated to bringing your luxury beauty vision to life. From expert stylists to premium skincare professionals, our team is committed to providing you with an unforgettable experience.
+          </p>
         </div>
 
         {(user?.role ===
@@ -275,144 +279,90 @@ const StaffPage = () => {
 
       {/* STAFF GRID */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
         {list.map((s) => (
           <div
             key={s._id}
-            className="group rounded-3xl border border-zinc-700 bg-zinc-800 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-zinc-500 hover:-translate-y-1"
+            className="group rounded-3xl border border-gray-200 bg-white overflow-hidden shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-[540px] max-w-sm mx-auto w-full"
           >
 
-            <Link
-              to={`/staff/${s._id}`}
+            <div
+              className="flex-1 flex flex-col overflow-hidden relative"
             >
 
-              {/* IMAGE */}
+              {/* FRONT OF CARD */}
+              <div className="flex-1 flex flex-col h-full w-full">
+                {/* 75% IMAGE */}
+                <div className="h-[75%] w-full overflow-hidden relative">
+                  <img
+                    src={s.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"}
+                    alt={s.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div
+                    className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${
+                      s.status === "inactive" ? "bg-red-500/20 text-red-500 border border-red-500/30" : "bg-green-500/20 text-green-600 border border-green-500/30"
+                    }`}
+                  >
+                    {s.status || "active"}
+                  </div>
+                </div>
 
-              <div className="relative">
+                {/* 25% CONTENT */}
+                <div className="h-[25%] p-4 flex flex-col items-center justify-center text-center bg-white">
+                  <h2 className="text-2xl text-zinc-900 font-semibold capitalize line-clamp-1">
+                    {s.name}
+                  </h2>
+                  <p className="text-[#D68B2A] text-xs uppercase tracking-widest font-medium mt-1">
+                    Staff Member
+                  </p>
+                </div>
+              </div>
 
-                <img
-                  src={
-                    s.profilePic ||
-                    "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-                  }
-                  alt={s.name}
-                  className="w-full h-64 object-cover"
+              {/* BACK OF CARD / SWIPE OVERLAY */}
+              <div className="absolute inset-0 bg-white p-6 flex flex-col items-center justify-start transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-10">
+                
+                {/* CIRCULAR PROFILE PIC */}
+                <img 
+                  src={s.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"} 
+                  alt={s.name} 
+                  className="w-24 h-24 rounded-full object-cover border-4 border-[#D68B2A]/20 shadow-md mb-4 flex-shrink-0"
                 />
 
-                <div
-                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${
-                    s.status ===
-                    "inactive"
-                      ? "bg-red-500/20 text-red-300 border border-red-500/30"
-                      : "bg-green-500/20 text-green-500 border border-green-500/30"
-                  }`}
-                >
-                  {s.status ||
-                    "active"}
-                </div>
-              </div>
+                <h3 className="text-xl font-bold text-zinc-900 capitalize">{s.name}</h3>
 
-              {/* CONTENT */}
+                <p className="text-gray-500 text-sm text-center mt-3 line-clamp-4 italic">
+                  {s.description || "No description provided."}
+                </p>
 
-              <div className="p-5">
-
-                {/* TOP */}
-
-                <div className="flex items-start justify-between gap-4">
-
-                  <div>
-                    <h2 className="text-2xl  text-white font-semibold capitalize">
-                      {s.name}
-                    </h2>
-
-                    <p className="text-zinc-400 text-sm mt-1">
-                      Staff Member
-                    </p>
+                <div className="w-full mt-auto space-y-3">
+                  <div className="flex items-center justify-between text-sm border-b border-gray-100 pb-2">
+                    <span className="text-gray-500">Experience</span>
+                    <span className="font-semibold text-zinc-800">{s.experience || 0} YRS</span>
                   </div>
-
-                  <div className="bg-zinc-900 border border-zinc-700 px-3 py-2 rounded-2xl text-sm font-medium text-white">
-                    {s.experience || 0} y
+                  <div className="flex items-center justify-between text-sm border-b border-gray-100 pb-2">
+                    <span className="text-gray-500">Timing</span>
+                    <span className="font-semibold text-zinc-800">{s.timing || "-"}</span>
                   </div>
-                </div>
-
-                {/* INFO */}
-
-                <div className="mt-6 space-y-4">
-
-                  {/* EMAIL */}
-
-                  <div className="flex items-center justify-between text-sm">
-
-                    <div className="flex items-center gap-2 text-zinc-400">
-                      <Mail size={15} />
-                      Email
-                    </div>
-
-                    <span className="text-zinc-300 truncate">
-                      {s.email ||
-                        "-"}
-                    </span>
-                  </div>
-
-                  {/* PHONE */}
-
-                  <div className="flex items-center justify-between text-sm">
-
-                    <div className="flex items-center gap-2 text-zinc-400">
-                      <Phone size={15} />
-                      Phone
-                    </div>
-
-                    <span className="text-zinc-300">
-                      {hasRole([
-                        "admin",
-                        "superadmin",
-                        "staff",
-                      ])
-                        ? s.phone ||
-                          "-"
-                        : "Hidden"}
-                    </span>
-                  </div>
-
-                  {/* TIMING */}
-
-                  <div className="flex items-center justify-between text-sm">
-
-                    <div className="flex items-center gap-2 text-zinc-400">
-                      <Clock3 size={15} />
-                      Timing
-                    </div>
-
-                    <span className="text-zinc-300">
-                      {s.timing ||
-                        "-"}
-                    </span>
-                  </div>
-
-                  {/* SALARY */}
-
-                  {hasRole([
-                    "admin",
-                    "superadmin",
-                  ]) && (
-                    <div className="flex items-center justify-between text-sm">
-
-                      <span className="text-zinc-400">
-                        Salary
-                      </span>
-
-                      <span className="font-semibold text-white">
-                        ₹
-                        {s.salary ||
-                          0}
-                      </span>
+                  {hasRole(["admin", "superadmin"]) && (
+                    <div className="flex items-center justify-between text-sm border-b border-gray-100 pb-2">
+                      <span className="text-gray-500">Salary</span>
+                      <span className="font-semibold text-[#D68B2A]">₹{s.salary || 0}</span>
                     </div>
                   )}
+                  
+                  <button 
+                    onClick={() => {
+                      toast.success(`Inquiry started for ${s.name}. Our team will contact you soon.`);
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white font-medium hover:scale-105 transition-all shadow-md mt-4"
+                  >
+                    Inquire
+                  </button>
                 </div>
               </div>
-            </Link>
+            </div>
 
             {/* ACTIONS */}
 
@@ -420,13 +370,13 @@ const StaffPage = () => {
               "admin" ||
               user?.role ===
                 "superadmin") && (
-              <div className="px-5 pb-5 flex gap-3">
+              <div className="px-4 pb-4 mt-auto flex gap-3">
 
                 <button
                   onClick={() =>
                     openEdit(s)
                   }
-                  className="flex-1 py-3 rounded-2xl bg-white text-black font-medium hover:bg-zinc-200 transition"
+                  className="flex-1 py-1.5 rounded-xl bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white font-medium hover:scale-105 transition-all shadow-md text-sm"
                 >
                   Edit
                 </button>
@@ -437,9 +387,9 @@ const StaffPage = () => {
                       s._id
                     )
                   }
-                  className="flex-1 py-3 rounded-2xl 
-                  border-2
-                border-red-500 text-white font-medium hover:bg-red-500 transition"
+                  className="flex-1 py-1.5 rounded-xl 
+                  border
+                border-red-500 text-red-500 font-medium hover:bg-red-500 hover:text-white transition text-sm"
                 >
                   Delete
                 </button>

@@ -46,14 +46,21 @@ const CustomerProductsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 p-6 md:p-10 text-zinc-900">
+    <div className="min-h-screen bg-[#faf9f5] p-6 md:p-10 text-zinc-900">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* HEADER */}
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">Our Parlor Products</h1>
-          <p className="text-zinc-500 text-sm mt-1">
-            Browse high-quality products used and recommended in our luxury parlor sessions.
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+            Exclusive Collection
+          </p>
+
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A]">
+            Our Luxury Products
+          </h1>
+
+          <p className="max-w-2xl text-gray-500 mt-4 text-sm md:text-base leading-relaxed">
+            Elevate your daily routine with our exclusive range of salon-grade products. Carefully selected by our experts, these premium formulations ensure that you can maintain that flawless, straight-out-of-the-salon look every single day.
           </p>
         </div>
 
@@ -86,7 +93,7 @@ const CustomerProductsPage = () => {
                     className="w-full h-full object-contain p-2 bg-white group-hover:scale-105 transition-transform duration-500"
                   />
                   {p.brand && (
-                    <span className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">
+                    <span className="absolute top-4 left-4 bg-[#D68B2A]/10 border border-[#D68B2A]/30 text-[#D68B2A] text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">
                       {p.brand}
                     </span>
                   )}
@@ -95,7 +102,7 @@ const CustomerProductsPage = () => {
                 {/* Content */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    <h3 className="text-base font-bold text-zinc-900 group-hover:text-zinc-700 transition">
+                    <h3 className="text-lg font-semibold text-zinc-900 group-hover:text-[#D68B2A] transition">
                       {p.name}
                     </h3>
                     <p className="text-zinc-500 text-xs mt-1 capitalize font-light">
@@ -104,12 +111,12 @@ const CustomerProductsPage = () => {
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
-                    <span className="text-lg font-bold text-zinc-950">
+                    <span className="text-xl font-bold text-[#D68B2A]">
                       ₹{p.sellingPrice || 0}
                     </span>
                     <button
                       onClick={() => handleOpenDetails(p)}
-                      className="px-3.5 py-1.5 bg-zinc-950 text-white hover:bg-zinc-800 rounded-xl text-xs font-semibold transition"
+                      className="px-4 py-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white hover:scale-105 rounded-xl text-xs font-medium transition-all shadow-md"
                     >
                       View Details
                     </button>
