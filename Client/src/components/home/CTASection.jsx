@@ -7,6 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import accdemyVideo from "../../assets/accdemy.mp4"
 
 const courses = [
   {
@@ -37,7 +38,7 @@ const courses = [
 
 const AcademySection = () => {
   return (
-    <section className="relative py-32 bg-[#faf9f5] overflow-hidden">
+    <section className="relative pt-10 pb-32 bg-[#faf9f5] overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-[#D68B2A]/5 blur-[180px] rounded-full" />
 
@@ -52,7 +53,7 @@ const AcademySection = () => {
             Professional Salon
           </h2>
 
-          <h2 className="text-5xl md:text-7xl italic font-serif text-[#D68B2A] mt-2">
+          <h2 className="text-5xl md:text-7xl italic font-medium text-[#D68B2A] mt-2">
             Training Courses
           </h2>
 
@@ -65,12 +66,12 @@ const AcademySection = () => {
         {/* Hero Banner */}
         <div className="mt-20 relative overflow-hidden rounded-[40px] h-[550px]">
           <img
-            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1600&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1717381112342-bc9c43d2db93?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="w-full h-full object-cover"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/10 to-transparent" />
 
           <div className="absolute left-10 top-1/2 -translate-y-1/2 max-w-xl text-white">
             <span className="bg-white/10 backdrop-blur-xl border border-white/20 px-4 py-2 rounded-full text-xs uppercase tracking-[0.25em]">
@@ -90,7 +91,7 @@ const AcademySection = () => {
 
             <Link
               to="/courses"
-              className="inline-flex items-center gap-3 mt-8 px-8 py-4 rounded-2xl bg-[#D68B2A] text-white font-light hover:bg-[#c77d21] transition"
+              className="inline-flex shadow-lg  shadow-yellow-800 items-center gap-3 mt-8 px-8 py-4 rounded-2xl border-2 border-yellow-600 bg-transparent text-yellow-500 font-light transition-all duration-300 hover:bg-gradient-to-b hover:from-yellow-600 hover:to-yellow-800 hover:text-white"
             >
               Explore Courses
               <ArrowRight size={18} />
@@ -165,24 +166,40 @@ const AcademySection = () => {
         </div>
 
         {/* Bottom Banner */}
-        <div className="mt-20 rounded-[40px] bg-gradient-to-r from-[#111] via-[#1d1d1d] to-[#111] text-white p-16 text-center">
-          <h3 className="text-5xl font-light">
-            Start Your Beauty Career Today
-          </h3>
+        <div className="mt-20 relative overflow-hidden rounded-[40px] text-white p-16 text-center shadow-2xl">
+          {/* Background Video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            src={accdemyVideo}
+          ></video>
 
-          <p className="max-w-3xl mx-auto mt-6 text-white/70 text-lg">
-            Join our academy and become a certified beauty professional.
-            Courses available for both men and women with flexible
-            durations from 1 week to 6 months.
-          </p>
+          {/* Overlay to make text readable */}
+          <div className="absolute inset-0 bg-black/20 z-0"></div>
 
-          <Link
-            to="/courses"
-            className="inline-flex items-center gap-3 mt-8 px-10 py-5 rounded-2xl bg-[#D68B2A] text-white font-light"
-          >
-            Enroll Now
-            <ArrowRight size={20} />
-          </Link>
+          {/* Content */}
+          <div className="relative z-10">
+            <h3 className="text-5xl font-light">
+              Start Your Beauty Career Today
+            </h3>
+
+            <p className="max-w-3xl mx-auto mt-6 text-white/80 text-lg">
+              Join our academy and become a certified beauty professional.
+              Courses available for both men and women with flexible
+              durations from 1 week to 6 months.
+            </p>
+
+            <Link
+              to="/courses"
+              className="inline-flex  items-center gap-3 mt-8 px-10 py-5 rounded-2xl bg-gradient-to-b from-yellow-600  to-yellow-800  text-white font-light"
+            >
+              Enroll Now
+              <ArrowRight size={20} />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
 import bgVideo from "../../assets/home.mp4";
 import { useAuth } from "../../context/AuthProvider";
+import Loader from "../common/Loader";
 
 const HeroSection = () => {
   const { user } = useAuth();
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden bg-[#292B2B]">
+      {!isVideoLoaded && (
+        <div className="absolute inset-0 z-[60] flex items-center justify-center bg-[#292B2B]">
+          <Loader />
+        </div>
+      )}
+
       {/* Background Video */}
       <video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 h-full w-full object-cover"
+        onLoadedData={() => setIsVideoLoaded(true)}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+          isVideoLoaded ? "opacity-100" : "opacity-0"
+        }`}
       >
         {/* Replace with your own video */}
         <source src={bgVideo} type="video/mp4" />
@@ -34,19 +46,19 @@ const HeroSection = () => {
       <div className="relative z-10 flex min-h-screen items-center justify-center px-6">
         <div className="mx-auto max-w-7xl text-center">
           {/* Badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 backdrop-blur-xl">
+          <div className="mb-6 mt-10 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 backdrop-blur-xl">
             <Star size={14} className="text-amber-400 fill-amber-400" />
-            <span className="text-xs font-light uppercase tracking-[3px] text-white">
+            <span className="text-xs font-light uppercase tracking-[3px] text-white ">
               Luxury Beauty & Wellness
             </span>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-5xl font-light leading-none text-white md:text-7xl lg:text-[110px]">
+          <h1 className="text-5xl font-light leading-none text-white/70 md:text-7xl lg:text-[110px]">
             Reveal Your
           </h1>
 
-          <h1 className="mt-2 text-5xl font-light italic leading-none text-amber-400 md:text-7xl lg:text-[110px]">
+          <h1 className="mt-2 text-5xl text-white [text-shadow:0_0_10px_rgb(250_200_255)] font-light italic leading-none text-yellow-400/90 md:text-7xl lg:text-[110px]">
             Natural Beauty
           </h1>
 
@@ -66,7 +78,7 @@ const HeroSection = () => {
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
               to={user ? "/appointments/book" : "/register?redirect=/appointments/book"}
-              className="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-700 px-8 py-4 font-light text-white transition-all duration-300 hover:scale-105"
+              className="group flex items-center gap-2 rounded-xl bg-gradient-to-b from-yellow-600 to-yellow-800 px-8 py-4 font-light text-white transition-all duration-300 hover:scale-105"
             >
               Book Appointment
               <ArrowRight

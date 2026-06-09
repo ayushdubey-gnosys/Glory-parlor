@@ -9,6 +9,7 @@ import {
   GraduationCap,
   ArrowRight,
 } from "lucide-react";
+import appointmentVideo from "../../assets/appointment.mp4"
 
 const services = [
   {
@@ -83,7 +84,7 @@ const cardVariant = {
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="bg-[#F8F6EF] py-20 scroll-mt-24 relative overflow-hidden">
+    <section id="services" className="bg-[#F8F6EF] pt-10 pb-20 scroll-mt-24 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-100/40 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-40 left-0 w-[400px] h-[400px] bg-yellow-200/20 blur-[150px] rounded-full pointer-events-none" />
@@ -147,7 +148,7 @@ const ServicesSection = () => {
               </div>
 
               {/* Hover State: Swiping up Content */}
-              <div className="absolute inset-0 bg-black/70 backdrop-blur-md flex flex-col justify-end p-8 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]">
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-md flex flex-col justify-end p-8 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]">
                 {/* Floating Icon */}
                 <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-lg flex items-center justify-center text-[#D68B2A] mb-8 border border-white/20 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-100">
                   {service.icon}
@@ -183,31 +184,43 @@ const ServicesSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mt-28 bg-white border border-[#EAE7DC] rounded-[40px] p-12 md:p-16 text-center shadow-lg relative overflow-hidden"
+          className="mt-28 bg-yellow-50 border border-[#EAE7DC] rounded-[40px] shadow-lg relative overflow-hidden flex flex-col md:flex-row"
         >
-          {/* Subtle pattern / glow inside banner */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-50 rounded-full blur-[80px] -mr-32 -mt-32" />
+          {/* Left Side: Video */}
+          <div className="w-full md:w-1/2 h-[300px] md:h-auto relative">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+              src={appointmentVideo}
+            ></video>
+          </div>
 
-          <div className="relative z-10">
-            <h3 className="text-4xl md:text-5xl lg:text-6xl font-light text-slate-900 leading-tight">
-              Your Beauty Journey <br className="hidden md:block" /> Starts Here
-            </h3>
+          {/* Right Side: Text Content */}
+          <div className="w-full md:w-1/2 p-12 md:p-16 relative flex flex-col justify-center text-left">
+            {/* Subtle pattern / glow inside banner */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#C07900] rounded-full blur-[80px] -mr-32 -mt-32 z-0" />
 
-            <p className="max-w-2xl mx-auto mt-6 text-slate-500 text-lg leading-relaxed">
-              Whether you're preparing for a special occasion or simply treating yourself, our experts are here to deliver an unforgettable beauty experience.
-            </p>
+            <div className="relative z-10">
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-light text-slate-700 leading-tight">
+                Your Beauty Journey <br className="hidden xl:block" /> Starts Here
+              </h3>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="mt-10 px-10 py-5 rounded-2xl text-white font-light text-lg shadow-xl shadow-amber-900/20 flex items-center gap-3 mx-auto"
-              style={{
-                background: "linear-gradient(135deg, #D68B2A, #B8791F)",
-              }}
-            >
-              Book Your Appointment
-              <ArrowRight size={20} />
-            </motion.button>
+              <p className="max-w-xl mt-6 text-slate-500 text-lg leading-relaxed">
+                Whether you're preparing for a special occasion or simply treating yourself, our experts are here to deliver an unforgettable beauty experience.
+              </p>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="mt-10 bg-gradient-to-b from-yellow-600 to-yellow-800 px-10 py-5 rounded-2xl text-white font-light text-lg shadow-xl shadow-amber-900/20 flex items-center gap-3 w-fit"
+              >
+                Book Your Appointment
+                <ArrowRight size={20} />
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       </div>

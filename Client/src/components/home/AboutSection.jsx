@@ -30,7 +30,7 @@ const AboutSection = () => {
 
             <h2 className="text-4xl md:text-6xl font-light leading-[1.1] text-neutral-900 tracking-tight">
               A Sanctuary Crafted for <br />
-              <span className="italic font-serif text-[#D68B2A]">Luxury & Pampering</span>
+              <span className="italic font-medium text-[#D68B2A]">Luxury & Pampering</span>
             </h2>
 
             <p className="text-neutral-500 text-lg leading-relaxed font-light">
@@ -86,7 +86,7 @@ const AboutSection = () => {
             <div className="flex flex-col gap-6">
               <div className="h-1/2 rounded-[32px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] border-[6px] border-white bg-white group cursor-pointer relative">
                 <img
-                  src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=1200&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1774544085293-afc5ad1f63c1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
@@ -97,7 +97,7 @@ const AboutSection = () => {
 
               <div className="h-1/2 rounded-[32px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] border-[6px] border-white bg-white group cursor-pointer relative">
                 <img
-                  src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800&auto=format&fit=crop"
+                  src="https://plus.unsplash.com/premium_photo-1698505300842-ab8f2364d8e6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />

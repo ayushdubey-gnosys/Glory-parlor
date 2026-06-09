@@ -62,11 +62,8 @@ const Navbar = ({ onMobileToggle }) => {
       `}</style>
 
       <header
-        className="sticky top-0 z-50 backdrop-blur-2xl border-b border-white/5"
-        style={{
-          background:
-            "rgba(10,10,10,0.75)",
-        }}
+        className="sticky bg-[#292B2B] top-0 z-50 backdrop-blur-2xl border-b border-white/5"
+       
       >
         <div className="max-w-7xl mx-auto px-6 h-[82px] flex items-center justify-between">
           
@@ -85,11 +82,8 @@ const Navbar = ({ onMobileToggle }) => {
               className="flex items-center gap-3"
             >
               <div
-                className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-xl"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#c9a96e,#8a6535)",
-                }}
+                className="w-10 h-10 bg-gradient-to-b from-yellow-500/80 to-yellow-800 rounded-2xl flex items-center justify-center shadow-xl"
+               
               >
                 <Sparkles
                   size={16}
@@ -98,7 +92,7 @@ const Navbar = ({ onMobileToggle }) => {
               </div>
 
               <div>
-                <h1 className="text-xl text-white tracking-[5px] uppercase font-light">
+                <h1 className="text-xl text-yellow-500 tracking-[5px] uppercase font-light">
                   Astha  PMS
                 </h1>
 
@@ -120,7 +114,7 @@ const Navbar = ({ onMobileToggle }) => {
                         <a
                           key={link.to}
                           href={link.to}
-                          className="dm text-[13px] xl:text-sm transition-all duration-300 font-light text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-white/20"
+                          className="dm text-[13px] xl:text-sm transition-all duration-300 font-light text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-yellow-400"
                         >
                           {link.label}
                         </a>
@@ -133,8 +127,8 @@ const Navbar = ({ onMobileToggle }) => {
                         className={({ isActive }) =>
                           `dm text-[13px] xl:text-sm transition-all duration-300 font-light ${
                             isActive
-                              ? "text-[#c9a96e] border-b-2 border-[#c9a96e] pb-1"
-                              : "text-zinc-400 hover:text-white pb-1 border-b-2 border-transparent hover:border-white/20"
+                              ? "text-yellow-500 border-b-2 border-yellow-500 pb-1"
+                              : "text-zinc-400 hover:text-yellow-400/80 pb-1 border-b-2 border-transparent hover:border-yellow-400/50"
                           }`
                         }
                       >
@@ -372,13 +366,11 @@ const Navbar = ({ onMobileToggle }) => {
               </div>
             ) : (
               <div className="flex items-center gap-4 dm">
-                <Link to="/login" className="text-sm font-light text-zinc-300 hover:text-white transition-colors">
+                <Link to="/login" className="text-sm font-light text-zinc-300 bg-transparent border border-yellow-500/50 rounded-sm shadow-sm shadow-yellow-500/20 px-5 py-2  hover:text-white transition-colors">
                   Sign In
                 </Link>
-                <Link to="/register" className="px-5 py-2 rounded-xl text-sm font-light text-black transition-all hover:scale-105"
-                  style={{
-                    background: "linear-gradient(135deg, #c9a96e, #a07840)",
-                  }}
+                <Link to="/register" className="px-5 bg-gradient-to-b from-yellow-500/70 to-yellow-800   text-white/70 py-2 rounded-sm text-sm font-light  transition-all hover:scale-105"
+                  
                 >
                   Sign Up
                 </Link>

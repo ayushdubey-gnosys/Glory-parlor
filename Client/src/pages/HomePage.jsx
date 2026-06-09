@@ -20,7 +20,7 @@ const HomePage = () => {
 
   return (
     <div
-      className="relative overflow-hidden min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-amber-100"
+      className="relative overflow-clip min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-amber-100"
       style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
     >
       <style>{`

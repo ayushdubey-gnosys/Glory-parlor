@@ -15,7 +15,7 @@ const GenderSection = () => {
   return (
     <section
       id="gender"
-      className="bg-gradient-to-b from-[#F8F6EF] to-white py-24 scroll-mt-24"
+      className="bg-gradient-to-b from-[#F8F6EF] to-white py-14 scroll-mt-10"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -42,7 +42,7 @@ const GenderSection = () => {
       </div>
 
       {/* Cards Container */}
-      <div className="max-w-[1500px] mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-12 pb-24">
+      <div className="max-w-[1500px] mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-12 pb-8">
         {/* WOMEN CARD */}
         <div className="group bg-white/90 backdrop-blur-xl overflow-hidden rounded-[40px] shadow-xl hover:shadow-2xl hover:bg-white transition-all duration-700 border border-slate-100 flex flex-col">
           {/* Video Section */}
@@ -156,11 +156,8 @@ const GenderSection = () => {
                     ? "/appointments/book"
                     : "/register?redirect=/appointments/book"
                 }
-                className="inline-flex items-center justify-center w-fit self-start gap-2 mt-auto px-7 py-4 rounded-xl text-white font-light transition hover:scale-105"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#D68B2A,#B8791F)",
-                }}
+                className="inline-flex bg-gradient-to-b from-yellow-600 to-yellow-800  items-center justify-center w-fit self-start gap-2 mt-auto px-7 py-4 rounded-xl text-white font-light transition hover:scale-105"
+               
               >
                 Explore Women's Services
                 <ArrowRight size={16} />
@@ -279,11 +276,8 @@ const GenderSection = () => {
                     ? "/appointments/book"
                     : "/register?redirect=/appointments/book"
                 }
-                className="inline-flex items-center justify-center w-fit self-start gap-2 mt-auto px-7 py-4 rounded-xl text-white font-light transition hover:scale-105"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#D68B2A,#B8791F)",
-                }}
+                className="inline-flex bg-gradient-to-b from-yellow-600 to-yellow-800 items-center justify-center w-fit self-start gap-2 mt-auto px-7 py-4 rounded-xl text-white font-light transition hover:scale-105"
+              
               >
                 Explore Men's Services
                 <ArrowRight size={16} />

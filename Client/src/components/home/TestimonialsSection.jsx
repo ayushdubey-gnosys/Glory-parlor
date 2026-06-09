@@ -58,7 +58,7 @@ const TestimonialsSection = () => {
             Loved By
           </h2>
 
-          <h2 className="text-5xl md:text-7xl font-serif italic text-[#D68B2A] mt-2">
+          <h2 className="text-5xl md:text-7xl font-medium italic text-[#D68B2A] mt-2">
             Thousands Of Clients
           </h2>
 
@@ -188,7 +188,7 @@ const TestimonialsSection = () => {
           </div>
         </div>
 
-  
+
 
       </div>
     </section>

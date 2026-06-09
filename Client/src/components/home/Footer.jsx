@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
-        <footer className="relative overflow-hidden bg-[#444445] text-white">
+        <footer className="relative overflow-hidden bg-[#292B2B] text-white">
             {/* Luxury Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#D68B2A]/10 blur-[180px] rounded-full" />
 
@@ -21,7 +21,7 @@ const Footer = () => {
                         <div>
                             <h2 className="text-4xl md:text-5xl font-light leading-tight">
                                 Ready To Transform
-                                <span className="block text-[#D68B2A] italic font-serif">
+                                <span className="block text-yellow-500 italic font-medium">
                                     Your Beauty Journey?
                                 </span>
                             </h2>
@@ -42,7 +42,7 @@ const Footer = () => {
                     <div>
                         <h3 className="text-4xl font-light">
                             Astha
-                            <span className="text-[#D68B2A]"> PMS</span>
+                            <span className="text-yellow-500"> PMS</span>
                         </h3>
 
                         <p className="mt-6 text-white/70 leading-relaxed">
@@ -189,11 +189,11 @@ const Footer = () => {
               px-7
               py-3
               rounded-xl
-              border
-              border-[#D68B2A]
-              text-[#D68B2A]
-              hover:bg-[#D68B2A]
-              hover:text-white
+        
+             
+              text-white
+              bg-gradient-to-b from-yellow-600 to-yellow-800
+              
               transition
               "
                         >
@@ -204,11 +204,13 @@ const Footer = () => {
 
                 {/* Bottom */}
                 <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-white/50 text-sm">
+                    <p className="text-white text-sm border-b pb-4 border-yellow-500">
                         © 2025 Astha PMS. All Rights Reserved.
                     </p>
 
-                    <div className="flex gap-6 text-white/50 text-sm">
+                    <p className="text-white text-sm border-b pb-4 border-yellow-500 ">Developed by: Dwarkadhish Group </p>
+
+                    <div className="text-white text-sm border-b pb-4 border-yellow-500">
                         <Link
                             to="/privacy-policy"
                             className="hover:text-[#D68B2A]"

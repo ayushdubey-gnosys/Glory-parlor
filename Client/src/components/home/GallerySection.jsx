@@ -35,7 +35,7 @@ const products = [
 
 const ProductShowcaseSection = () => {
   return (
-    <section className="relative py-32 bg-[#faf9f5] overflow-hidden">
+    <section className="relative pt-32 pb-10 bg-[#faf9f5] overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-[#D68B2A]/5 blur-[180px] rounded-full" />
 
@@ -51,7 +51,7 @@ const ProductShowcaseSection = () => {
             Trusted Global Brands
           </h2>
 
-          <h2 className="text-5xl md:text-7xl font-light  italic font-serif text-[#D68B2A] mt-2">
+          <h2 className="text-5xl md:text-7xl font-light  italic font-medium text-[#D68B2A] mt-2">
             For Men & Women
           </h2>
 
@@ -92,7 +92,7 @@ const ProductShowcaseSection = () => {
 
             <Link
               to="/products"
-              className="inline-flex items-center gap-3 mt-8 px-8 py-4 rounded-2xl bg-white text-neutral-900 font-light hover:bg-[#D68B2A] hover:text-white transition-all duration-300"
+              className="inline-flex shadow-lg  shadow-yellow-800 items-center gap-3 mt-8 px-8 py-4 rounded-2xl border-2 border-yellow-600 bg-transparent text-yellow-500 font-light transition-all duration-300 hover:bg-gradient-to-b hover:from-yellow-600 hover:to-yellow-800 hover:text-white"
             >
               Explore Products
               <ArrowRight size={18} />
@@ -172,14 +172,11 @@ const ProductShowcaseSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-20">
+        <div className="text-center mt-12">
           <Link
             to="/products"
-            className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl text-white font-light shadow-xl hover:scale-105 transition-all duration-300"
-            style={{
-              background:
-                "linear-gradient(135deg, #D68B2A, #B8791F)",
-            }}
+            className="inline-flex bg-gradient-to-b from-yellow-600 to-yellow-800  items-center gap-3 px-10 py-5 rounded-2xl text-white font-light shadow-xl hover:scale-105 transition-all duration-300"
+
           >
             Browse All Premium Products
             <ArrowRight size={20} />
