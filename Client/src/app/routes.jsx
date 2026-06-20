@@ -10,6 +10,7 @@ import BookAppointmentPage from "../pages/appointments/BookAppointmentPage";
 import AllAppointmentsPage from "../pages/appointments/AllAppointmentsPage";
 import StaffPageAppointments from "../pages/appointments/StaffPage";
 import ServicesPage from "../pages/services/ServicesPage";
+import ServiceDetailPage from "../pages/services/ServiceDetailPage";
 import StaffPage from "../pages/staff/StaffPage";
 import StaffDetailPage from "../pages/staff/StaffDetailPage";
 
@@ -68,11 +69,17 @@ const RootLayout = () => {
   const { data, isLoading } = useCurrentUser();
   const location = useLocation();
 
-  if (isLoading) return <Loader fullScreen />;
-
-  if (!data?.user && location.pathname === "/") {
-    return <HomePage />;
+  if (location.pathname === "/") {
+    if (isLoading) {
+      return <HomePage />;
+    }
+    if (!data?.user || data.user.role === "customer") {
+      return <HomePage />;
+    }
+    return <DashboardLayout />;
   }
+
+  if (isLoading) return <Loader fullScreen />;
 
   return <DashboardLayout />;
 };
@@ -131,6 +138,7 @@ const RoutesProvider = () => {
           </Route>
           {/* Public routes */}
           <Route path="services" element={<ServicesPage />} />
+          <Route path="services/:id" element={<ServiceDetailPage />} />
           <Route path="staff" element={<StaffPage />} />
           <Route path="staff/:id" element={<StaffDetailPage />} />
           

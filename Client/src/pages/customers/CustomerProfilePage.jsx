@@ -12,24 +12,24 @@ import { useChangePassword } from "../../services/auth/useAuthMutation";
 
 /* ─── tiny design tokens via inline style (no extra CSS file needed) ─── */
 const token = {
-  bg: "#f8f8f7",
+  bg: "#faf9f5",
   surface: "#ffffff",
-  border: "#e4e4e0",
-  borderFocus: "#a1a19a",
-  accent: "#18181b",
-  accentHover: "#3f3f46",
-  textPrimary: "#3f3f46",   // zinc-700
-  textMuted: "#a1a1aa",     // zinc-400
-  textLabel: "#71717a",     // zinc-500
-  gold: "#d97706",
-  goldBg: "#fef3c7",
-  green: "#16a34a",
-  greenBg: "#dcfce7",
-  red: "#dc2626",
-  redBg: "#fee2e2",
-  inputBg: "#fafaf9",
-  shadow: "0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)",
-  shadowMd: "0 4px 16px -2px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.04)",
+  border: "rgba(214, 139, 42, 0.15)",
+  borderFocus: "#D68B2A",
+  accent: "#D68B2A",
+  accentHover: "#b57321",
+  textPrimary: "#18181b",
+  textMuted: "#71717a",
+  textLabel: "#D68B2A",
+  gold: "#D68B2A",
+  goldBg: "rgba(214, 139, 42, 0.05)",
+  green: "#10b981",
+  greenBg: "rgba(16, 185, 129, 0.1)",
+  red: "#ef4444",
+  redBg: "rgba(239, 68, 68, 0.1)",
+  inputBg: "#ffffff",
+  shadow: "0 1px 3px 0 rgb(0 0 0 / 0.05)",
+  shadowMd: "0 10px 25px -5px rgba(214, 139, 42, 0.1)",
 };
 
 /* ─── Reusable field wrapper ─── */
@@ -190,9 +190,10 @@ const CustomerProfilePage = () => {
         textarea { resize: none; }
         button:disabled { opacity: .5; cursor: not-allowed; }
         input[type="file"] { display: none; }
-        .profile-card-btn:hover { background: #f4f4f5 !important; }
-        .submit-btn:hover:not(:disabled) { background: #27272a !important; }
-        .tab-btn-outline:hover { background: #f4f4f5 !important; }
+        .profile-card-btn:hover { background: #b57321 !important; color: white !important; }
+        .submit-btn:hover:not(:disabled) { background: linear-gradient(to bottom, #c27d25, #a3671e) !important; transform: scale(1.02); }
+        .submit-btn { background: linear-gradient(to bottom, #D68B2A, #b57321) !important; border: none !important; }
+        .tab-btn-outline:hover { background: #ffffff !important; border-color: #D68B2A !important; color: #D68B2A !important; }
       `}</style>
 
       <div style={{ maxWidth: 1040, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr", gap: 24 }}>

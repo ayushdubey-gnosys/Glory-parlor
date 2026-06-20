@@ -81,8 +81,8 @@ const InventoryPage = () => {
       <div
         className="
           min-h-screen
-          bg-black
-          text-white
+          bg-[#faf9f5]
+          text-gray-900
           flex
           items-center
           justify-center
@@ -96,12 +96,7 @@ const InventoryPage = () => {
   return (
     <div
       className="
-        min-h-screen
-        bg-white
-        text-zinc-900
-        shadow-2xl  shadow-zinc-600
-        p-5
-        md:p-8
+        p-4 md:p-6 lg:p-8
       "
     >
       {/* HEADER */}
@@ -120,11 +115,12 @@ const InventoryPage = () => {
         <div>
           <p
             className="
-              text-zinc-500
+              dm
+              text-[11px]
               uppercase
               tracking-[3px]
-              text-xs
-              mb-3
+              text-[#c9a96e]
+              mb-1
             "
           >
             Product Management
@@ -132,8 +128,11 @@ const InventoryPage = () => {
 
           <h1
             className="
-              text-4xl
-              font-bold
+              text-3xl
+              lg:text-4xl
+              font-serif
+              text-gray-900
+              tracking-wide
             "
           >
             Inventory
@@ -154,17 +153,18 @@ const InventoryPage = () => {
               flex
               items-center
               gap-2
-              bg-zinc-200
-              text-zinc-800
-              border
-              border-zinc-800
-              px-5
-              py-3
-              rounded-2xl
-              font-semibold
-              hover:bg-zinc-200
-              animate-bounce
-              transition
+              bg-gradient-to-b from-yellow-500/80 to-yellow-800
+              text-white
+              px-6
+              py-2.5
+              rounded-xl
+              text-sm
+              font-light
+              dm
+              shadow-lg
+              shadow-yellow-500/20
+              hover:scale-[1.02]
+              transition-all
             "
           >
             <Plus size={18} />
@@ -208,15 +208,21 @@ const InventoryPage = () => {
             }}
             className="
               w-full
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               pl-12
               pr-4
-              py-3
+              py-2.5
+              text-sm
+              dm
+              text-gray-900
               outline-none
-              focus:border-zinc-600
-              transition
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              transition-all
+              shadow-sm
             "
           />
         </div>
@@ -228,23 +234,25 @@ const InventoryPage = () => {
       0 ? (
         <div
           className="
-            border border-zinc-800
-            bg-zinc-900
+            border border-gray-200
+            bg-white
             rounded-3xl
             p-10
             text-center
+            shadow-sm
           "
         >
           <h2
             className="
               text-2xl
-              font-bold
+              font-serif
+              text-gray-900
             "
           >
             No Products Found
           </h2>
 
-          <p className="text-zinc-500 mt-3">
+          <p className="text-gray-500 mt-3 dm">
             Try another search.
           </p>
         </div>
@@ -266,17 +274,22 @@ const InventoryPage = () => {
                   key={product._id}
                   className="
                     group
-                    rounded-2xl
-                    border border-zinc-400
-                    bg-zinc-900
+                    relative
+                    rounded-3xl
+                    border border-gray-200
+                    bg-white
                     overflow-hidden
                     transition-all
-                    text-white
+                    text-gray-900
                     duration-300
-                    hover:border-zinc-700
+                    hover:border-[#D68B2A]/30
+                    hover:bg-gray-50
+                    hover:shadow-md
                     hover:-translate-y-1
+                    shadow-sm
                   "
                 >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#D68B2A]/5 rounded-full blur-3xl group-hover:bg-[#D68B2A]/10 transition-all duration-500 z-0"></div>
                   {/* IMAGE */}
 
                   <div className="relative">
@@ -339,7 +352,9 @@ const InventoryPage = () => {
                         <h2
                           className="
                             text-lg
-                            font-bold
+                            font-serif
+                            font-light
+                            tracking-wide
                             truncate
                           "
                         >
@@ -350,7 +365,8 @@ const InventoryPage = () => {
 
                         <p
                           className="
-                            text-zinc-400
+                            text-zinc-500
+                            dm
                             text-xs
                             mt-1
                           "
@@ -363,12 +379,13 @@ const InventoryPage = () => {
 
                       <div
                         className="
-                          bg-zinc-800
+                          bg-[#D68B2A]/10
                           px-2 py-1
-                          rounded-xl
+                          rounded-md
                           text-xs
                           font-medium
-                          text-yellow-400
+                          text-[#D68B2A]
+                          dm
                         "
                       >
                         ₹
@@ -448,12 +465,17 @@ const InventoryPage = () => {
                           items-center
                           justify-center
                           gap-2
-                          bg-zinc-950
+                          bg-white
+                          border border-gray-200
                           py-2
                           rounded-xl
-                          text-sm
-                          hover:bg-zinc-700
-                          transition
+                          text-xs
+                          font-medium
+                          text-gray-700
+                          dm
+                          hover:bg-gray-50
+                          transition-all
+                          shadow-sm
                         "
                       >
                         <Eye
@@ -483,12 +505,15 @@ const InventoryPage = () => {
                             items-center
                             justify-center
                             gap-2
-                            bg-blue-700
+                            bg-[#D68B2A]/10
+                            text-[#D68B2A]
                             py-2
                             rounded-xl
-                            text-sm
-                            hover:bg-blue-400
-                            transition
+                            text-xs
+                            font-medium
+                            dm
+                            hover:bg-[#D68B2A]/20
+                            transition-all
                           "
                         >
                           <Pencil
@@ -514,12 +539,15 @@ const InventoryPage = () => {
                             items-center
                             justify-center
                             gap-2
-                            bg-red-500
+                            bg-red-50
+                            text-red-600
                             py-2
                             rounded-xl
-                            text-sm
-                            hover:bg-red-400
-                            transition
+                            text-xs
+                            font-medium
+                            dm
+                            hover:bg-red-100
+                            transition-all
                           "
                         >
                           <Trash2
@@ -555,12 +583,7 @@ const InventoryPage = () => {
                 )
               }
               className="
-                px-4 py-2
-                rounded-xl
-                bg-zinc-600
-                text-white
-             
-                disabled:opacity-60
+                px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:hover:bg-white transition-all text-sm font-medium dm shadow-sm
               "
             >
               Prev
@@ -568,15 +591,10 @@ const InventoryPage = () => {
 
             <div
               className="
-                px-4 py-2
-                rounded-xl
-                bg-zinc-900
-                text-white
-                border border-zinc-800
+                text-sm font-medium text-gray-500 bg-white px-4 py-2 rounded-xl border border-gray-200 dm shadow-sm
               "
             >
-              {page} /{" "}
-              {totalPages || 1}
+              Page <span className="text-gray-900">{page}</span> of <span className="text-gray-900">{totalPages || 1}</span>
             </div>
 
             <button
@@ -591,11 +609,7 @@ const InventoryPage = () => {
                 )
               }
               className="
-                px-4 py-2
-                rounded-xl
-                  bg-zinc-500
-                text-white
-                disabled:opacity-60
+                px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:hover:bg-white transition-all text-sm font-medium dm shadow-sm
               "
             >
               Next

@@ -167,10 +167,11 @@ const InquiryPage = () => {
     <div
       className="
         min-h-screen
-        bg-zinc-50
+        bg-[#faf9f5]
         p-4
         sm:p-6
         lg:p-10
+        font-sans
       "
     >
       <div className="max-w-7xl mx-auto">
@@ -178,28 +179,32 @@ const InquiryPage = () => {
         {/* HEADER */}
         <div
           className="
-            mb-6
+            mb-10
             flex
             flex-col
-            gap-3
+            gap-4
             sm:flex-row
-            sm:items-center
+            sm:items-end
             sm:justify-between
           "
         >
           <div>
+            <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+              Overview
+            </p>
             <h1
               className="
-                text-3xl
-                sm:text-4xl
-                font-extrabold
-                text-zinc-900
+                text-4xl
+                sm:text-5xl
+                font-light
+                text-[#D68B2A]
+                tracking-wide
               "
             >
-              Inquiries
+              My Inquiries
             </h1>
 
-            <p className="text-zinc-500 mt-1">
+            <p className="text-gray-500 mt-3 text-sm sm:text-base leading-relaxed">
               Customer inquiries
               and follow-ups
             </p>
@@ -207,13 +212,15 @@ const InquiryPage = () => {
 
           <div
             className="
-              bg-zinc-900
-              text-white
-              px-4 py-2
-              rounded-2xl
+              bg-white
+              border border-[#D68B2A]/20
+              text-[#D68B2A]
+              px-5 py-2
+              rounded-xl
               text-sm
-              font-medium
+              font-bold
               w-fit
+              shadow-sm
             "
           >
             Total: {total}
@@ -224,9 +231,9 @@ const InquiryPage = () => {
         <div
           className="
             bg-white
-            border border-zinc-200
-            rounded-3xl
-            p-4 sm:p-6
+            border border-[#D68B2A]/10
+            rounded-2xl
+            p-5 sm:p-6
             shadow-sm
           "
         >
@@ -270,6 +277,8 @@ const InquiryPage = () => {
                   px-4 py-3
                   text-sm
                   outline-none
+                  focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all
+                  bg-[#faf9f5]
                 "
               />
 
@@ -290,8 +299,10 @@ const InquiryPage = () => {
                   border border-zinc-200
                   rounded-xl
                   px-3 py-3
-                  bg-white
+                  bg-[#faf9f5]
                   text-sm
+                  focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all
+                  outline-none
                 "
               >
                 <option value="all">
@@ -330,10 +341,9 @@ const InquiryPage = () => {
                 items-center
                 justify-center
                 gap-2
-                bg-zinc-900
-                hover:bg-zinc-800
+                bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-105 transition-all shadow-md
                 text-white
-                px-5 py-3
+                px-6 py-3
                 rounded-xl
                 text-sm
                 font-medium
@@ -356,16 +366,16 @@ const InquiryPage = () => {
                 <div
                   className="
                     bg-white
-                    border border-zinc-200
-                    rounded-3xl
-                    overflow-hidden
+                    border border-[#D68B2A]/10
+                    rounded-2xl
+                    overflow-hidden shadow-sm
                   "
                 >
                   <div className="overflow-x-auto">
                     <table className="min-w-full">
                       
-                      <thead className="bg-zinc-100 border-b">
-                        <tr className="text-left text-sm text-zinc-600">
+                      <thead className="bg-[#faf9f5] border-b border-[#D68B2A]/10">
+                        <tr className="text-left text-xs uppercase tracking-wider font-semibold text-[#D68B2A]">
                           
                           <th className="px-6 py-4">
                             Name
@@ -439,19 +449,19 @@ const InquiryPage = () => {
                                     className={`
                                       px-3 py-1
                                       rounded-full
-                                      text-xs
-                                      font-medium
+                                      text-[10px] uppercase tracking-wider border
+                                      font-bold
                                       ${
                                         inquiry.status ===
                                         "converted"
-                                          ? "bg-green-100 text-green-700"
+                                          ? "bg-emerald-50 text-emerald-600 border-emerald-200"
                                           : inquiry.status ===
                                             "lost"
-                                          ? "bg-red-100 text-red-700"
+                                          ? "bg-red-50 text-red-500 border-red-200"
                                           : inquiry.status ===
                                             "follow-up"
-                                          ? "bg-indigo-100 text-indigo-700"
-                                          : "bg-zinc-100 text-zinc-700"
+                                          ? "bg-blue-50 text-blue-600 border-blue-200"
+                                          : "bg-gray-50 text-gray-600 border-gray-200"
                                       }
                                     `}
                                   >
@@ -482,10 +492,10 @@ const InquiryPage = () => {
                                       className="
                                         px-4 py-2
                                         rounded-xl
-                                        bg-zinc-900
+                                        bg-[#292B2B]
                                         text-white
-                                        text-sm
-                                        hover:bg-zinc-800
+                                        text-sm font-medium
+                                        hover:bg-black transition-all
                                       "
                                     >
                                       Respond
@@ -500,10 +510,10 @@ const InquiryPage = () => {
                                       className="
                                         px-4 py-2
                                         rounded-xl
-                                        bg-red-500
-                                        text-white
-                                        text-sm
-                                        hover:bg-red-600
+                                        border border-red-200
+                                        text-red-500
+                                        text-sm font-medium
+                                        hover:bg-red-500 hover:text-white transition-all
                                       "
                                     >
                                       Delete
@@ -579,10 +589,9 @@ const InquiryPage = () => {
                                             )
                                           }
                                           className="
-                                            bg-green-600
-                                            hover:bg-green-700
-                                            text-white
-                                            px-5 py-2
+                                            bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-105 transition-all
+                                            text-white font-medium
+                                            px-6 py-2.5
                                             rounded-xl
                                           "
                                         >
@@ -600,10 +609,10 @@ const InquiryPage = () => {
                                             );
                                           }}
                                           className="
-                                            bg-zinc-200
-                                            hover:bg-zinc-300
-                                            text-zinc-900
-                                            px-5 py-2
+                                            border border-zinc-200 bg-white
+                                            hover:bg-zinc-50
+                                            text-zinc-600 font-medium
+                                            px-6 py-2.5
                                             rounded-xl
                                           "
                                         >
@@ -658,7 +667,8 @@ const InquiryPage = () => {
             0 && (
             <div
               className="
-                mt-6
+                mt-8
+                bg-white border border-[#D68B2A]/10 rounded-2xl p-4 shadow-sm
                 flex
                 flex-col
                 sm:flex-row
@@ -667,12 +677,12 @@ const InquiryPage = () => {
                 gap-4
               "
             >
-              <div className="text-sm text-zinc-500">
+              <div className="text-sm font-medium text-gray-500">
                 Page {page} of{" "}
                 {totalPages}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 
                 <button
                   disabled={
@@ -688,11 +698,11 @@ const InquiryPage = () => {
                     )
                   }
                   className="
-                    px-4 py-2
+                    px-5 py-2
                     rounded-xl
-                    border border-zinc-200
-                    bg-white
-                    hover:bg-zinc-100
+                    border border-[#D68B2A]/20
+                    bg-white text-[#D68B2A] font-semibold text-sm
+                    hover:bg-[#D68B2A]/5 transition-all
                     disabled:opacity-50
                   "
                 >
@@ -714,11 +724,10 @@ const InquiryPage = () => {
                     )
                   }
                   className="
-                    px-4 py-2
+                    px-5 py-2
                     rounded-xl
-                    border border-zinc-200
-                    bg-white
-                    hover:bg-zinc-100
+                    bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white font-semibold text-sm
+                    hover:scale-105 transition-all shadow-md
                     disabled:opacity-50
                   "
                 >

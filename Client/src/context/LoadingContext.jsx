@@ -14,7 +14,9 @@ export const LoadingProvider = ({ children }) => {
   useEffect(() => {
     const requestInterceptor = api.interceptors.request.use(
       (config) => {
-        setActiveRequests((prev) => prev + 1);
+        if (config.method?.toLowerCase() !== 'get' && !config.skipGlobalLoader) {
+          setActiveRequests((prev) => prev + 1);
+        }
         return config;
       },
       (error) => {
@@ -24,11 +26,15 @@ export const LoadingProvider = ({ children }) => {
 
     const responseInterceptor = api.interceptors.response.use(
       (response) => {
-        setActiveRequests((prev) => Math.max(0, prev - 1));
+        if (response.config.method?.toLowerCase() !== 'get' && !response.config.skipGlobalLoader) {
+          setActiveRequests((prev) => Math.max(0, prev - 1));
+        }
         return response;
       },
       (error) => {
-        setActiveRequests((prev) => Math.max(0, prev - 1));
+        if (error.config && error.config.method?.toLowerCase() !== 'get' && !error.config.skipGlobalLoader) {
+          setActiveRequests((prev) => Math.max(0, prev - 1));
+        }
         return Promise.reject(error);
       }
     );

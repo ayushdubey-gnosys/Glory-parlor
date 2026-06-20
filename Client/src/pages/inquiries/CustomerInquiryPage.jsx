@@ -39,21 +39,22 @@ const CustomerInquiryPage = () => {
     <div className="min-h-screen bg-zinc-50 p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-3xl font-extrabold text-zinc-900">My Inquiries</h1>
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">Overview</p>
+          <h1 className="text-4xl font-light text-[#D68B2A] tracking-wide">My Inquiries</h1>
           <p className="text-zinc-500 mt-2">Your submitted inquiries</p>
         </div>
 
-        <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm">
+        <div className="bg-white border border-[#D68B2A]/10 rounded-3xl p-6 shadow-sm">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex items-center gap-4 flex-1">
               <input
                 value={q}
                 onChange={(e) => { setQ(e.target.value); setPage(1); }}
                 placeholder="Search your inquiries..."
-                className="flex-1 border border-zinc-200 rounded-xl px-4 py-2 focus:outline-none"
+                className="flex-1 border border-[#D68B2A]/20 rounded-xl px-4 py-2.5 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 text-sm bg-[#faf9f5]"
               />
 
-              <select value={filter} onChange={(e) => { setFilter(e.target.value); setPage(1); }} className="border border-zinc-200 rounded-xl px-3 py-2 bg-white">
+              <select value={filter} onChange={(e) => { setFilter(e.target.value); setPage(1); }} className="border border-[#D68B2A]/20 rounded-xl px-4 py-2.5 bg-[#faf9f5] focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 text-sm">
                 <option value="all">All statuses</option>
                 <option value="new">New</option>
                 <option value="follow-up">Follow-up</option>
@@ -64,11 +65,11 @@ const CustomerInquiryPage = () => {
 
             <div className="flex items-center gap-4">
               <div className="hidden md:flex flex-col items-end">
-                <span className="text-xs text-zinc-500">Total</span>
-                <span className="text-lg font-semibold text-zinc-900">{total}</span>
+                <span className="text-xs text-[#D68B2A] uppercase tracking-wider font-semibold">Total</span>
+                <span className="text-lg font-light text-zinc-800">{total}</span>
               </div>
 
-              <button onClick={() => navigate('/inquiries/create')} className="inline-flex items-center gap-2 bg-zinc-900 text-white px-4 py-2 rounded-2xl">Create Inquiry</button>
+              <button onClick={() => navigate('/inquiries/create')} className="inline-flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-105 transition-all text-white px-6 py-2.5 rounded-xl font-medium shadow-md">Create Inquiry</button>
             </div>
           </div>
         </div>
@@ -89,7 +90,7 @@ const CustomerInquiryPage = () => {
                 <h3 className="text-lg font-semibold text-zinc-900">No inquiries yet</h3>
                 <p className="text-sm text-zinc-500 mt-2">Submit an inquiry to get started.</p>
                 <div className="mt-4">
-                  <button onClick={() => navigate('/inquiries/create')} className="bg-zinc-900 text-white px-4 py-2 rounded-2xl">Create Inquiry</button>
+                  <button onClick={() => navigate('/inquiries/create')} className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-105 transition-all text-white px-6 py-2.5 rounded-xl font-medium shadow-md">Create Inquiry</button>
                 </div>
               </div>
             ) : (

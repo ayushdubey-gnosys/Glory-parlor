@@ -136,9 +136,11 @@ exports.getCustomers = async (
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
     const category = req.query.category;
+    const status = req.query.status;
 
     const filter = {};
     if (category) filter.category = category;
+    if (status) filter.status = status;
 
     const total = await customerModel.countDocuments(filter);
     const pages = Math.ceil(total / limit) || 1;

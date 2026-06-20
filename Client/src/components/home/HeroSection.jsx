@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
 import bgVideo from "../../assets/home.mp4";
@@ -8,6 +8,13 @@ import Loader from "../common/Loader";
 const HeroSection = () => {
   const { user } = useAuth();
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current && videoRef.current.readyState >= 2) {
+      setIsVideoLoaded(true);
+    }
+  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#292B2B]">
@@ -19,6 +26,7 @@ const HeroSection = () => {
 
       {/* Background Video */}
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop

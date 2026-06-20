@@ -192,12 +192,18 @@ const ProductFormModal = ({
             }
             placeholder="Product Name"
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -211,12 +217,18 @@ const ProductFormModal = ({
             }
             placeholder="Brand"
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -232,12 +244,18 @@ const ProductFormModal = ({
             }
             placeholder="Cost Price"
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -253,12 +271,18 @@ const ProductFormModal = ({
             }
             placeholder="Selling Price"
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -272,12 +296,18 @@ const ProductFormModal = ({
             }
             placeholder="Stock"
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -290,12 +320,18 @@ const ProductFormModal = ({
               handleChange
             }
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           >
             <option value="">
@@ -327,12 +363,18 @@ const ProductFormModal = ({
               handleChange
             }
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -346,12 +388,18 @@ const ProductFormModal = ({
               handleChange
             }
             className="
-              bg-zinc-200
-              border border-zinc-800
-              rounded-2xl
+              bg-white
+              border border-gray-200
+              rounded-xl
               px-4
               py-3
               outline-none
+              focus:ring-2
+              focus:ring-[#D68B2A]/50
+              focus:border-[#D68B2A]
+              text-gray-900
+              transition-all
+              shadow-sm
             "
           />
 
@@ -362,7 +410,10 @@ const ProductFormModal = ({
               md:col-span-2
               flex
               gap-3
-              mt-2
+              mt-4
+              pt-4
+              border-t
+              border-gray-100
             "
           >
             <button
@@ -370,14 +421,16 @@ const ProductFormModal = ({
               onClick={onClose}
               className="
                 flex-1
-                text-zinc-800
-                font-semibold
-                border border-zinc-700
+                text-gray-700
+                text-sm
+                font-medium
+                border border-gray-200
+                bg-white
                 py-3
-                rounded-2xl
-                hover:bg-zinc-800
-                hover:text-zinc-200
-                transition
+                rounded-xl
+                hover:bg-gray-50
+                transition-all
+                shadow-sm
               "
             >
               Cancel
@@ -391,13 +444,17 @@ const ProductFormModal = ({
               }
               className="
                 flex-1
-                bg-zinc-300
-                text-black
+                bg-gradient-to-b from-[#D68B2A] to-[#b57321]
+                text-white
                 py-3
-                rounded-2xl
-                font-semibold
-                hover:bg-zinc-200
-                transition
+                rounded-xl
+                text-sm
+                font-medium
+                shadow-lg
+                shadow-[#D68B2A]/20
+                hover:scale-[1.02]
+                disabled:opacity-70
+                transition-all
               "
             >
               {initial

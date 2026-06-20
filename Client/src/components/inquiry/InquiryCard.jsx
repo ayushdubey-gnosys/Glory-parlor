@@ -48,8 +48,8 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
     return {
       type: "Salon Service",
       name: raw || "General Salon Services",
-      badgeBg: "bg-rose-50 text-rose-700 border-rose-200/60",
-      avatarBg: "from-rose-400 to-pink-600",
+      badgeBg: "bg-[#D68B2A]/10 text-[#D68B2A] border-[#D68B2A]/30",
+      avatarBg: "from-[#D68B2A] to-[#b57321]",
     };
   };
 
@@ -60,13 +60,13 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
     const s = (status || "new").toLowerCase();
     switch (s) {
       case "converted":
-        return "bg-green-50 text-green-700 border-green-200/60";
+        return "bg-emerald-50 text-emerald-600 border-emerald-200";
       case "lost":
-        return "bg-red-50 text-red-700 border-red-200/60";
+        return "bg-red-50 text-red-500 border-red-200";
       case "follow-up":
-        return "bg-blue-50 text-blue-700 border-blue-200/60";
+        return "bg-blue-50 text-blue-600 border-blue-200";
       default:
-        return "bg-zinc-50 text-zinc-700 border-zinc-200/60";
+        return "bg-gray-50 text-gray-600 border-gray-200";
     }
   };
 
@@ -82,10 +82,11 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
   };
 
   return (
-    <div className="group relative bg-white border border-zinc-200/80 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-zinc-300 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+    <div className="group relative bg-white border border-[#D68B2A]/10 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#D68B2A]/30 transition-all duration-300 flex flex-col justify-between overflow-hidden">
       
       {/* Decorative subtle background elements for premium feel */}
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-zinc-50 to-zinc-100/50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-300" />
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#D68B2A] to-[#b57321] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#faf9f5] to-[#D68B2A]/5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-300" />
       
       <div>
         {/* HEADER BAR */}
@@ -115,27 +116,27 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
         </div>
 
         {/* DETAILS SECTION */}
-        <div className="space-y-3 bg-zinc-50/60 border border-zinc-100 rounded-2xl p-4 mb-4">
+        <div className="space-y-3 bg-[#faf9f5] border border-[#D68B2A]/10 rounded-2xl p-4 mb-4">
           <div className="flex flex-col gap-1 text-xs">
-            <span className="text-zinc-400 font-medium">Interest Category / Item</span>
-            <span className="text-zinc-800 font-semibold text-sm line-clamp-2">
+            <span className="text-[#D68B2A] font-semibold uppercase tracking-wider text-[10px]">Interest Category / Item</span>
+            <span className="text-zinc-800 font-medium text-sm line-clamp-2">
               {details.name}
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 pt-3 border-t border-zinc-200/40 text-xs">
+          <div className="grid grid-cols-2 gap-4 pt-3 border-t border-[#D68B2A]/10 text-xs">
             {inquiry.preferredDate && (
               <div className="flex flex-col gap-1">
-                <span className="text-zinc-400 font-medium">Preferred Date</span>
-                <span className="text-zinc-800 font-bold">
+                <span className="text-[#D68B2A] font-semibold uppercase tracking-wider text-[10px]">Preferred Date</span>
+                <span className="text-zinc-800 font-medium">
                   {formatDate(inquiry.preferredDate)}
                 </span>
               </div>
             )}
             {inquiry.reference && (
               <div className="flex flex-col gap-1">
-                <span className="text-zinc-400 font-medium">Referral Source</span>
-                <span className="text-zinc-800 font-bold capitalize truncate">
+                <span className="text-[#D68B2A] font-semibold uppercase tracking-wider text-[10px]">Referral Source</span>
+                <span className="text-zinc-800 font-medium capitalize truncate">
                   {inquiry.reference}
                 </span>
               </div>
@@ -160,10 +161,10 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
           <div className="mt-4 pt-4 border-t border-zinc-100">
             <div className="flex items-center gap-1.5 mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Admin Response</h4>
+              <h4 className="text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider">Admin Response</h4>
             </div>
-            <div className="bg-zinc-900 text-zinc-100 rounded-2xl p-4 shadow-sm">
-              <p className="text-sm leading-relaxed break-words font-medium">
+            <div className="bg-[#292B2B] text-white border border-[#D68B2A]/20 rounded-2xl p-4 shadow-sm">
+              <p className="text-sm leading-relaxed break-words font-light">
                 {inquiry.response}
               </p>
             </div>
@@ -177,7 +178,7 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
           <div className="w-full">
             <button
               onClick={() => setReplyOpen((s) => !s)}
-              className="w-full bg-zinc-950 hover:bg-zinc-900 text-white py-3 rounded-xl font-bold text-sm tracking-wide transition-all shadow-sm active:scale-95 duration-200"
+              className="w-full bg-[#292B2B] hover:bg-black text-white py-3 rounded-xl font-medium text-sm tracking-wide transition-all shadow-sm active:scale-95 duration-200"
             >
               {replyOpen ? "Cancel Response" : "Respond to Customer"}
             </button>
@@ -187,7 +188,7 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
                 <textarea
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
-                  className="w-full border border-zinc-200 rounded-2xl p-3.5 h-28 text-sm text-zinc-950 resize-none outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition-all"
+                  className="w-full border border-zinc-200 rounded-2xl p-3.5 h-28 text-sm text-zinc-950 resize-none outline-none focus:border-[#D68B2A] focus:ring-2 focus:ring-[#D68B2A]/20 transition-all bg-[#faf9f5]"
                   placeholder="Write a custom, polite response..."
                 />
 
@@ -198,7 +199,7 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
                     setReplyText("");
                     setReplyOpen(false);
                   }}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold text-sm transition-all"
+                  className="w-full bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-[1.02] text-white py-3 rounded-xl font-medium text-sm transition-all"
                 >
                   Send Response
                 </button>
@@ -209,7 +210,7 @@ const InquiryCard = ({ inquiry, onDelete, onRespond }) => {
 
         <button
           onClick={() => onDelete(inquiry._id)}
-          className="w-full bg-white hover:bg-red-50 text-red-600 border border-red-200 hover:border-red-300 py-3 rounded-xl font-bold text-sm tracking-wide transition-all duration-200 active:scale-95"
+          className="w-full border border-red-200 text-red-500 hover:bg-red-500 hover:text-white py-3 rounded-xl font-medium text-sm tracking-wide transition-all duration-200 active:scale-95"
         >
           Delete Inquiry
         </button>

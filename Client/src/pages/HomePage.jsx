@@ -82,9 +82,7 @@ const HomePage = () => {
       <div className="absolute top-[800px] right-10 w-[500px] h-[500px] rounded-full bg-indigo-50/50 blur-[130px] pointer-events-none" />
 
       {/* ── NAVBAR ── */}
-      {!user && (
-        <Navbar />
-      )}
+      <Navbar />
 
       {/* ── COMPONENTS ── */}
       <HeroSection />

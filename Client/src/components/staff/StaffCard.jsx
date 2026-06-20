@@ -15,17 +15,18 @@ const StaffCard = ({ staff, onClick }) => {
         group
         relative
         overflow-hidden
-        text-white
+        text-gray-900
         rounded-3xl
-        border border-zinc-800
-        bg-zinc-900
+        border border-gray-200
+        bg-white
         p-5
         transition-all
         duration-300
         hover:-translate-y-2
-        hover:border-zinc-600
-        hover:shadow-2xl
+        hover:border-[#D68B2A]/30
+        hover:shadow-md
         cursor-pointer
+        shadow-sm
       "
     >
       {/* TOP */}
@@ -45,7 +46,8 @@ const StaffCard = ({ staff, onClick }) => {
               w-16 h-16
               rounded-2xl
               object-cover
-              border border-zinc-700
+              border border-gray-100
+              shadow-sm
             "
           />
 
@@ -58,7 +60,7 @@ const StaffCard = ({ staff, onClick }) => {
               -right-1
               w-4 h-4
               rounded-full
-              border-2 border-zinc-900
+              border-2 border-white
               ${
                 staff?.status === "inactive"
                   ? "bg-red-500"
@@ -76,7 +78,7 @@ const StaffCard = ({ staff, onClick }) => {
             className="
               text-lg
               sm:text-xl
-              font-bold
+              font-medium
               truncate
             "
           >
@@ -87,7 +89,7 @@ const StaffCard = ({ staff, onClick }) => {
             className="
               flex items-center
               gap-2
-              text-zinc-400
+              text-gray-500
               text-sm
               mt-1
             "
@@ -108,10 +110,11 @@ const StaffCard = ({ staff, onClick }) => {
               items-center
               gap-2
               rounded-full
-              bg-zinc-800
+              bg-[#D68B2A]/10
               px-3 py-1
               text-xs
-              text-zinc-300
+              text-[#D68B2A]
+              font-medium
             "
           >
             <Star
@@ -134,7 +137,7 @@ const StaffCard = ({ staff, onClick }) => {
               flex items-center
               gap-3
               text-sm
-              text-zinc-400
+              text-gray-500
             "
           >
             <Mail size={15} />
@@ -156,11 +159,13 @@ const StaffCard = ({ staff, onClick }) => {
           w-full
           rounded-2xl
           bg-white
-          text-black
+          border border-gray-200
+          text-gray-700
           py-3
           font-medium
           transition
-          hover:bg-zinc-200
+          hover:bg-gray-50
+          shadow-sm
         "
       >
         View Details

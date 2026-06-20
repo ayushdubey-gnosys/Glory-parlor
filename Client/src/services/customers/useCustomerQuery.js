@@ -9,9 +9,9 @@ import {
 import { customerKeys } from "./customer.keys";
 
 export const useCustomers = (opts = {}) => {
-  // opts: { page, limit, category }
+  // opts: { page, limit, category, status }
   return useQuery({
-    queryKey: [...customerKeys.all, opts.page || 1, opts.limit || 10, opts.category || ""],
+    queryKey: [...customerKeys.all, opts.page || 1, opts.limit || 10, opts.category || "", opts.status || ""],
     queryFn: () => getCustomers(opts),
     keepPreviousData: true,
   });

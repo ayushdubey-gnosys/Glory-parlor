@@ -82,175 +82,177 @@ const InquiryForm = ({
   const isCustomer = user?.role === "customer";
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
+    <form onSubmit={handleSubmit(submitHandler)} className="space-y-6">
       
-      {/* NAME */}
-      <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">
-          Customer Name {isCustomer && <span className="text-xs text-zinc-400 font-normal">(Auto-filled)</span>}
-        </label>
-        <input
-          {...register("name", { required: true })}
-          readOnly={isCustomer}
-          placeholder="Enter customer name"
-          className={`w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 ${
-            isCustomer ? "bg-zinc-50 text-zinc-500 cursor-not-allowed" : "bg-white"
-          }`}
-        />
-      </div>
-
-      {/* EMAIL */}
-      <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">
-          Email Address {isCustomer && <span className="text-xs text-zinc-400 font-normal">(Auto-filled)</span>}
-        </label>
-        <input
-          {...register("email")}
-          readOnly={isCustomer}
-          type="email"
-          placeholder="Enter email address"
-          className={`w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 ${
-            isCustomer ? "bg-zinc-50 text-zinc-500 cursor-not-allowed" : "bg-white"
-          }`}
-        />
-      </div>
-
-      {/* PHONE */}
-      <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">
-          Phone Number {isCustomer && <span className="text-xs text-zinc-400 font-normal">(Auto-filled)</span>}
-        </label>
-        <input
-          {...register("phone", { required: true })}
-          readOnly={isCustomer}
-          placeholder="Enter phone number"
-          className={`w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 ${
-            isCustomer ? "bg-zinc-50 text-zinc-500 cursor-not-allowed" : "bg-white"
-          }`}
-        />
-      </div>
-
-      {/* INQUIRY TYPE */}
-      <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">Inquiry Type</label>
-        <select
-          {...register("inquiryType", { required: true })}
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
-        >
-          <option value="">Select Inquiry Type</option>
-          <option value="parlor service">Parlor Service</option>
-          <option value="course">Academy Course</option>
-          <option value="parlor product">Parlor Product</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-
-      {/* DYNAMIC SECONDARY SELECTION BASED ON INQUIRY TYPE */}
-      {inquiryType === "parlor service" && (
-        <div className="animate-fadeIn">
-          <label className="block text-sm font-medium text-zinc-700 mb-2">Select Parlor Service</label>
-          <select
-            {...register("serviceInterest", { required: true })}
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
-          >
-            <option value="">Choose service</option>
-            {services?.map((s) => (
-              <option key={s._id} value={s.name}>
-                {s.name} (₹{s.price})
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {inquiryType === "course" && (
-        <div className="animate-fadeIn">
-          <label className="block text-sm font-medium text-zinc-700 mb-2">Select Academy Course</label>
-          <select
-            {...register("serviceInterest", { required: true })}
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
-          >
-            <option value="">Choose course</option>
-            {courses?.map((c) => (
-              <option key={c._id} value={c.name}>
-                {c.name} (₹{c.price || c.fees || "N/A"})
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {inquiryType === "parlor product" && (
-        <div className="animate-fadeIn">
-          <label className="block text-sm font-medium text-zinc-700 mb-2">Select Parlor Product</label>
-          <select
-            {...register("serviceInterest", { required: true })}
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
-          >
-            <option value="">Choose product</option>
-            {products?.map((p) => (
-              <option key={p._id} value={p.name}>
-                {p.name} ({p.brand}) - ₹{p.sellingPrice}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {inquiryType === "other" && (
-        <div className="animate-fadeIn">
-          <label className="block text-sm font-medium text-zinc-700 mb-2">Please specify what you are inquiring about</label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        {/* NAME */}
+        <div>
+          <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">
+            Customer Name {isCustomer && <span className="text-zinc-400 font-normal lowercase capitalize-first">(Auto)</span>}
+          </label>
           <input
-            {...register("serviceInterest", { required: true })}
-            placeholder="Specify your inquiry interest"
-            className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
+            {...register("name", { required: true })}
+            readOnly={isCustomer}
+            placeholder="Enter customer name"
+            className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 ${
+              isCustomer ? "bg-zinc-50 border-zinc-200 text-zinc-500 cursor-not-allowed" : "bg-[#faf9f5] border-[#D68B2A]/20"
+            }`}
           />
         </div>
-      )}
 
-      {/* DATE */}
-      <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">Preferred Date</label>
-        <input
-          {...register("preferredDate")}
-          type="date"
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
-        />
+        {/* EMAIL */}
+        <div>
+          <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">
+            Email Address {isCustomer && <span className="text-zinc-400 font-normal lowercase capitalize-first">(Auto)</span>}
+          </label>
+          <input
+            {...register("email")}
+            readOnly={isCustomer}
+            type="email"
+            placeholder="Enter email address"
+            className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 ${
+              isCustomer ? "bg-zinc-50 border-zinc-200 text-zinc-500 cursor-not-allowed" : "bg-[#faf9f5] border-[#D68B2A]/20"
+            }`}
+          />
+        </div>
+
+        {/* PHONE */}
+        <div>
+          <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">
+            Phone Number {isCustomer && <span className="text-zinc-400 font-normal lowercase capitalize-first">(Auto)</span>}
+          </label>
+          <input
+            {...register("phone", { required: true })}
+            readOnly={isCustomer}
+            placeholder="Enter phone number"
+            className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 ${
+              isCustomer ? "bg-zinc-50 border-zinc-200 text-zinc-500 cursor-not-allowed" : "bg-[#faf9f5] border-[#D68B2A]/20"
+            }`}
+          />
+        </div>
+
+        {/* PREFERRED DATE */}
+        <div>
+          <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Preferred Date</label>
+          <input
+            {...register("preferredDate")}
+            type="date"
+            className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+          />
+        </div>
+
+        {/* INQUIRY TYPE */}
+        <div>
+          <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Inquiry Type</label>
+          <select
+            {...register("inquiryType", { required: true })}
+            className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+          >
+            <option value="">Select Inquiry Type</option>
+            <option value="parlor service">Parlor Service</option>
+            <option value="course">Academy Course</option>
+            <option value="parlor product">Parlor Product</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        {/* DYNAMIC SECONDARY SELECTION BASED ON INQUIRY TYPE */}
+        {inquiryType === "parlor service" && (
+          <div className="animate-fadeIn">
+            <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Select Parlor Service</label>
+            <select
+              {...register("serviceInterest", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+            >
+              <option value="">Choose service</option>
+              {services?.map((s) => (
+                <option key={s._id} value={s.name}>
+                  {s.name} (₹{s.price})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {inquiryType === "course" && (
+          <div className="animate-fadeIn">
+            <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Select Academy Course</label>
+            <select
+              {...register("serviceInterest", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+            >
+              <option value="">Choose course</option>
+              {courses?.map((c) => (
+                <option key={c._id} value={c.name}>
+                  {c.name} (₹{c.price || c.fees || "N/A"})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {inquiryType === "parlor product" && (
+          <div className="animate-fadeIn">
+            <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Select Parlor Product</label>
+            <select
+              {...register("serviceInterest", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+            >
+              <option value="">Choose product</option>
+              {products?.map((p) => (
+                <option key={p._id} value={p.name}>
+                  {p.name} ({p.brand}) - ₹{p.sellingPrice}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {inquiryType === "other" && (
+          <div className="animate-fadeIn">
+            <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Please specify your inquiry</label>
+            <input
+              {...register("serviceInterest", { required: true })}
+              placeholder="Specify your inquiry interest"
+              className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+            />
+          </div>
+        )}
+
+        {/* SOURCE */}
+        <div>
+          <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Inquiry Source</label>
+          <select
+            {...register("reference")}
+            className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+          >
+            <option value="">Select Source</option>
+            <option value="google">Google</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="friend">Friend</option>
+            <option value="walk-in">Walk In</option>
+          </select>
+        </div>
       </div>
 
-      {/* SOURCE */}
+      {/* MESSAGE (Full Width) */}
       <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">Inquiry Source</label>
-        <select
-          {...register("reference")}
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 text-zinc-900 bg-white"
-        >
-          <option value="">Select Source</option>
-          <option value="google">Google</option>
-          <option value="instagram">Instagram</option>
-          <option value="facebook">Facebook</option>
-          <option value="friend">Friend</option>
-          <option value="walk-in">Walk In</option>
-        </select>
-      </div>
-
-      {/* MESSAGE */}
-      <div>
-        <label className="block text-sm font-medium text-zinc-700 mb-2">Message</label>
+        <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-2">Message</label>
         <textarea
           {...register("message")}
-          rows="4"
+          rows="3"
           placeholder="Enter message"
-          className="w-full px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-200 resize-none text-zinc-900 bg-white"
+          className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 resize-none transition-all text-sm text-zinc-800 bg-[#faf9f5]"
         />
       </div>
 
       {/* BUTTON */}
-      <div className="sticky bottom-0 left-0 py-4 bg-white -mx-6 px-6 md:relative md:py-0 md:bg-transparent md:mx-0 animate-fadeIn">
+      <div className="pt-2 animate-fadeIn">
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-zinc-900 hover:bg-zinc-800 transition text-white py-3 rounded-xl font-semibold"
+          className="w-full bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-[1.02] transition-all shadow-md text-white py-3.5 rounded-xl font-semibold text-sm tracking-wide disabled:opacity-70 disabled:hover:scale-100"
         >
           {loading ? "Creating..." : "Create Inquiry"}
         </button>

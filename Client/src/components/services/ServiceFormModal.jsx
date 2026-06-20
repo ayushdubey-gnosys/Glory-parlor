@@ -174,7 +174,7 @@ const ServiceFormModal = ({
           value={form.name}
           onChange={handleChange}
           placeholder="Service name"
-          className="border p-2 rounded"
+          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm"
         />
 
         {/* CATEGORY SELECT */}
@@ -182,7 +182,7 @@ const ServiceFormModal = ({
           name="category"
           value={form.category}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm"
         >
           <option value="">
             Select Category
@@ -212,7 +212,7 @@ const ServiceFormModal = ({
           onChange={handleChange}
           placeholder="Price"
           type="number"
-          className="border p-2 rounded"
+          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm"
         />
 
         {/* DURATION */}
@@ -222,7 +222,7 @@ const ServiceFormModal = ({
           onChange={handleChange}
           placeholder="Duration (minutes)"
           type="number"
-          className="border p-2 rounded"
+          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm"
         />
 
         {/* DESCRIPTION */}
@@ -231,7 +231,7 @@ const ServiceFormModal = ({
           value={form.description}
           onChange={handleChange}
           placeholder="Description"
-          className="border p-2 rounded"
+          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm"
         />
 
         {/* IMAGE */}
@@ -240,25 +240,26 @@ const ServiceFormModal = ({
           name="image"
           accept="image/*"
           onChange={handleChange}
+          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-medium file:bg-[#D68B2A]/10 file:text-[#D68B2A] hover:file:bg-[#D68B2A]/20"
         />
 
         {/* BUTTONS */}
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 mt-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded border"
+            className="px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-all text-sm font-medium dm shadow-sm"
           >
             Cancel
           </button>
 
           <button
             type="submit"
-            className="px-4 py-2 bg-black text-white rounded"
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all text-sm font-medium dm"
           >
             {initial
-              ? "Update"
-              : "Create"}
+              ? "Update Service"
+              : "Create Service"}
           </button>
         </div>
       </form>

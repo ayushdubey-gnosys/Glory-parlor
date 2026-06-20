@@ -23,11 +23,11 @@ const StaffDetailsModal = ({
       <div
         className="
           w-full
-          bg-zinc-950
+          bg-white
           rounded-3xl
           overflow-hidden
-          border border-zinc-800
-          shadow-2xl
+          border border-gray-200
+          shadow-xl
         "
       >
         {/* TOP SECTION */}
@@ -36,7 +36,7 @@ const StaffDetailsModal = ({
           className="
             px-6 md:px-8
             py-8
-            border-b border-zinc-800
+            border-b border-gray-100
           "
         >
           <div
@@ -58,7 +58,8 @@ const StaffDetailsModal = ({
                 w-28 h-28
                 rounded-2xl
                 object-cover
-                border border-zinc-700
+                border border-gray-100
+                shadow-sm
               "
             />
 
@@ -70,7 +71,7 @@ const StaffDetailsModal = ({
                 className="
                   text-3xl
                   font-bold
-                  text-white
+                  text-gray-900
                 "
               >
                 {staff.name}
@@ -78,7 +79,7 @@ const StaffDetailsModal = ({
 
               <p
                 className="
-                  text-zinc-400
+                  text-gray-500
                   mt-2
                   capitalize
                 "
@@ -97,9 +98,9 @@ const StaffDetailsModal = ({
                   className="
                     px-4 py-2
                     rounded-xl
-                    bg-zinc-900
-                    border border-zinc-800
-                    text-zinc-300
+                    bg-gray-50
+                    border border-gray-100
+                    text-gray-700
                     text-sm
                   "
                 >
@@ -113,8 +114,8 @@ const StaffDetailsModal = ({
                     text-sm
                     ${
                       staff.status === "inactive"
-                        ? "bg-red-500/10 text-red-400"
-                        : "bg-green-500/10 text-green-400"
+                        ? "bg-red-50 text-red-600 border border-red-100"
+                        : "bg-green-50 text-green-600 border border-green-100"
                     }
                   `}
                 >
@@ -136,7 +137,7 @@ const StaffDetailsModal = ({
               className="
                 text-xl
                 font-semibold
-                text-white
+                text-gray-900
                 mb-3
               "
             >
@@ -145,7 +146,7 @@ const StaffDetailsModal = ({
 
             <p
               className="
-                text-zinc-400
+                text-gray-600
                 leading-7
               "
             >
@@ -167,22 +168,22 @@ const StaffDetailsModal = ({
 
             <div
               className="
-                bg-zinc-900
-                border border-zinc-800
+                bg-gray-50
+                border border-gray-100
                 rounded-2xl
                 p-5
               "
             >
               <Mail
                 size={20}
-                className="text-white mb-3"
+                className="text-[#D68B2A] mb-3"
               />
 
-              <h4 className="text-white font-medium">
+              <h4 className="text-gray-900 font-medium">
                 Email
               </h4>
 
-              <p className="text-zinc-400 text-sm mt-2 break-all">
+              <p className="text-gray-500 text-sm mt-2 break-all">
                 {staff.email || "--"}
               </p>
             </div>
@@ -193,22 +194,22 @@ const StaffDetailsModal = ({
 
             <div
               className="
-                bg-zinc-900
-                border border-zinc-800
+                bg-gray-50
+                border border-gray-100
                 rounded-2xl
                 p-5
               "
             >
               <Clock3
                 size={20}
-                className="text-white mb-3"
+                className="text-[#D68B2A] mb-3"
               />
 
-              <h4 className="text-white font-medium">
+              <h4 className="text-gray-900 font-medium">
                 Timing
               </h4>
 
-              <p className="text-zinc-400 text-sm mt-2">
+              <p className="text-gray-500 text-sm mt-2">
                 {staff.timing || "--"}
               </p>
             </div>
@@ -222,7 +223,7 @@ const StaffDetailsModal = ({
                 className="
                   text-xl
                   font-semibold
-                  text-white
+                  text-gray-900
                   mb-4
                 "
               >
@@ -236,8 +237,8 @@ const StaffDetailsModal = ({
                     className="
                       px-4 py-2
                       rounded-xl
-                      bg-white
-                      text-black
+                      bg-gray-100
+                      text-gray-800
                       text-sm
                       font-medium
                     "
@@ -258,9 +259,10 @@ const StaffDetailsModal = ({
                 px-6 py-3
                 rounded-2xl
                 bg-white
-                text-black
+                border border-gray-200
+                text-gray-700
                 font-medium
-                hover:bg-zinc-200
+                hover:bg-gray-50
                 transition
               "
             >

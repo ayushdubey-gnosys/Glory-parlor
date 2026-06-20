@@ -22,7 +22,7 @@ export const loginUser = async (data) => {
 
 export const getCurrentUser = async () => {
   try {
-    const response = await api.get("/auth/me");
+    const response = await api.get("/auth/me", { skipGlobalLoader: true });
     return response.data;
   } catch (err) {
     // If user is not authenticated, backend returns 401. Treat as no user instead of throwing.

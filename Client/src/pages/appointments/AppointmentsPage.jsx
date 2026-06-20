@@ -98,20 +98,19 @@ const AppointmentsPage = () => {
 
   return (
 
-  <div className="min-h-screen bg-zinc-700 text-white p-4 md:p-6">
+  <div className="p-4 md:p-6 lg:p-8">
     
     {/* HEADER */}
 
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
       
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold">
+        <p className="dm text-[11px] uppercase tracking-[3px] text-[#D68B2A] mb-1 font-medium">
+          Booking Management
+        </p>
+        <h1 className="text-3xl lg:text-4xl font-serif text-gray-900 tracking-wide">
           Appointments
         </h1>
-
-        <p className="text-zinc-400 mt-2">
-          Manage bookings and staff appointments
-        </p>
       </div>
 
       <button
@@ -120,14 +119,7 @@ const AppointmentsPage = () => {
           setEditing(null);
         }}
         className="
-          bg-white
-          text-black
-          px-5 py-3
-          rounded-2xl
-          font-medium
-          hover:bg-zinc-200
-          transition
-          w-full md:w-auto
+          bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-2.5 rounded-xl dm text-sm font-medium shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all w-full md:w-auto
         "
       >
         {showForm
@@ -141,11 +133,12 @@ const AppointmentsPage = () => {
     {showForm && (
       <div
         className="
-          bg-zinc-900
-          border border-zinc-800
+          bg-white
+          border border-gray-200
+          shadow-sm
           rounded-3xl
-          p-5 md:p-6
-          mb-8
+          p-6 md:p-8
+          mb-10
         "
       >
         <div
@@ -164,12 +157,7 @@ const AppointmentsPage = () => {
             value={form.service}
             onChange={handleChange}
             className="
-              bg-black
-              border border-zinc-700
-              rounded-2xl
-              px-4 py-3
-              text-white
-              outline-none
+              bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm
             "
           >
             <option value="">
@@ -193,12 +181,7 @@ const AppointmentsPage = () => {
             value={form.staff}
             onChange={handleChange}
             className="
-              bg-black
-              border border-zinc-700
-              rounded-2xl
-              px-4 py-3
-              text-white
-              outline-none
+              bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm
             "
           >
             <option value="">
@@ -223,12 +206,7 @@ const AppointmentsPage = () => {
             value={form.date}
             onChange={handleChange}
             className="
-              bg-black
-              border border-zinc-700
-              rounded-2xl
-              px-4 py-3
-              text-white
-              outline-none
+              bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm
             "
           />
 
@@ -240,12 +218,7 @@ const AppointmentsPage = () => {
             value={form.time}
             onChange={handleChange}
             className="
-              bg-black
-              border border-zinc-700
-              rounded-2xl
-              px-4 py-3
-              text-white
-              outline-none
+              bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm
             "
           />
         </div>
@@ -257,28 +230,14 @@ const AppointmentsPage = () => {
           {editing ? (
             <button
               onClick={handleUpdate}
-              className="
-                bg-white
-                text-black
-                px-5 py-3
-                rounded-2xl
-                font-medium
-                w-full sm:w-auto
-              "
+              className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-2.5 rounded-xl dm text-sm font-medium shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all w-full sm:w-auto"
             >
               Update Appointment
             </button>
           ) : (
             <button
               onClick={handleCreate}
-              className="
-                bg-white
-                text-black
-                px-5 py-3
-                rounded-2xl
-                font-medium
-                w-full sm:w-auto
-              "
+              className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-2.5 rounded-xl dm text-sm font-medium shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all w-full sm:w-auto"
             >
               Create Appointment
             </button>
@@ -289,13 +248,7 @@ const AppointmentsPage = () => {
               setShowForm(false);
               setEditing(null);
             }}
-            className="
-              border border-zinc-700
-              px-5 py-3
-              rounded-2xl
-              text-white
-              w-full sm:w-auto
-            "
+            className="px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-all text-sm font-medium dm shadow-sm w-full sm:w-auto"
           >
             Cancel
           </button>
@@ -307,7 +260,7 @@ const AppointmentsPage = () => {
 
     <div className="mb-10">
       
-      <h2 className="text-2xl font-semibold mb-5">
+      <h2 className="text-2xl font-serif font-light text-gray-900 tracking-wide mb-6">
         Our Staff
       </h2>
 
@@ -372,8 +325,8 @@ const AppointmentsPage = () => {
           <div
             key={appointment._id}
             className="
-              bg-zinc-900
-              border border-zinc-800
+              bg-white
+              border border-gray-200 hover:border-[#D68B2A]/30 hover:bg-gray-50 hover:shadow-md shadow-sm transition-all duration-300
               rounded-3xl
               p-5 md:p-6
             "
@@ -395,13 +348,13 @@ const AppointmentsPage = () => {
                 {/* CUSTOMER */}
 
                 <div>
-                  <h3 className="text-xl font-semibold">
+                  <h3 className="text-xl font-serif font-light tracking-wide text-gray-900">
                     {appointment.customer?.name ||
                       appointment.customer}
                   </h3>
 
-                  <p className="text-zinc-400 mt-1">
-                    Staff:{" "}
+                  <p className="text-gray-500 mt-2 dm text-sm font-medium">
+                    <span className="text-[#D68B2A]">Staff:</span>{" "}
                     {appointment.staff?.name ||
                       appointment.staff}
                   </p>
@@ -413,11 +366,11 @@ const AppointmentsPage = () => {
 
                   <span
                     className="
-                      px-4 py-2
-                      rounded-xl
-                      bg-black
-                      border border-zinc-700
-                      text-sm
+                      px-4 py-1.5
+                      rounded-lg
+                      bg-gray-50
+                      border border-gray-100
+                      text-sm font-medium dm text-gray-700
                     "
                   >
                     {dateStr}
@@ -425,11 +378,11 @@ const AppointmentsPage = () => {
 
                   <span
                     className="
-                      px-4 py-2
-                      rounded-xl
-                      bg-black
-                      border border-zinc-700
-                      text-sm
+                      px-4 py-1.5
+                      rounded-lg
+                      bg-gray-50
+                      border border-gray-100
+                      text-sm font-medium dm text-gray-700
                     "
                   >
                     {appointment.time}
@@ -437,12 +390,13 @@ const AppointmentsPage = () => {
 
                   <span
                     className="
-                      px-4 py-2
-                      rounded-xl
-                      bg-white
-                      text-black
+                      px-4 py-1.5
+                      rounded-lg
+                      bg-[#D68B2A]/10
+                      text-[#D68B2A]
+                      border border-[#D68B2A]/20
                       text-sm
-                      font-medium
+                      font-medium dm uppercase tracking-widest text-[10px]
                     "
                   >
                     {appointment.status}
@@ -482,7 +436,7 @@ const AppointmentsPage = () => {
                   user?.role === "staff" ||
                   user?.role ===
                     "superadmin") && (
-                  <div className="text-sm text-zinc-400 space-y-1">
+                  <div className="text-sm text-gray-500 space-y-1">
 
                     {appointment.customer
                       ?.phone && (
@@ -526,12 +480,7 @@ const AppointmentsPage = () => {
                       )
                     }
                     className="
-                      bg-white
-                      text-black
-                      px-5 py-3
-                      rounded-2xl
-                      font-medium
-                      w-full
+                      bg-white border border-gray-200 text-gray-700 py-2.5 px-6 rounded-xl hover:bg-gray-50 transition-all text-sm font-medium dm shadow-sm w-full xl:w-auto
                     "
                   >
                     Edit
@@ -544,12 +493,7 @@ const AppointmentsPage = () => {
                       )
                     }
                     className="
-                      bg-red-500
-                      text-white
-                      px-5 py-3
-                      rounded-2xl
-                      font-medium
-                      w-full
+                      bg-red-50 text-red-600 py-2.5 px-6 rounded-xl hover:bg-red-100 transition-all text-sm font-medium dm w-full xl:w-auto
                     "
                   >
                     Delete
@@ -564,20 +508,20 @@ const AppointmentsPage = () => {
     </div>
     {/* Pagination controls for admin/dashboard */}
     {meta && (
-      <div className="mt-6 flex items-center justify-between">
-        <div className="text-zinc-400">Page {meta.page} of {meta.totalPages}</div>
-        <div className="flex gap-2">
+      <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 dm">
+        <div className="text-gray-500 text-sm font-medium dm">Page <span className="text-gray-900">{meta.page}</span> of <span className="text-gray-900">{meta.totalPages}</span></div>
+        <div className="flex gap-3">
           <button
             disabled={page <= 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="px-4 py-2 rounded border bg-zinc-900 disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:hover:bg-white transition-all text-sm font-medium dm shadow-sm"
           >
             Prev
           </button>
           <button
             disabled={page >= meta.totalPages}
             onClick={() => setPage((p) => Math.min(meta.totalPages, p + 1))}
-            className="px-4 py-2 rounded border bg-zinc-900 disabled:opacity-50"
+            className="px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:hover:bg-white transition-all text-sm font-medium dm shadow-sm"
           >
             Next
           </button>

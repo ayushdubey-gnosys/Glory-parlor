@@ -140,8 +140,8 @@ const AllAppointmentsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-100">
-        <p className="text-zinc-600">
+      <div className="min-h-screen flex items-center justify-center bg-[#faf9f5]">
+        <p className="text-[#D68B2A] font-medium tracking-wider animate-pulse">
           Loading appointments...
         </p>
       </div>
@@ -149,72 +149,61 @@ const AllAppointmentsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-100 p-4 md:p-6">
+    <div className="min-h-screen bg-[#faf9f5] p-6 lg:p-10 font-sans">
       
       {/* HEADER */}
-      <div className="bg-white rounded-3xl border border-zinc-200 p-6 mb-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
         
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          
-          <div>
-            <h1 className="text-3xl font-bold text-zinc-900">
-              All Appointments
-            </h1>
+        <div>
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+            Overview
+          </p>
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
+            All Appointments
+          </h1>
 
-            <p className="text-zinc-500 mt-1">
-              Manage salon appointments
-            </p>
+          <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+            Manage your luxury salon appointments seamlessly.
+          </p>
+        </div>
+
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            {(user?.role === "admin" ||
+              user?.role === "superadmin") && (
+              <button
+                onClick={() => {
+                  setCreateMode("offline");
+                  setCreateOpen(true);
+                }}
+                className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide"
+              >
+                <Plus size={18} />
+                Create Offline
+              </button>
+            )}
+
+            {user?.role === "customer" && (
+              <button
+                onClick={() => {
+                  setCreateMode("online");
+                  setOfflineForm((f) => ({
+                    ...f,
+                    name: user?.name || "",
+                    phone: user?.mobile || user?.phone || "",
+                  }));
+                  setCreateOpen(true);
+                }}
+                className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide"
+              >
+                <Plus size={18} />
+                Book Appointment
+              </button>
+            )}
           </div>
-
-          {(user?.role === "admin" ||
-            user?.role === "superadmin") && (
-            <button
-              onClick={() => {
-                setCreateMode("offline");
-                setCreateOpen(true);
-              }}
-              className={`
-                flex items-center gap-2
-                bg-black
-                text-white
-                px-5 py-3
-                rounded-2xl
-                hover:bg-zinc-800
-              `}
-            >
-              <Plus size={18} />
-              Create Offline
-            </button>
-          )}
-
-          {user?.role === "customer" && (
-            <button
-              onClick={() => {
-                setCreateMode("online");
-                setOfflineForm((f) => ({
-                  ...f,
-                  name: user?.name || "",
-                  phone: user?.mobile || user?.phone || "",
-                }));
-                setCreateOpen(true);
-              }}
-              className={`
-                flex items-center gap-2
-                bg-emerald-600
-                text-white
-                px-5 py-3
-                rounded-2xl
-                hover:bg-emerald-500
-              `}
-            >
-              <Plus size={18} />
-              Create Appointment
-            </button>
-          )}
         </div>
 
         {/* FILTERS */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex flex-wrap gap-3 mb-8">
           
           {[
             "all",
@@ -227,11 +216,11 @@ const AllAppointmentsPage = () => {
                 setModeFilter(mode)
               }
               className={`
-                px-4 py-2 rounded-xl text-sm font-medium capitalize transition
+                px-5 py-2.5 rounded-xl text-sm font-semibold capitalize transition-all duration-300
                 ${
                   modeFilter === mode
-                    ? "bg-black text-white"
-                    : "bg-zinc-100 text-zinc-700"
+                    ? "bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white shadow-md shadow-[#D68B2A]/30 border border-transparent"
+                    : "bg-white border border-[#D68B2A]/20 text-[#D68B2A] hover:border-[#D68B2A]/60 hover:bg-[#D68B2A]/5"
                 }
               `}
             >
@@ -239,7 +228,6 @@ const AllAppointmentsPage = () => {
             </button>
           ))}
         </div>
-      </div>
 
       {/* APPOINTMENTS */}
       <div className="space-y-4">
@@ -273,13 +261,10 @@ const AllAppointmentsPage = () => {
                 key={
                   appointment._id
                 }
-                className="
-                  bg-white
-                  border border-zinc-200
-                  rounded-3xl
-                  p-5
-                "
+                className="bg-white border border-[#D68B2A]/10 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
               >
+                {/* Decorative Side Strip */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#D68B2A] to-[#b57321] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                   
@@ -288,7 +273,7 @@ const AllAppointmentsPage = () => {
                     
                     <div className="flex flex-wrap items-center gap-3">
                       
-                      <h2 className="text-xl font-semibold text-zinc-900">
+                      <h2 className="text-xl font-semibold text-zinc-900 tracking-wide">
                         {appointment
                           .customer
                           ?.name ||
@@ -297,13 +282,13 @@ const AllAppointmentsPage = () => {
 
                       <span
                         className={`
-                          px-3 py-1 rounded-full text-xs font-medium capitalize
+                          px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border
                           ${
                             isCompleted
-                              ? "bg-green-100 text-green-700"
+                              ? "bg-emerald-50 text-emerald-600 border-emerald-200"
                               : isBooked
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-zinc-100 text-zinc-700"
+                              ? "bg-blue-50 text-blue-600 border-blue-200"
+                              : "bg-gray-50 text-gray-600 border-gray-200"
                           }
                         `}
                       >
@@ -314,11 +299,11 @@ const AllAppointmentsPage = () => {
 
                       <span
                         className={`
-                          px-3 py-1 rounded-full text-xs font-medium
+                          px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border
                           ${
                             appointment.isOffline
-                              ? "bg-orange-100 text-orange-700"
-                              : "bg-emerald-100 text-emerald-700"
+                              ? "bg-[#D68B2A]/10 text-[#D68B2A] border-[#D68B2A]/30"
+                              : "bg-purple-50 text-purple-600 border-purple-200"
                           }
                         `}
                       >
@@ -329,14 +314,14 @@ const AllAppointmentsPage = () => {
                     </div>
 
                     {/* DETAILS */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                       
-                      <div className="bg-zinc-100 rounded-2xl p-3">
-                        <p className="text-xs text-zinc-500">
+                      <div className="bg-[#faf9f5] border border-[#D68B2A]/10 rounded-xl p-3">
+                        <p className="text-[10px] uppercase text-[#D68B2A] font-semibold tracking-wider">
                           Service
                         </p>
 
-                        <p className="font-medium text-zinc-900 mt-1">
+                        <p className="font-medium text-zinc-800 mt-1 text-sm">
                           {appointment
                             .service
                             ?.name ||
@@ -344,12 +329,12 @@ const AllAppointmentsPage = () => {
                         </p>
                       </div>
 
-                      <div className="bg-zinc-100 rounded-2xl p-3">
-                        <p className="text-xs text-zinc-500">
+                      <div className="bg-[#faf9f5] border border-[#D68B2A]/10 rounded-xl p-3">
+                        <p className="text-[10px] uppercase text-[#D68B2A] font-semibold tracking-wider">
                           Staff
                         </p>
 
-                        <p className="font-medium text-zinc-900 mt-1">
+                        <p className="font-medium text-zinc-800 mt-1 text-sm">
                           {appointment
                             .staff
                             ?.name ||
@@ -357,35 +342,39 @@ const AllAppointmentsPage = () => {
                         </p>
                       </div>
 
-                      <div className="bg-zinc-100 rounded-2xl p-3 flex items-center gap-2">
-                        <Calendar
-                          size={16}
-                          className="text-zinc-500"
-                        />
+                      <div className="bg-[#faf9f5] border border-[#D68B2A]/10 rounded-xl p-3 flex items-center gap-3">
+                        <div className="bg-white p-2 rounded-lg shadow-sm border border-[#D68B2A]/10">
+                          <Calendar
+                            size={16}
+                            className="text-[#D68B2A]"
+                          />
+                        </div>
 
                         <div>
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-[10px] uppercase text-[#D68B2A] font-semibold tracking-wider">
                             Date
                           </p>
 
-                          <p className="font-medium text-zinc-900">
+                          <p className="font-medium text-zinc-800 text-sm">
                             {dateStr}
                           </p>
                         </div>
                       </div>
 
-                      <div className="bg-zinc-100 rounded-2xl p-3 flex items-center gap-2">
-                        <Clock
-                          size={16}
-                          className="text-zinc-500"
-                        />
+                      <div className="bg-[#faf9f5] border border-[#D68B2A]/10 rounded-xl p-3 flex items-center gap-3">
+                        <div className="bg-white p-2 rounded-lg shadow-sm border border-[#D68B2A]/10">
+                          <Clock
+                            size={16}
+                            className="text-[#D68B2A]"
+                          />
+                        </div>
 
                         <div>
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-[10px] uppercase text-[#D68B2A] font-semibold tracking-wider">
                             Time
                           </p>
 
-                          <p className="font-medium text-zinc-900">
+                          <p className="font-medium text-zinc-800 text-sm">
                             {
                               appointment.time
                             }
@@ -398,11 +387,11 @@ const AllAppointmentsPage = () => {
                     {appointment
                       .customer
                       ?.phone && (
-                      <div className="flex items-center gap-2 text-sm text-zinc-600">
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
                         <Phone
-                          size={15}
+                          size={14}
+                          className="text-[#D68B2A]"
                         />
-
                         {
                           appointment
                             .customer
@@ -432,16 +421,16 @@ const AllAppointmentsPage = () => {
                         }
                         className="
                           flex items-center gap-2
-                          bg-blue-600
-                          text-white
+                          bg-[#D68B2A]/10 text-[#D68B2A] border border-[#D68B2A]/30
+                          hover:bg-[#D68B2A] hover:text-white transition-all
                           px-4 py-2
-                          rounded-xl
+                          rounded-xl text-sm font-medium
                         "
                       >
                         <CheckCircle
                           size={16}
                         />
-                        Booked
+                        Mark Booked
                       </button>
                     )}
 
@@ -462,16 +451,16 @@ const AllAppointmentsPage = () => {
                         }
                         className="
                           flex items-center gap-2
-                          bg-green-600
-                          text-white
+                          bg-emerald-50 text-emerald-600 border border-emerald-200
+                          hover:bg-emerald-600 hover:text-white transition-all
                           px-4 py-2
-                          rounded-xl
+                          rounded-xl text-sm font-medium
                         "
                       >
                         <CheckCircle
                           size={16}
                         />
-                        Complete
+                        Mark Complete
                       </button>
                     )}
 
@@ -483,11 +472,11 @@ const AllAppointmentsPage = () => {
                       }
                       className="
                         flex items-center gap-2
-                        border border-red-300
-                        text-red-600
+                        border border-red-200
+                        text-red-500
                         px-4 py-2
                         rounded-xl
-                        hover:bg-red-50
+                        hover:bg-red-500 hover:text-white transition-all text-sm font-medium
                       "
                     >
                       <Trash2
@@ -505,9 +494,9 @@ const AllAppointmentsPage = () => {
 
       {/* PAGINATION */}
       {meta && (
-        <div className="flex items-center justify-between mt-6 bg-white border border-zinc-200 rounded-2xl p-4">
+        <div className="flex items-center justify-between mt-8 bg-white border border-[#D68B2A]/10 rounded-2xl p-4 shadow-sm">
           
-          <p className="text-zinc-600">
+          <p className="text-gray-500 text-sm font-medium">
             Page {meta.page} of{" "}
             {meta.totalPages}
           </p>
@@ -525,11 +514,11 @@ const AllAppointmentsPage = () => {
                 )
               }
               className="
-                px-4 py-2
+                px-5 py-2
                 rounded-xl
-                border
-                bg-white
-                disabled:opacity-50
+                border border-[#D68B2A]/20
+                bg-white text-[#D68B2A] text-sm font-semibold
+                disabled:opacity-50 hover:bg-[#D68B2A]/5 transition-all
               "
             >
               Prev
@@ -549,11 +538,11 @@ const AllAppointmentsPage = () => {
                 )
               }
               className="
-                px-4 py-2
+                px-5 py-2
                 rounded-xl
-                bg-black
-                text-white
-                disabled:opacity-50
+                bg-gradient-to-b from-[#D68B2A] to-[#b57321]
+                text-white text-sm font-semibold
+                disabled:opacity-50 hover:scale-105 transition-all shadow-md
               "
             >
               Next
@@ -566,9 +555,9 @@ const AllAppointmentsPage = () => {
       {createOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
           
-          <div className="bg-white rounded-3xl p-6 w-full max-w-md">
+          <div className="bg-[#faf9f5] border border-[#D68B2A]/10 rounded-2xl p-6 w-full max-w-md shadow-xl">
             
-            <h2 className="text-2xl font-bold text-zinc-900 mb-5">
+            <h2 className="text-2xl font-light text-[#D68B2A] tracking-wide mb-5">
               {createMode === "offline"
                 ? "Create Offline Appointment"
                 : "Create Appointment"}
@@ -578,115 +567,53 @@ const AllAppointmentsPage = () => {
               
               <input
                 placeholder="Customer Name"
-                value={
-                  offlineForm.name
-                }
+                value={offlineForm.name}
                 onChange={(e) =>
-                  setOfflineForm(
-                    (f) => ({
-                      ...f,
-                      name:
-                        e.target.value,
-                    })
-                  )
+                  setOfflineForm((f) => ({ ...f, name: e.target.value }))
                 }
-                className="
-                  w-full
-                  border border-zinc-300
-                  rounded-2xl
-                  px-4 py-3
-                  outline-none
-                "
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-white"
               />
 
               <input
                 placeholder="Phone Number"
-                value={
-                  offlineForm.phone
-                }
+                value={offlineForm.phone}
                 onChange={(e) =>
-                  setOfflineForm(
-                    (f) => ({
-                      ...f,
-                      phone:
-                        e.target.value,
-                    })
-                  )
+                  setOfflineForm((f) => ({ ...f, phone: e.target.value }))
                 }
-                className="
-                  w-full
-                  border border-zinc-300
-                  rounded-2xl
-                  px-4 py-3
-                  outline-none
-                "
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-white"
               />
 
               <select
-                value={
-                  offlineForm.service
-                }
+                value={offlineForm.service}
                 onChange={(e) =>
-                  setOfflineForm(
-                    (f) => ({
-                      ...f,
-                      service:
-                        e.target.value,
-                    })
-                  )
+                  setOfflineForm((f) => ({ ...f, service: e.target.value }))
                 }
-                className="
-                  w-full
-                  border border-zinc-300
-                  rounded-2xl
-                  px-4 py-3
-                "
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-white"
               >
                 <option value="">
                   Select Service
                 </option>
 
-                {services.map(
-                  (s) => (
-                    <option
-                      key={s._id}
-                      value={s._id}
-                    >
-                      {s.name}
-                    </option>
-                  )
-                )}
+                {services.map((s) => (
+                  <option key={s._id} value={s._id}>
+                    {s.name}
+                  </option>
+                ))}
               </select>
 
               <select
-                value={
-                  offlineForm.staff
-                }
+                value={offlineForm.staff}
                 onChange={(e) =>
-                  setOfflineForm(
-                    (f) => ({
-                      ...f,
-                      staff:
-                        e.target.value,
-                    })
-                  )
+                  setOfflineForm((f) => ({ ...f, staff: e.target.value }))
                 }
-                className="
-                  w-full
-                  border border-zinc-300
-                  rounded-2xl
-                  px-4 py-3
-                "
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-white"
               >
                 <option value="">
                   Select Staff
                 </option>
 
                 {staffs.map((s) => (
-                  <option
-                    key={s._id}
-                    value={s._id}
-                  >
+                  <option key={s._id} value={s._id}>
                     {s.name}
                   </option>
                 ))}
@@ -696,46 +623,20 @@ const AllAppointmentsPage = () => {
                 
                 <input
                   type="date"
-                  value={
-                    offlineForm.date
-                  }
+                  value={offlineForm.date}
                   onChange={(e) =>
-                    setOfflineForm(
-                      (f) => ({
-                        ...f,
-                        date:
-                          e.target
-                            .value,
-                      })
-                    )
+                    setOfflineForm((f) => ({ ...f, date: e.target.value }))
                   }
-                  className="
-                    border border-zinc-300
-                    rounded-2xl
-                    px-4 py-3
-                  "
+                  className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-white"
                 />
 
                 <input
                   type="time"
-                  value={
-                    offlineForm.time
-                  }
+                  value={offlineForm.time}
                   onChange={(e) =>
-                    setOfflineForm(
-                      (f) => ({
-                        ...f,
-                        time:
-                          e.target
-                            .value,
-                      })
-                    )
+                    setOfflineForm((f) => ({ ...f, time: e.target.value }))
                   }
-                  className="
-                    border border-zinc-300
-                    rounded-2xl
-                    px-4 py-3
-                  "
+                  className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-white"
                 />
               </div>
             </div>
@@ -744,29 +645,17 @@ const AllAppointmentsPage = () => {
               
               <button
                 onClick={() => setCreateOpen(false)}
-                className="
-                  px-4 py-2
-                  border
-                  rounded-xl
-                "
+                className="px-5 py-2 text-sm rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 transition font-medium"
               >
                 Cancel
               </button>
 
               <button
-                onClick={() =>
-                  handleCreateAppointment(
-                    createMode === "offline"
-                  )
-                }
-                className="
-                  px-5 py-2
-                  bg-black
-                  text-white
-                  rounded-xl
-                "
+                onClick={() => handleCreateAppointment(createMode === "offline")}
+                disabled={createMutation.isPending}
+                className="px-6 py-2 text-sm bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-105 shadow-md text-white rounded-xl font-medium transition-all disabled:opacity-50 disabled:hover:scale-100"
               >
-                Create
+                {createMutation.isPending ? "Creating..." : "Create"}
               </button>
             </div>
           </div>

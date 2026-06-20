@@ -65,22 +65,22 @@ const ServicesPage = () => {
   }
 
   return (
-    <div className="p-6 bg-[#faf9f5] min-h-screen">
+    <div className="p-4 md:p-6 lg:p-8">
       
       {/* HEADER */}
 
       <div className="flex items-center justify-between mb-8">
         
         <div>
-          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+          <p className="text-[#D68B2A] dm uppercase tracking-[3px] text-[11px] mb-1 font-medium">
             Premium Offerings
           </p>
 
-          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A]">
+          <h1 className="text-3xl lg:text-4xl font-serif text-gray-900 tracking-wide">
             Our Luxury Services
           </h1>
 
-          <p className="max-w-2xl text-gray-500 mt-4 text-sm md:text-base leading-relaxed">
+          <p className="max-w-2xl text-gray-600 mt-4 text-sm md:text-base leading-relaxed dm font-light">
             Indulge in our curated selection of premium beauty treatments. From rejuvenating facials to advanced hair therapies, every service is designed to elevate your style and provide an unparalleled pampering experience.
           </p>
         </div>
@@ -94,7 +94,7 @@ const ServicesPage = () => {
               setEditing(null);
               setOpenForm(true);
             }}
-            className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-5 py-3 rounded-xl hover:scale-105 transition-all"
+            className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-2.5 rounded-xl dm text-sm font-medium shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all"
           >
             Add Service
           </button>
@@ -108,8 +108,9 @@ const ServicesPage = () => {
         {data?.map((service) => (
           <div
             key={service._id}
-            className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition duration-300 flex flex-col h-[520px] max-w-sm mx-auto w-full"
+            className="group bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-[#D68B2A]/30 hover:bg-gray-50 hover:shadow-md transition-all duration-300 flex flex-col h-[520px] max-w-sm mx-auto w-full relative shadow-sm"
           >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#D68B2A]/5 rounded-full blur-3xl group-hover:bg-[#D68B2A]/10 transition-all duration-500 z-0 pointer-events-none"></div>
             
             {/* IMAGE */}
 
@@ -129,41 +130,41 @@ const ServicesPage = () => {
 
             <div className="p-4 flex-1 flex flex-col">
               
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between relative z-10">
                 
-                <h2 className="text-xl font-semibold text-zinc-900 line-clamp-1">
+                <h2 className="text-xl font-serif font-light text-gray-900 tracking-wide line-clamp-1">
                   {service.name}
                 </h2>
 
-                <span className="bg-[#D68B2A]/10 border border-[#D68B2A]/30 text-[#D68B2A] text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider">
+                <span className="bg-[#D68B2A]/10 border border-[#D68B2A]/20 text-[#D68B2A] text-[10px] px-2.5 py-1 rounded-md font-medium uppercase tracking-widest dm">
                   {service.category}
                 </span>
               </div>
 
-              <p className="text-gray-500 mt-2 text-xs leading-5 line-clamp-2">
+              <p className="text-gray-500 mt-3 text-xs leading-5 line-clamp-2 dm font-light relative z-10">
                 {service.description}
               </p>
 
               {/* PRICE + DURATION */}
 
-              <div className="flex items-center justify-between mt-auto pt-3">
+              <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 relative z-10">
                 
                 <div>
-                  <p className="text-gray-400 text-[10px] uppercase">
+                  <p className="text-gray-500 text-[10px] uppercase tracking-widest dm font-medium">
                     Price
                   </p>
 
-                  <h3 className="text-lg font-bold">
+                  <h3 className="text-lg font-medium text-gray-900 mt-1">
                     ₹{service.price}
                   </h3>
                 </div>
 
                 <div className="text-right">
-                  <p className="text-gray-400 text-[10px] uppercase">
+                  <p className="text-gray-500 text-[10px] uppercase tracking-widest dm font-medium">
                     Duration
                   </p>
 
-                  <h3 className="text-sm font-semibold">
+                  <h3 className="text-sm font-medium text-gray-900 mt-1">
                     {service.duration} min
                   </h3>
                 </div>
@@ -171,14 +172,11 @@ const ServicesPage = () => {
 
               {/* BUTTONS */}
 
-              <div className="flex gap-2 mt-4">
+              <div className="flex gap-2 mt-5 relative z-10">
                 
                 <button
-                  onClick={() => {
-                    setSelected(service);
-                    setOpenDetail(true);
-                  }}
-                  className="flex-1 border border-[#D68B2A] text-[#D68B2A] py-2 rounded-xl hover:bg-gradient-to-b hover:from-[#D68B2A] hover:to-[#b57321] hover:text-white transition-all text-sm font-medium"
+                  onClick={() => navigate(`/services/${service._id}`)}
+                  className="flex-1 bg-white border border-gray-200 text-gray-700 py-2.5 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all text-xs font-medium dm shadow-sm"
                 >
                   Details
                 </button>
@@ -193,7 +191,7 @@ const ServicesPage = () => {
                       setSelectedForInquiry(service);
                       setOpenInquiry(true);
                     }}
-                    className="flex-1 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white py-2 rounded-xl hover:scale-105 transition-all shadow-md text-sm font-medium"
+                    className="flex-1 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white py-2.5 rounded-xl hover:scale-[1.02] transition-all shadow-lg shadow-[#D68B2A]/20 text-xs font-medium dm"
                   >
                     Inquire
                   </button>
@@ -208,7 +206,7 @@ const ServicesPage = () => {
                       setEditing(service);
                       setOpenForm(true);
                     }}
-                    className="flex-1 bg-black text-white py-2 rounded-xl hover:bg-gray-800 transition"
+                    className="flex-1 bg-[#D68B2A]/10 text-[#D68B2A] py-2.5 rounded-xl hover:bg-[#D68B2A]/20 transition-all text-xs font-medium dm"
                   >
                     Edit
                   </button>
@@ -226,7 +224,7 @@ const ServicesPage = () => {
                       service._id
                     )
                   }
-                  className="w-full mt-3 bg-red-500 text-white py-2 rounded-xl hover:bg-red-600 transition"
+                  className="w-full mt-3 bg-red-50 text-red-600 py-2.5 rounded-xl hover:bg-red-100 transition-all text-xs font-medium dm relative z-10"
                 >
                   Delete Service
                 </button>

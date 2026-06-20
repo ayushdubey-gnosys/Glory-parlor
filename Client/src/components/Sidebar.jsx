@@ -214,7 +214,7 @@ const Sidebar = ({
           w-[290px]
           h-screen
           border-r border-white/5
-          backdrop-blur-2xl
+          bg-[#292B2B]
           px-6 py-7
           sidebar-scroll
           z-50
@@ -226,36 +226,26 @@ const Sidebar = ({
               : "-translate-x-full md:translate-x-0"
           }
         `}
-        style={{
-          background:
-            "rgba(10,10,10,0.95)",
-        }}
       >
-        {/* BACKGROUND EFFECT */}
-        <div className="absolute top-[-120px] left-[-120px] w-[260px] h-[260px] bg-yellow-700/10 rounded-full blur-[120px]" />
 
         {/* LOGO */}
         <div className="relative z-10 flex items-center justify-between mb-12">
           <div className="flex items-center gap-4">
             <div
-              className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xl"
-              style={{
-                background:
-                  "linear-gradient(135deg,#c9a96e,#8a6535)",
-              }}
+              className="w-10 h-10 bg-gradient-to-b from-yellow-500/80 to-yellow-800 rounded-2xl flex items-center justify-center shadow-xl"
             >
               <Sparkles
-                size={18}
+                size={16}
                 className="text-white"
               />
             </div>
 
             <div>
-              <h1 className="text-white text-xl uppercase tracking-[5px] font-light">
+              <h1 className="text-xl text-yellow-500 uppercase tracking-[5px] font-light">
                 Astha PMS
               </h1>
 
-              <p className="dm text-[10px] uppercase tracking-[3px] text-zinc-600 mt-1">
+              <p className="dm text-[10px] uppercase tracking-[3px] text-zinc-500 mt-1">
                 Luxury Salon Software
               </p>
             </div>
@@ -332,22 +322,9 @@ const Sidebar = ({
                       <div
                         className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
                           isActive
-                            ? ""
-                            : "bg-white/[0.03] border border-white/5"
+                            ? "bg-gradient-to-b from-yellow-500/80 to-yellow-800 text-white shadow-lg shadow-yellow-500/20"
+                            : "bg-white/[0.03] border border-white/5 text-yellow-500"
                         }`}
-                        style={
-                          isActive
-                            ? {
-                                background:
-                                  "linear-gradient(135deg,#c9a96e,#a07840)",
-                                color:
-                                  "#000",
-                              }
-                            : {
-                                color:
-                                  "#c9a96e",
-                              }
-                        }
                       >
                         {l.icon}
                       </div>
@@ -356,7 +333,7 @@ const Sidebar = ({
                         <p
                           className={`dm text-sm transition-all ${
                             isActive
-                              ? "text-white font-light"
+                              ? "text-yellow-500 font-light"
                               : "text-zinc-400 group-hover:text-white"
                           }`}
                         >

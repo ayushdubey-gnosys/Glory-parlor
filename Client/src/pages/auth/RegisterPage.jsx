@@ -86,24 +86,25 @@ const RegisterPage = () => {
       </div>
 
       {/* RIGHT SIDE FORM */}
-      <div className="w-full lg:w-1/2 flex  items-center justify-center p-6">
+      <div className="w-full lg:w-1/2 h-screen overflow-y-auto flex flex-col justify-center p-4 sm:p-6">
         <div
           className="
           w-full
           max-w-md
+          mx-auto
           bg-white/90
           backdrop-blur-sm
-          rounded-[30px]
+          rounded-[24px]
           border
           border-[#d9c29c]
           shadow-xl
-          px-8
-          py-4
+          px-6
+          py-5
         "
         >
           {/* LOGO ICON */}
-          <div className="flex justify-center mb-5">
-            <div className="w-14 h-14 bg-[#1f2947] rounded-2xl flex items-center justify-center shadow-md">
+          <div className="flex justify-center mb-3">
+            <div className="w-12 h-12 bg-[#1f2947] rounded-2xl flex items-center justify-center shadow-md">
               <span className="text-[#d4a74d] text-xl">
                 ✦
               </span>
@@ -111,21 +112,21 @@ const RegisterPage = () => {
           </div>
 
           {/* TITLE */}
-          <h1 className="text-center text-5xl font-serif text-[#1f2947]">
+          <h1 className="text-center text-3xl font-serif text-[#1f2947]">
             Register
           </h1>
 
-          <p className="text-center text-gray-500 mt-2 mb-8">
+          <p className="text-center text-gray-500 mt-1 mb-5">
             Create your Astha PMS account
           </p>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
+            className="space-y-3"
           >
             {/* NAME */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-medium mb-1 text-gray-700">
                 Full Name
               </label>
 
@@ -135,7 +136,7 @@ const RegisterPage = () => {
                 {...register("name", {
                   required: "Name is required",
                 })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#caa04d]"
+                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
               />
 
               {errors.name && (
@@ -147,7 +148,7 @@ const RegisterPage = () => {
 
             {/* EMAIL */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-medium mb-1 text-gray-700">
                 Email Address
               </label>
 
@@ -157,7 +158,7 @@ const RegisterPage = () => {
                 {...register("email", {
                   required: "Email is required",
                 })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#caa04d]"
+                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
               />
 
               {errors.email && (
@@ -169,7 +170,7 @@ const RegisterPage = () => {
 
             {/* MOBILE */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-medium mb-1 text-gray-700">
                 Mobile Number
               </label>
 
@@ -185,7 +186,7 @@ const RegisterPage = () => {
                       "Enter valid 10 digit mobile number",
                   },
                 })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#caa04d]"
+                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
               />
 
               {errors.mobile && (
@@ -197,7 +198,7 @@ const RegisterPage = () => {
 
             {/* PASSWORD */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-medium mb-1 text-gray-700">
                 Password
               </label>
 
@@ -212,7 +213,7 @@ const RegisterPage = () => {
                       "Password must be at least 6 characters",
                   },
                 })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#caa04d]"
+                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
               />
 
               {errors.password && (
@@ -224,7 +225,7 @@ const RegisterPage = () => {
 
             {/* CONFIRM PASSWORD */}
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">
+              <label className="block text-sm font-medium mb-1 text-gray-700">
                 Confirm Password
               </label>
 
@@ -238,7 +239,7 @@ const RegisterPage = () => {
                     value === password ||
                     "Passwords do not match",
                 })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#caa04d]"
+                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
               />
 
               {errors.confirmPassword && (
@@ -259,7 +260,7 @@ const RegisterPage = () => {
                 w-full
                 bg-[#caa04d]
                 text-white
-                py-3
+                py-2.5
                 rounded-xl
                 font-semibold
                 mt-2
@@ -273,7 +274,7 @@ const RegisterPage = () => {
             </button>
 
             {/* DIVIDER */}
-            <div className="flex items-center gap-3 py-2">
+            <div className="flex items-center gap-3 py-1">
               <div className="flex-1 h-px bg-gray-300"></div>
               <span className="text-gray-400 text-sm">
                 OR
