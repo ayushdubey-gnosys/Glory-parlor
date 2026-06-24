@@ -9,6 +9,8 @@ import {
   Plus,
 } from "lucide-react";
 
+import { useSearchParams } from "react-router-dom";
+
 import { toast } from "react-toastify";
 
 import { useAppointments } from "../../services/appointments/useAppointmentQuery";
@@ -27,6 +29,7 @@ import { useAuth } from "../../context/AuthProvider";
 
 const AllAppointmentsPage = () => {
   const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const limit = 10;
 
@@ -98,6 +101,20 @@ const AllAppointmentsPage = () => {
       date: "",
       time: "",
     });
+
+  React.useEffect(() => {
+    if (user && searchParams.get("action") === "book") {
+      setCreateMode("online");
+      setOfflineForm((f) => ({
+        ...f,
+        name: user?.name || "",
+        phone: user?.mobile || user?.phone || "",
+        service: searchParams.get("serviceId") || "",
+      }));
+      setCreateOpen(true);
+      setSearchParams({});
+    }
+  }, [user, searchParams, setSearchParams]);
 
   const handleCreateAppointment =
     async (isOffline) => {
@@ -402,89 +419,91 @@ const AllAppointmentsPage = () => {
                   </div>
 
                   {/* ACTIONS */}
-                  <div className="flex flex-wrap gap-3">
-                    
-                    {appointment.status ===
-                      "unbooked" && (
-                      <button
-                        onClick={async () =>
-                          await updateMutation.mutateAsync(
-                            {
-                              id: appointment._id,
+                  {(user?.role === "admin" || user?.role === "superadmin" || user?.role === "staff") && (
+                    <div className="flex flex-wrap gap-3">
+                      
+                      {appointment.status ===
+                        "unbooked" && (
+                        <button
+                          onClick={async () =>
+                            await updateMutation.mutateAsync(
+                              {
+                                id: appointment._id,
 
-                              data: {
-                                status:
-                                  "booked",
-                              },
-                            }
+                                data: {
+                                  status:
+                                    "booked",
+                                },
+                              }
+                            )
+                          }
+                          className="
+                            flex items-center gap-2
+                            bg-[#D68B2A]/10 text-[#D68B2A] border border-[#D68B2A]/30
+                            hover:bg-[#D68B2A] hover:text-white transition-all
+                            px-4 py-2
+                            rounded-xl text-sm font-medium
+                          "
+                        >
+                          <CheckCircle
+                            size={16}
+                          />
+                          Mark Booked
+                        </button>
+                      )}
+
+                      {appointment.status ===
+                        "booked" && (
+                        <button
+                          onClick={async () =>
+                            await updateMutation.mutateAsync(
+                              {
+                                id: appointment._id,
+
+                                data: {
+                                  status:
+                                    "completed",
+                                },
+                              }
+                            )
+                          }
+                          className="
+                            flex items-center gap-2
+                            bg-emerald-50 text-emerald-600 border border-emerald-200
+                            hover:bg-emerald-600 hover:text-white transition-all
+                            px-4 py-2
+                            rounded-xl text-sm font-medium
+                          "
+                        >
+                          <CheckCircle
+                            size={16}
+                          />
+                          Mark Complete
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() =>
+                          deleteMutation.mutateAsync(
+                            appointment._id
                           )
                         }
                         className="
                           flex items-center gap-2
-                          bg-[#D68B2A]/10 text-[#D68B2A] border border-[#D68B2A]/30
-                          hover:bg-[#D68B2A] hover:text-white transition-all
+                          border border-red-200
+                          text-red-500
                           px-4 py-2
-                          rounded-xl text-sm font-medium
+                          rounded-xl
+                          hover:bg-red-500 hover:text-white transition-all text-sm font-medium
                         "
                       >
-                        <CheckCircle
+                        <Trash2
                           size={16}
                         />
-                        Mark Booked
+                        Delete
                       </button>
-                    )}
-
-                    {appointment.status ===
-                      "booked" && (
-                      <button
-                        onClick={async () =>
-                          await updateMutation.mutateAsync(
-                            {
-                              id: appointment._id,
-
-                              data: {
-                                status:
-                                  "completed",
-                              },
-                            }
-                          )
-                        }
-                        className="
-                          flex items-center gap-2
-                          bg-emerald-50 text-emerald-600 border border-emerald-200
-                          hover:bg-emerald-600 hover:text-white transition-all
-                          px-4 py-2
-                          rounded-xl text-sm font-medium
-                        "
-                      >
-                        <CheckCircle
-                          size={16}
-                        />
-                        Mark Complete
-                      </button>
-                    )}
-
-                    <button
-                      onClick={() =>
-                        deleteMutation.mutateAsync(
-                          appointment._id
-                        )
-                      }
-                      className="
-                        flex items-center gap-2
-                        border border-red-200
-                        text-red-500
-                        px-4 py-2
-                        rounded-xl
-                        hover:bg-red-500 hover:text-white transition-all text-sm font-medium
-                      "
-                    >
-                      <Trash2
-                        size={16}
-                      />
-                      Delete
-                    </button>
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             );

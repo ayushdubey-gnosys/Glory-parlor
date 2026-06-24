@@ -108,13 +108,13 @@ const ServicesPage = () => {
         {data?.map((service) => (
           <div
             key={service._id}
-            className="group bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-[#D68B2A]/30 hover:bg-gray-50 hover:shadow-md transition-all duration-300 flex flex-col h-[520px] max-w-sm mx-auto w-full relative shadow-sm"
+            className="group bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-[#D68B2A]/30 hover:bg-gray-50 hover:shadow-md transition-all duration-300 flex flex-col h-full max-w-sm mx-auto w-full relative shadow-sm"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#D68B2A]/5 rounded-full blur-3xl group-hover:bg-[#D68B2A]/10 transition-all duration-500 z-0 pointer-events-none"></div>
             
             {/* IMAGE */}
 
-            <div className="h-[60%] overflow-hidden flex-shrink-0 relative group-hover:scale-105 transition duration-500">
+            <div className="h-64 overflow-hidden flex-shrink-0 relative group-hover:scale-105 transition duration-500">
               <img
                 src={
                   service.image ||

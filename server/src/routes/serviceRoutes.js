@@ -12,7 +12,7 @@ router.post(
   "/",
   protect,
   authorize("admin", "staff", "superadmin"),
-  upload.single("image"),
+  upload.fields([{ name: "image", maxCount: 1 }, { name: "video", maxCount: 1 }]),
   serviceController.createService
 );
 
@@ -27,7 +27,7 @@ router.patch(
   "/:id",
   protect,
   authorize("admin", "staff", "superadmin"),
-  upload.single("image"),
+  upload.fields([{ name: "image", maxCount: 1 }, { name: "video", maxCount: 1 }]),
   serviceController.updateService
 );
 

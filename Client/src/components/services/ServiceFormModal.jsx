@@ -31,6 +31,7 @@ const ServiceFormModal = ({
       duration: "",
       description: "",
       image: null,
+      video: null,
     });
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const ServiceFormModal = ({
         description:
           initial.description || "",
         image: null,
+        video: null,
       });
     } else {
       setForm({
@@ -54,6 +56,7 @@ const ServiceFormModal = ({
         duration: "",
         description: "",
         image: null,
+        video: null,
       });
     }
   }, [initial, open]);
@@ -107,6 +110,13 @@ const ServiceFormModal = ({
       fd.append(
         "image",
         form.image
+      );
+    }
+
+    if (form.video) {
+      fd.append(
+        "video",
+        form.video
       );
     }
 
@@ -235,13 +245,28 @@ const ServiceFormModal = ({
         />
 
         {/* IMAGE */}
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          className="bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-medium file:bg-[#D68B2A]/10 file:text-[#D68B2A] hover:file:bg-[#D68B2A]/20"
-        />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 dm pl-1">Service Image</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-medium file:bg-[#D68B2A]/10 file:text-[#D68B2A] hover:file:bg-[#D68B2A]/20"
+          />
+        </div>
+
+        {/* VIDEO */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1 dm pl-1">Service Video (Optional)</label>
+          <input
+            type="file"
+            name="video"
+            accept="video/*"
+            onChange={handleChange}
+            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-medium file:bg-[#D68B2A]/10 file:text-[#D68B2A] hover:file:bg-[#D68B2A]/20"
+          />
+        </div>
 
         {/* BUTTONS */}
         <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 mt-2">

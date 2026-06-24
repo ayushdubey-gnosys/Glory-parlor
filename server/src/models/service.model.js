@@ -4,6 +4,7 @@ const serviceSchema = new mongoose.Schema(
   {
     name: String,
     image: String,
+    video: String,
     category: {
       type: String,
       enum: ["premium", "middle", "economy", "other"],

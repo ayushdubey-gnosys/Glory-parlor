@@ -15,6 +15,8 @@ import {
   Clock3,
 } from "lucide-react";
 
+import { useNavigate } from "react-router-dom";
+
 import { toast } from "react-toastify";
 
 import { useStaff } from "../../services/staff/useStaffQuery";
@@ -34,6 +36,8 @@ import Button from "../../components/ui/Button";
 const StaffPage = () => {
   const { data, isLoading } =
     useStaff();
+
+  const navigate = useNavigate();
 
   const createMutation =
     useCreateStaff();
@@ -354,7 +358,7 @@ const StaffPage = () => {
                   
                   <button 
                     onClick={() => {
-                      toast.success(`Inquiry started for ${s.name}. Our team will contact you soon.`);
+                      navigate(`/inquiries/create?staff=${s._id}`);
                     }}
                     className="w-full py-2.5 rounded-xl bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white font-medium hover:scale-105 transition-all shadow-md mt-4"
                   >
@@ -416,136 +420,126 @@ const StaffPage = () => {
         <div className="w-full max-w-xl mx-auto">
 
           <form
-            onSubmit={
-              handleSubmit
-            }
+            onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Name</label>
+              <input
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              name="name"
-              value={form.name}
-              onChange={
-                handleChange
-              }
-              placeholder="Name"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Phone</label>
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="Phone"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              name="phone"
-              value={form.phone}
-              onChange={
-                handleChange
-              }
-              placeholder="Phone"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Email</label>
+              <input
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              name="email"
-              value={form.email}
-              onChange={
-                handleChange
-              }
-              placeholder="Email"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Password"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={
-                handleChange
-              }
-              placeholder="Password"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Salary</label>
+              <input
+                name="salary"
+                value={form.salary}
+                onChange={handleChange}
+                placeholder="Salary"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              name="salary"
-              value={form.salary}
-              onChange={
-                handleChange
-              }
-              placeholder="Salary"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Experience</label>
+              <input
+                name="experience"
+                value={form.experience}
+                onChange={handleChange}
+                placeholder="Experience"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              name="experience"
-              value={
-                form.experience
-              }
-              onChange={
-                handleChange
-              }
-              placeholder="Experience"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Timing</label>
+              <input
+                name="timing"
+                value={form.timing}
+                onChange={handleChange}
+                placeholder="Timing"
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              />
+            </div>
 
-            <input
-              name="timing"
-              value={form.timing}
-              onChange={
-                handleChange
-              }
-              placeholder="Timing"
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            />
-
-            <select
-              name="status"
-              value={form.status}
-              onChange={
-                handleChange
-              }
-              className="bg-zinc-200 border border-zinc-700 p-3 rounded-xl outline-none text-sm"
-            >
-              <option value="active">
-                Active
-              </option>
-
-              <option value="inactive">
-                Inactive
-              </option>
-            </select>
+            <div>
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Status</label>
+              <select
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl border border-[#D68B2A]/20 focus:outline-none focus:border-[#D68B2A] focus:ring-1 focus:ring-[#D68B2A]/30 transition-all text-sm text-zinc-800 bg-[#faf9f5]"
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
 
             {/* IMAGE */}
-
             <div className="md:col-span-2">
-
+              <label className="block text-[10px] font-semibold text-[#D68B2A] uppercase tracking-wider mb-1 pl-1">Profile Picture</label>
               <input
                 type="file"
                 name="profilePic"
                 accept="image/*"
-                onChange={
-                  handleChange
-                }
-                className="w-full text-sm text-zinc-400 border border-zinc-700 rounded-xl p-3 bg-zinc-200"
+                onChange={handleChange}
+                className="w-full text-sm text-zinc-600 border border-[#D68B2A]/20 rounded-xl p-3 bg-[#faf9f5] focus:outline-none focus:border-[#D68B2A]"
               />
             </div>
 
             {/* BUTTONS */}
-
-            <div className="md:col-span-2 flex gap-3 mt-2">
-
-              <button
-                type="submit"
-                className="flex-1 bg-zinc-800 text-white py-3 rounded-xl font-semibold hover:bg-zinc-200 transition"
-              >
-                Save
-              </button>
-
+            <div className="md:col-span-2 flex justify-end gap-3 mt-4">
               <button
                 type="button"
-                onClick={() =>
-                  setOpen(false)
-                }
-                className="flex-1 border border-zinc-700 py-3 rounded-xl hover:bg-zinc-800 transition"
+                onClick={() => setOpen(false)}
+                className="px-6 py-2.5 text-sm rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 transition font-medium"
               >
                 Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-8 py-2.5 text-sm bg-gradient-to-b from-[#D68B2A] to-[#b57321] hover:scale-105 shadow-md text-white rounded-xl font-medium transition-all"
+              >
+                Save Staff
               </button>
             </div>
           </form>

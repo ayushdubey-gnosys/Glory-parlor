@@ -11,13 +11,16 @@ const storage = new CloudinaryStorage({
 
   params: async (req, file) => ({
     folder: "salon-management",
-
+    resource_type: "auto",
     allowed_formats: [
       "jpg",
       "jpeg",
       "png",
       "webp",
       "avif",
+      "mp4",
+      "mkv",
+      "webm",
     ],
 
     public_id:

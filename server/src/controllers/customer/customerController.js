@@ -137,10 +137,44 @@ exports.getCustomers = async (
     const limit = parseInt(req.query.limit, 10) || 10;
     const category = req.query.category;
     const status = req.query.status;
+    const source = req.query.source;
+    const search = req.query.search;
 
     const filter = {};
     if (category) filter.category = category;
     if (status) filter.status = status;
+
+    const andConditions = [];
+
+    if (search) {
+      andConditions.push({
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { phone: { $regex: search, $options: 'i' } },
+          { email: { $regex: search, $options: 'i' } },
+        ]
+      });
+    }
+
+    if (source) {
+      if (source === 'online') {
+        const onlineUsers = await userModel.find({ role: 'customer' }).select('_id');
+        filter.createdBy = { $in: onlineUsers.map((u) => u._id) };
+      } else if (source === 'offline') {
+        const offlineUsers = await userModel.find({ role: { $ne: 'customer' } }).select('_id');
+        andConditions.push({
+          $or: [
+            { createdBy: { $in: offlineUsers.map((u) => u._id) } },
+            { createdBy: { $exists: false } },
+            { createdBy: null }
+          ]
+        });
+      }
+    }
+
+    if (andConditions.length > 0) {
+      filter.$and = andConditions;
+    }
 
     const total = await customerModel.countDocuments(filter);
     const pages = Math.ceil(total / limit) || 1;

@@ -18,7 +18,10 @@ const CustomersPage = () => {
   const [category, setCategory] =
     React.useState("");
 
-  const [status, setStatus] =
+  const [source, setSource] =
+    React.useState("");
+
+  const [search, setSearch] =
     React.useState("");
 
   const {
@@ -31,7 +34,8 @@ const CustomersPage = () => {
     page,
     limit,
     category,
-    status,
+    source,
+    search,
   });
 
   const [
@@ -128,6 +132,22 @@ const CustomersPage = () => {
           </button>
           
           <div className="relative">
+            <input
+              type="text"
+              placeholder="Search customers..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              className="bg-white border border-gray-200 rounded-xl px-4 py-2.5 w-48 sm:w-64 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm placeholder:text-gray-400"
+            />
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+          </div>
+          
+          <div className="relative">
             <select
               value={category}
               onChange={(e) => {
@@ -162,21 +182,23 @@ const CustomersPage = () => {
 
           <div className="relative">
             <select
-              value={status}
+              value={source}
               onChange={(e) => {
-                setStatus(e.target.value);
+                setSource(e.target.value);
                 setPage(1);
               }}
               className="bg-white border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#D68B2A]/50 focus:border-[#D68B2A] text-gray-900 transition-all dm text-sm shadow-sm"
             >
-              <option value="">All Statuses</option>
-              <option value="active">Active (Online)</option>
-              <option value="inactive">Inactive (Offline)</option>
+              <option value="">All Sources</option>
+              <option value="online">Online Registration</option>
+              <option value="offline">Offline (Owner)</option>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
           </div>
+
+
 
           <div className="text-sm text-[#c9a96e] dm font-light w-16">
             {isFetching

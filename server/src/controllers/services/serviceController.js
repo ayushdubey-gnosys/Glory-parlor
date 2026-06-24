@@ -4,10 +4,11 @@ const serviceModel = require("../../models/service.model");
 exports.createService = async (req, res) => {
   try {
     console.log("[createService] body:", req.body);
-    console.log("[createService] file:", req.file && { originalname: req.file.originalname, path: req.file.path });
+    console.log("[createService] files:", req.files);
 
     const payload = { ...req.body };
-    if (req.file && req.file.path) payload.image = req.file.path;
+    if (req.files?.image && req.files.image[0]?.path) payload.image = req.files.image[0].path;
+    if (req.files?.video && req.files.video[0]?.path) payload.video = req.files.video[0].path;
     if (payload.price) payload.price = Number(payload.price);
     if (payload.duration) payload.duration = Number(payload.duration);
     // normalize category to allowed enum values
@@ -54,10 +55,11 @@ exports.getServiceById = async (req, res) => {
 exports.updateService = async (req, res) => {
   try {
     console.log("[updateService] body:", req.body);
-    console.log("[updateService] file:", req.file && { originalname: req.file.originalname, path: req.file.path });
+    console.log("[updateService] files:", req.files);
 
     const payload = { ...req.body };
-    if (req.file && req.file.path) payload.image = req.file.path;
+    if (req.files?.image && req.files.image[0]?.path) payload.image = req.files.image[0].path;
+    if (req.files?.video && req.files.video[0]?.path) payload.video = req.files.video[0].path;
     if (payload.price) payload.price = Number(payload.price);
     if (payload.duration) payload.duration = Number(payload.duration);
 
