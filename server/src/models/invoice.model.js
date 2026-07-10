@@ -18,6 +18,7 @@ const invoiceSchema = new mongoose.Schema(
     ],
     totalAmount: Number,
     discount: Number,
+    discountPercent: Number,
     finalAmount: Number,
     paymentMethod: String,
     parlor: {
