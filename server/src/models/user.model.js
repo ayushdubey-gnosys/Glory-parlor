@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema(
         "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg",
     },
 
+    dob: Date,
+    anniversary: Date,
+    address: String,
+    notes: String,
+    gender: String,
+
     role: {
       type: String,
 

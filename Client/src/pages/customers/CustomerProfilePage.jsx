@@ -1,7 +1,8 @@
 import React from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 import { useForm } from "react-hook-form";
 import {
-  User, Mail, Phone, MapPin, FileText, Crown, Camera, Eye, Pencil, Lock, CheckCircle
+  User, Mail, Phone, MapPin, FileText, Crown, Camera, Eye, Pencil, Lock, CheckCircle, Calendar
 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthProvider";
@@ -101,14 +102,17 @@ const CustomerProfilePage = () => {
   const profilePreview = watch("profilePic");
 
   React.useEffect(() => {
-    if (customer) {
-      setValue("name", customer.name || "");
-      setValue("email", customer.email || "");
-      setValue("phone", customer.phone || "");
-      setValue("address", customer.address || "");
-      setValue("notes", customer.notes || "");
+    if (customer || user) {
+      setValue("name", customer?.name || user?.name || "");
+      setValue("email", customer?.email || user?.email || "");
+      setValue("phone", customer?.phone || user?.mobile || user?.phone || "");
+      setValue("address", customer?.address || user?.address || "");
+      setValue("notes", customer?.notes || user?.notes || "");
+      setValue("dob", (customer?.dob || user?.dob) ? new Date(customer?.dob || user?.dob).toISOString().split('T')[0] : "");
+      setValue("anniversary", (customer?.anniversary || user?.anniversary) ? new Date(customer?.anniversary || user?.anniversary).toISOString().split('T')[0] : "");
+      setValue("gender", customer?.gender || user?.gender || "Female");
     }
-  }, [customer, setValue]);
+  }, [customer, user, setValue]);
 
   const createMutation = useMutation({
     mutationFn: createMyCustomer,
@@ -178,7 +182,7 @@ const CustomerProfilePage = () => {
 
   const avatarSrc = profilePreview?.[0]
     ? URL.createObjectURL(profilePreview[0])
-    : customer?.profilePic || user?.profilePic || `https://ui-avatars.com/api/?name=${encodeURIComponent(customer?.name || user?.name || "C")}&background=e4e4e0&color=3f3f46&size=200`;
+    : getAvatarUrl(customer || user);
 
   return (
     <div style={{ minHeight: "100vh", background: token.bg, padding: "32px 20px", fontFamily: "'DM Sans', 'Helvetica Neue', sans-serif" }}>
@@ -273,8 +277,10 @@ const CustomerProfilePage = () => {
             {/* Quick info list */}
             <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 12, marginTop: 20 }}>
               {[
-                { icon: Phone, label: "Phone", value: customer?.phone },
-                { icon: MapPin, label: "Location", value: customer?.address },
+                { icon: Phone, label: "Phone", value: customer?.phone || user?.mobile || user?.phone },
+                { icon: MapPin, label: "Location", value: customer?.address || user?.address },
+                { icon: User, label: "Gender", value: customer?.gender || user?.gender },
+                { icon: Calendar, label: "DOB", value: (customer?.dob || user?.dob) ? new Date(customer?.dob || user?.dob).toLocaleDateString() : null },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                   <div style={{
@@ -320,12 +326,15 @@ const CustomerProfilePage = () => {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
                   <DisplayField label="Full Name" value={customer?.name || user?.name} icon={User} />
                   <DisplayField label="Email Address" value={customer?.email || user?.email} icon={Mail} />
-                  <DisplayField label="Phone Number" value={customer?.phone} icon={Phone} />
+                  <DisplayField label="Phone Number" value={customer?.phone || user?.mobile || user?.phone} icon={Phone} />
                   <DisplayField label="Category" value={customer?.category || "Middle"} icon={Crown} />
+                  <DisplayField label="Gender" value={customer?.gender || user?.gender} icon={User} />
+                  <DisplayField label="Date of Birth" value={(customer?.dob || user?.dob) ? new Date(customer?.dob || user?.dob).toLocaleDateString() : ""} icon={Calendar} />
+                  <DisplayField label="Anniversary" value={(customer?.anniversary || user?.anniversary) ? new Date(customer?.anniversary || user?.anniversary).toLocaleDateString() : ""} icon={Calendar} />
                 </div>
                 <div style={{ display: "grid", gap: 14, marginTop: 14 }}>
-                  <DisplayField label="Address" value={customer?.address} icon={MapPin} />
-                  <DisplayField label="Notes" value={customer?.notes} icon={FileText} />
+                  <DisplayField label="Address" value={customer?.address || user?.address} icon={MapPin} />
+                  <DisplayField label="Notes" value={customer?.notes || user?.notes} icon={FileText} />
                 </div>
                 <button
                   onClick={() => setMode("edit")}

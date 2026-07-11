@@ -64,7 +64,7 @@ router.patch(
 router.delete(
   "/:id",
   protect,
-  authorize("superadmin"),
+  authorize("admin", "staff", "superadmin"),
   customerController.deleteCustomer
 );
 

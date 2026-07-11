@@ -12,6 +12,7 @@ import {
   UserCog,
   Package,
   Receipt,
+  IndianRupee,
   MessageSquare,
   GraduationCap,
   Megaphone,
@@ -81,7 +82,7 @@ const links = [
   {
     to: "/billing",
     label: "Billing",
-    icon: <Receipt size={18} />,
+    icon: <IndianRupee size={18} />,
     roles: ["superadmin", "admin"],
   },
 
@@ -132,7 +133,7 @@ const links = [
   {
     to: "/admin/incentive",
     label: "Incentives",
-    icon: <Receipt size={18} />,
+    icon: <IndianRupee size={18} />,
     roles: ["superadmin", "admin"],
   },
 ];

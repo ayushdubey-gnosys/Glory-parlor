@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getAvatarUrl } from "../utils/avatar";
 
 import { useAuth } from "../context/AuthProvider";
 
@@ -249,12 +250,7 @@ const Navbar = ({ onMobileToggle }) => {
                               <div className="flex gap-4">
                                 
                                 <img
-                                  src={
-                                    item
-                                      ?.customer
-                                      ?.profilePic ||
-                                    "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-                                  }
+                                  src={getAvatarUrl(item?.customer)}
                                   alt="customer"
                                   className="w-14 h-14 rounded-2xl object-cover border border-white/10"
                                 />
@@ -335,10 +331,7 @@ const Navbar = ({ onMobileToggle }) => {
                 <button onClick={() => setProfileOpen((s) => !s)} className="flex items-center gap-4 bg-white/[0.03] border border-white/5 rounded-2xl px-4 py-2 hover:bg-white/[0.05] transition-all duration-300">
                 
                 <img
-                  src={
-                    user.profilePic ||
-                    "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-                  }
+                  src={getAvatarUrl(user)}
                   alt="avatar"
                   className="w-12 h-12 rounded-2xl object-cover border border-white/10"
                 />

@@ -1,4 +1,5 @@
 import React from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 
 import {
   Mail,
@@ -37,10 +38,7 @@ const StaffCard = ({ staff, onClick }) => {
 
         <div className="relative">
           <img
-            src={
-              staff?.profilePic ||
-              "https://via.placeholder.com/80"
-            }
+            src={getAvatarUrl(staff)}
             alt={staff?.name}
             className="
               w-16 h-16

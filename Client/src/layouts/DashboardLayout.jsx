@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 const DashboardLayout = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const location = useLocation();
-  const removePadding = ['/', '/inquiries/create'].includes(location.pathname);
+  const removePadding = ['/', '/inquiries/create'].includes(location.pathname) || location.pathname.startsWith('/services/');
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#faf9f5] dm">

@@ -69,18 +69,18 @@ const ServicesPage = () => {
       
       {/* HEADER */}
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
         
         <div>
-          <p className="text-[#D68B2A] dm uppercase tracking-[3px] text-[11px] mb-1 font-medium">
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
             Premium Offerings
           </p>
 
-          <h1 className="text-3xl lg:text-4xl font-serif text-gray-900 tracking-wide">
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
             Our Luxury Services
           </h1>
 
-          <p className="max-w-2xl text-gray-600 mt-4 text-sm md:text-base leading-relaxed dm font-light">
+          <p className="max-w-2xl text-gray-500 mt-3 text-sm md:text-base leading-relaxed">
             Indulge in our curated selection of premium beauty treatments. From rejuvenating facials to advanced hair therapies, every service is designed to elevate your style and provide an unparalleled pampering experience.
           </p>
         </div>
@@ -94,7 +94,7 @@ const ServicesPage = () => {
               setEditing(null);
               setOpenForm(true);
             }}
-            className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-2.5 rounded-xl dm text-sm font-medium shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all"
+            className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide"
           >
             Add Service
           </button>

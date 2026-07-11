@@ -14,6 +14,7 @@ import {
   Scissors,
   Sparkles,
   Receipt,
+  IndianRupee,
   Tag,
   Check,
   X,
@@ -681,24 +682,18 @@ const InvoiceForm = () => {
   );
 
   return (
-    <div className="pb-16 text-zinc-800 dm">
-      {/* HEADER BANNER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 bg-[#292B2B] text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden border border-white/5">
-        <div className="absolute -right-20 -top-20 w-64 h-64 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/40 text-[#D68B2A] text-xs px-3.5 py-1 rounded-full uppercase tracking-[2px] font-semibold flex items-center gap-1.5">
-              <Sparkles size={13} /> Luxury POS Terminal
-            </span>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-light text-white tracking-tight">
-            Billing &{" "}
-            <span className="text-[#D68B2A] font-normal">
-              Invoicing
-            </span>
+    <div className="p-4 md:p-6 lg:p-8 pb-16 text-zinc-800 dm">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+        <div>
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+            Financial Management
+          </p>
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
+            Billing & Invoicing
           </h1>
-          <p className="text-zinc-400 text-sm mt-2 max-w-xl leading-relaxed">
-            Create professional itemized invoices for salon appointments, specialist treatments, and retail products.
+          <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+            Create professional itemized invoices for salon appointments and retail products.
           </p>
         </div>
       </div>
@@ -764,13 +759,13 @@ const InvoiceForm = () => {
             ) : (
               <div className="space-y-4">
                 <div className="relative">
-                  <Search
+                  <User
                     size={18}
                     className="absolute left-4 top-4 text-zinc-400"
                   />
                   <input
                     type="text"
-                    placeholder="Search existing customer by name or phone number..."
+                    placeholder="Customer Name"
                     value={customerQuery}
                     onChange={(e) => {
                       setCustomerQuery(e.target.value);
@@ -822,7 +817,7 @@ const InvoiceForm = () => {
                       />
                       <input
                         type="text"
-                        placeholder="Customer phone number (e.g., 9876543210)"
+                        placeholder="Customer Phone Number"
                         value={newCustomerPhone}
                         onChange={(e) => setNewCustomerPhone(e.target.value)}
                         className="w-full bg-white border border-amber-200 rounded-xl pl-10 pr-4 py-3 text-sm outline-none focus:border-[#D68B2A] focus:ring-2 focus:ring-[#D68B2A]/20 transition"
@@ -1034,8 +1029,8 @@ const InvoiceForm = () => {
             <div className="absolute -top-20 -right-20 w-48 h-48 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6 relative z-10">
-              <h3 className="text-lg font-semibold tracking-wide flex items-center gap-2 text-yellow-500">
-                <Receipt size={20} /> Payment Summary
+              <h3 className="text-lg font-semibold tracking-wide flex items-center gap-2 text-[#D68B2A]">
+                <IndianRupee size={20} /> Payment Summary
               </h3>
             </div>
 
@@ -1077,9 +1072,9 @@ const InvoiceForm = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, discount: e.target.value })
                       }
-                      className="w-full bg-black/40 border border-white/15 rounded-xl pr-7 pl-3 py-1.5 text-right text-yellow-400 font-bold text-sm focus:outline-none focus:border-yellow-500 transition"
+                      className="w-full bg-black/40 border border-white/15 rounded-xl pr-7 pl-3 py-1.5 text-right text-[#D68B2A] font-bold text-sm focus:outline-none focus:border-[#D68B2A] transition"
                     />
-                    <span className="absolute right-3 top-2 text-yellow-500 font-bold text-xs">
+                    <span className="absolute right-3 top-2 text-[#D68B2A] font-bold text-xs">
                       %
                     </span>
                   </div>
@@ -1109,7 +1104,7 @@ const InvoiceForm = () => {
                       }
                       className={`py-2 rounded-xl text-xs font-bold transition-all ${
                         formData.paymentMethod === method
-                          ? "bg-gradient-to-b from-yellow-500/90 to-amber-700 text-white shadow-md shadow-yellow-500/20"
+                          ? "bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white shadow-md shadow-[#D68B2A]/20"
                           : "text-zinc-400 hover:text-white hover:bg-white/5"
                       }`}
                     >
@@ -1125,7 +1120,7 @@ const InvoiceForm = () => {
                   <span className="text-zinc-300 font-medium uppercase tracking-wider text-xs">
                     Grand Total
                   </span>
-                  <span className="text-3xl lg:text-4xl font-light text-white font-mono tracking-tight text-yellow-500 font-bold">
+                  <span className="text-3xl lg:text-4xl font-light text-[#D68B2A] font-mono tracking-tight font-bold">
                     ₹{currentFinalAmount.toLocaleString()}
                   </span>
                 </div>
@@ -1138,9 +1133,9 @@ const InvoiceForm = () => {
               <button
                 type="submit"
                 disabled={isGenerating || isCreating}
-                className="w-full mt-6 py-4 rounded-2xl text-sm font-bold uppercase tracking-[2px] bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 text-black hover:from-yellow-400 hover:to-amber-400 transition-all shadow-xl shadow-yellow-500/20 disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+                className="w-full mt-6 py-4 rounded-2xl text-sm font-bold uppercase tracking-[2px] bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white hover:brightness-110 transition-all shadow-xl shadow-[#D68B2A]/20 disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
               >
-                <Receipt size={18} />
+                <IndianRupee size={18} />
                 {isGenerating || isCreating
                   ? "Generating Invoice..."
                   : "Generate Invoice"}

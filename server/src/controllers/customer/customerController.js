@@ -13,22 +13,23 @@ exports.createCustomer = async (req, res) => {
       name,
       phone,
       email,
+      dob,
+      anniversary,
       address,
+      gender,
       notes,
     } = req.body;
 
     // VALIDATION
-
-    if (!name || !phone) {
+    if (!name || !phone || !email || !dob || !anniversary || !address || !gender) {
       return res.status(400).json({
         success: false,
         message:
-          "Name and phone are required",
+          "Name, phone, email, DOB, anniversary, address, and gender are required fields",
       });
     }
 
     // CHECK PHONE
-
     const existingPhone =
       await customerModel.findOne({
         phone,
@@ -43,7 +44,6 @@ exports.createCustomer = async (req, res) => {
     }
 
     // CHECK EMAIL ONLY IF PROVIDED
-
     if (
       email &&
       email.trim() !== ""
@@ -63,27 +63,18 @@ exports.createCustomer = async (req, res) => {
     }
 
     // CREATE DATA
-
     const customerData = {
       name,
-
       phone,
-
-      address:
-        address || "",
-
-      notes:
-        notes || "",
-
-      createdBy:
-        req.user?._id,
-
-      category:
-        "middle",
-
-      status:
-        "active",
-
+      email,
+      dob: dob ? new Date(dob) : undefined,
+      anniversary: anniversary ? new Date(anniversary) : undefined,
+      address: address || "",
+      gender: gender || "Female",
+      notes: notes || "",
+      createdBy: req.user?._id,
+      category: "middle",
+      status: "active",
       profilePic:
         req.file?.path ||
         "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg",
@@ -277,27 +268,29 @@ exports.updateCustomer =
 
 // DELETE CUSTOMER
 
-exports.deleteCustomer =
-  async (req, res) => {
-    try {
-      await customerModel.findByIdAndDelete(
-        req.params.id
-      );
-
-      res.json({
-        success: true,
-
-        message:
-          "Customer deleted successfully",
-      });
-    } catch (err) {
-      res.status(500).json({
+exports.deleteCustomer = async (req, res) => {
+  try {
+    const customer = await customerModel.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).json({
         success: false,
-
-        error: err.message,
+        message: "Customer not found or already deleted",
       });
     }
-  };
+
+    await customerModel.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Customer deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
 
 // GET CURRENT USER'S CUSTOMER PROFILE
 exports.getMyCustomer = async (
@@ -322,25 +315,39 @@ exports.getMyCustomer = async (
           "name email role profilePic"
         );
 
-    // AUTO CREATE PROFILE IF NOT EXISTS
+    if (!customer && (req.user.email || req.user.mobile)) {
+      customer = await customerModel
+        .findOne({
+          $or: [
+            ...(req.user.email ? [{ email: req.user.email }] : []),
+            ...(req.user.mobile ? [{ phone: req.user.mobile }] : []),
+          ],
+        })
+        .populate("createdBy", "name email role profilePic");
 
+      if (customer && !customer.createdBy) {
+        customer.createdBy = req.user._id;
+        await customer.save();
+      }
+    }
+
+    // AUTO CREATE PROFILE IF NOT EXISTS
     if (!customer) {
       customer =
         await customerModel.create({
           name: req.user.name,
-
           email: req.user.email,
-
           phone: req.user.mobile,
-
           profilePic:
             req.user.profilePic ||
             "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg",
-
+          dob: req.user.dob,
+          anniversary: req.user.anniversary,
+          address: req.user.address || "",
+          gender: req.user.gender || "Female",
+          notes: req.user.notes || "",
           createdBy: req.user._id,
-
           category: "middle",
-
           status: "active",
         });
 
@@ -351,6 +358,18 @@ exports.getMyCustomer = async (
             "createdBy",
             "name email role profilePic"
           );
+    } else {
+      // Sync fields from req.user if customer record is missing them
+      let updated = false;
+      if (!customer.phone && req.user.mobile) { customer.phone = req.user.mobile; updated = true; }
+      if (!customer.address && req.user.address) { customer.address = req.user.address; updated = true; }
+      if (!customer.dob && req.user.dob) { customer.dob = req.user.dob; updated = true; }
+      if (!customer.anniversary && req.user.anniversary) { customer.anniversary = req.user.anniversary; updated = true; }
+      if (!customer.gender && req.user.gender) { customer.gender = req.user.gender; updated = true; }
+      if (!customer.notes && req.user.notes) { customer.notes = req.user.notes; updated = true; }
+      if (updated) {
+        await customer.save();
+      }
     }
 
     res.json({
@@ -466,6 +485,12 @@ exports.updateMyCustomer =
         userUpdateData.profilePic =
           updateData.profilePic;
       }
+
+      if (updateData.dob !== undefined) userUpdateData.dob = updateData.dob;
+      if (updateData.anniversary !== undefined) userUpdateData.anniversary = updateData.anniversary;
+      if (updateData.address !== undefined) userUpdateData.address = updateData.address;
+      if (updateData.gender !== undefined) userUpdateData.gender = updateData.gender;
+      if (updateData.notes !== undefined) userUpdateData.notes = updateData.notes;
 
       const updatedUser =
         await userModel.findByIdAndUpdate(

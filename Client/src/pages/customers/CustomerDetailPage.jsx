@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCustomer } from "../../services/customers/useCustomerQuery";
+import { getAvatarUrl } from "../../utils/avatar";
 
 const CustomerDetailPage = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const CustomerDetailPage = () => {
         <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
           <div className="flex gap-6">
             <div className="flex flex-col items-center w-1/3">
-              <img src={customer?.profilePic || "https://via.placeholder.com/160"} alt={customer?.name} className="w-40 h-40 rounded-full object-cover mb-4" />
+              <img src={getAvatarUrl(customer)} alt={customer?.name} className="w-40 h-40 rounded-full object-cover mb-4" />
               <div className="font-semibold text-xl">{customer?.name}</div>
               <div className="text-sm text-gray-600">{customer?.email}</div>
               <div className="text-sm text-gray-600">{customer?.phone}</div>

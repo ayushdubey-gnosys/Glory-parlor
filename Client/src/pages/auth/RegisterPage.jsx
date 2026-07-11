@@ -31,6 +31,11 @@ const RegisterPage = () => {
     formData.append("mobile", data.mobile);
     formData.append("password", data.password);
     formData.append("role", "customer");
+    formData.append("dob", data.dob);
+    formData.append("anniversary", data.anniversary);
+    formData.append("address", data.address);
+    formData.append("gender", data.gender);
+    if (data.notes) formData.append("notes", data.notes);
 
     mutate(formData, {
       onSuccess: async (response) => {
@@ -45,7 +50,7 @@ const RegisterPage = () => {
           });
 
           reset();
-          navigate(redirectUrl || "/profile");
+          navigate(redirectUrl || "/");
         } catch (error) {
           reset();
           navigate(redirectUrl ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : "/login");
@@ -62,7 +67,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="h-screen overflow-hidden   flex bg-[#f7f4ee]">
+    <div className="h-screen overflow-hidden flex bg-[#f7f4ee]">
       {/* LEFT SIDE IMAGE */}
       <div className="hidden lg:block lg:w-1/2 relative">
         <img
@@ -77,37 +82,18 @@ const RegisterPage = () => {
           </h1>
 
           <p className="text-center text-xl max-w-lg leading-relaxed">
-            Luxury Beauty & Wellness Experience.
-            Discover your natural beauty with our
-            premium salon services and personalized
-            care.
+            Luxury Beauty & Wellness Experience. Discover your natural beauty with our premium salon services and personalized care.
           </p>
         </div>
       </div>
 
       {/* RIGHT SIDE FORM */}
       <div className="w-full lg:w-1/2 h-screen overflow-y-auto flex flex-col justify-center p-4 sm:p-6">
-        <div
-          className="
-          w-full
-          max-w-md
-          mx-auto
-          bg-white/90
-          backdrop-blur-sm
-          rounded-[24px]
-          border
-          border-[#d9c29c]
-          shadow-xl
-          px-6
-          py-5
-        "
-        >
+        <div className="w-full max-w-lg mx-auto bg-white/90 backdrop-blur-sm rounded-[24px] border border-[#d9c29c] shadow-xl px-6 py-5 my-8">
           {/* LOGO ICON */}
           <div className="flex justify-center mb-3">
             <div className="w-12 h-12 bg-[#1f2947] rounded-2xl flex items-center justify-center shadow-md">
-              <span className="text-[#d4a74d] text-xl">
-                ✦
-              </span>
+              <span className="text-[#d4a74d] text-xl">✦</span>
             </div>
           </div>
 
@@ -116,140 +102,161 @@ const RegisterPage = () => {
             Register
           </h1>
 
-          <p className="text-center text-gray-500 mt-1 mb-5">
+          <p className="text-center text-gray-500 mt-1 mb-5 text-sm">
             Create your Astha PMS account
           </p>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-3"
-          >
-            {/* NAME */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                Full Name
-              </label>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* NAME */}
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter your full name"
+                  {...register("name", { required: "Name is required" })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+              </div>
 
-              <input
-                type="text"
-                placeholder="Enter your name"
-                {...register("name", {
-                  required: "Name is required",
-                })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
-              />
+              {/* MOBILE */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  placeholder="10 digit mobile"
+                  {...register("mobile", {
+                    required: "Phone is required",
+                    pattern: { value: /^[0-9]{10}$/, message: "Valid 10 digit phone required" },
+                  })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.mobile && <p className="text-red-500 text-xs mt-1">{errors.mobile.message}</p>}
+              </div>
 
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
+              {/* EMAIL */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  {...register("email", { required: "Email is required" })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+              </div>
 
-            {/* EMAIL */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                Email Address
-              </label>
+              {/* DOB */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Date of Birth <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  {...register("dob", { required: "DOB is required" })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.dob && <p className="text-red-500 text-xs mt-1">{errors.dob.message}</p>}
+              </div>
 
-              <input
-                type="email"
-                placeholder="Enter your email"
-                {...register("email", {
-                  required: "Email is required",
-                })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
-              />
+              {/* ANNIVERSARY */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Anniversary <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  {...register("anniversary", { required: "Anniversary is required" })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.anniversary && <p className="text-red-500 text-xs mt-1">{errors.anniversary.message}</p>}
+              </div>
 
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+              {/* ADDRESS */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Complete address"
+                  {...register("address", { required: "Address is required" })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
+              </div>
 
-            {/* MOBILE */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                Mobile Number
-              </label>
+              {/* GENDER */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Gender <span className="text-red-500">*</span>
+                </label>
+                <select
+                  {...register("gender", { required: "Gender is required" })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                </select>
+                {errors.gender && <p className="text-red-500 text-xs mt-1">{errors.gender.message}</p>}
+              </div>
 
-              <input
-                type="tel"
-                placeholder="Enter mobile number"
-                {...register("mobile", {
-                  required:
-                    "Mobile number is required",
-                  pattern: {
-                    value: /^[0-9]{10}$/,
-                    message:
-                      "Enter valid 10 digit mobile number",
-                  },
-                })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
-              />
+              {/* NOTES */}
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Notes <span className="text-gray-400 font-normal">(Optional)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Any preferences, allergies, or special notes"
+                  {...register("notes")}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+              </div>
 
-              {errors.mobile && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.mobile.message}
-                </p>
-              )}
-            </div>
+              {/* PASSWORD */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  placeholder="Min 6 characters"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: { value: 6, message: "Min 6 chars" },
+                  })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+              </div>
 
-            {/* PASSWORD */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                Password
-              </label>
-
-              <input
-                type="password"
-                placeholder="Enter password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message:
-                      "Password must be at least 6 characters",
-                  },
-                })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
-              />
-
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            {/* CONFIRM PASSWORD */}
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700">
-                Confirm Password
-              </label>
-
-              <input
-                type="password"
-                placeholder="Confirm password"
-                {...register("confirmPassword", {
-                  required:
-                    "Confirm password is required",
-                  validate: (value) =>
-                    value === password ||
-                    "Passwords do not match",
-                })}
-                className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#caa04d]"
-              />
-
-              {errors.confirmPassword && (
-                <p className="text-red-500 text-sm mt-1">
-                  {
-                    errors.confirmPassword
-                      .message
-                  }
-                </p>
-              )}
+              {/* CONFIRM PASSWORD */}
+              <div>
+                <label className="block text-xs font-medium mb-1 text-gray-700">
+                  Confirm Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  placeholder="Repeat password"
+                  {...register("confirmPassword", {
+                    required: "Confirm password required",
+                    validate: (value) => value === password || "Passwords do not match",
+                  })}
+                  className="w-full bg-[#eef2fb] border border-gray-200 rounded-xl px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-[#caa04d]"
+                />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>
+                )}
+              </div>
             </div>
 
             {/* REGISTER BUTTON */}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 import { useStaff } from "../../services/staff/useStaffQuery";
@@ -84,10 +85,7 @@ const AppointmentsDashboard = () => {
                       {/* PROFILE PIC CONTAINER */}
                       <div className="h-48 w-full overflow-hidden bg-zinc-100 relative">
                         <img
-                          src={
-                            staffMember.profilePic ||
-                            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
-                          }
+                          src={getAvatarUrl(staffMember)}
                           alt={staffMember.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
@@ -237,8 +235,21 @@ const AppointmentsDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen text-zinc-950 p-6 bg-zinc-50">
-      <h1 className="text-4xl font-bold mb-10">Appointment Dashboard</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+        <div>
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+            Overview
+          </p>
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
+            Appointment Dashboard
+          </h1>
+          <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+            Quick links to view, schedule, and manage salon bookings across staff and clients.
+          </p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {cards.map((card, index) => (

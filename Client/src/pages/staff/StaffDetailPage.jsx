@@ -1,4 +1,5 @@
 import React from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 import { useParams, Link } from "react-router-dom";
 import { useStaffById } from "../../services/staff/useStaffById";
 import { useAuth } from "../../context/AuthProvider";
@@ -7,7 +8,7 @@ import {
   Mail,
   Phone,
   Clock,
-  BadgeDollarSign,
+  IndianRupee,
   Briefcase,
   ShieldCheck,
   ArrowLeft,
@@ -63,10 +64,7 @@ const StaffDetailPage = () => {
             {/* Profile Image */}
             <div className="absolute -bottom-16 left-8">
               <img
-                src={
-                  s.profilePic ||
-                  "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"
-                }
+                src={getAvatarUrl(s)}
                 alt={s.name}
                 className="w-32 h-32 rounded-2xl border-4 border-zinc-800 object-cover shadow-2xl"
               />
@@ -80,13 +78,12 @@ const StaffDetailPage = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
               <div>
-                <h1 className="text-4xl font-bold tracking-tight">
-                  {s.name}
-                </h1>
-
-                <p className="text-zinc-400 mt-2 capitalize">
+                <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
                   {s.role || "Staff Member"}
                 </p>
+                <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
+                  {s.name}
+                </h1>
               </div>
 
               {/* Status */}
@@ -150,7 +147,7 @@ const StaffDetailPage = () => {
               {/* Salary - Only Admin & Superadmin */}
               {hasRole(["admin", "superadmin"]) && (
                 <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-5 flex gap-4 hover:border-white/20 transition-all duration-300">
-                  <BadgeDollarSign className="text-white mt-1" />
+                  <IndianRupee className="text-[#D68B2A] mt-1" />
 
                   <div>
                     <p className="text-zinc-400 text-sm">Salary</p>

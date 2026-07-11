@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { useMyCustomer } from "../services/customers/useCustomerQuery";
-import { LogOut, Edit2 } from "lucide-react";
+import { LogOut, User } from "lucide-react";
+import { getAvatarUrl } from "../utils/avatar";
 
 const ProfileDropdown = ({ open, onClose }) => {
   const { user, logout, refetchUser } = useAuth();
@@ -21,15 +22,15 @@ const ProfileDropdown = ({ open, onClose }) => {
 
   if (!open) return null;
 
-  const avatar = customer?.profilePic || user?.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg";
+  const avatar = getAvatarUrl(customer || user);
   const name = customer?.name || user?.name || "Unnamed";
   const email = user?.email || customer?.email || "-";
   const category = customer?.category;
   const status = customer?.status;
 
-  const handleUpdate = () => {
+  const handleViewProfile = () => {
     onClose();
-    navigate("/customers/me");
+    navigate("/profile");
   };
 
   const handleLogout = async () => {
@@ -58,7 +59,7 @@ const ProfileDropdown = ({ open, onClose }) => {
       </div>
 
       <div className="mt-4 flex flex-col gap-2">
-        <button onClick={handleUpdate} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition"><Edit2 size={16} /> Update Profile</button>
+        <button onClick={handleViewProfile} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition"><User size={16} /> View Profile</button>
         <button onClick={handleLogout} className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition text-rose-700"><LogOut size={16} /> Logout</button>
       </div>
     </div>

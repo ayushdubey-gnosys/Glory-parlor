@@ -1,4 +1,5 @@
 import React from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 import FormModal from "../Modal/FormModal";
 
 import {
@@ -49,10 +50,7 @@ const StaffDetailsModal = ({
             {/* IMAGE */}
 
             <img
-              src={
-                staff.profilePic ||
-                "https://via.placeholder.com/150"
-              }
+              src={getAvatarUrl(staff)}
               alt={staff.name}
               className="
                 w-28 h-28

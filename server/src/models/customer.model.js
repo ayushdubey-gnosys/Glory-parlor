@@ -34,6 +34,11 @@ const customerSchema =
         type: String,
       },
 
+      gender: {
+        type: String,
+        enum: ["Male", "Female", "Other", "male", "female", "other"],
+      },
+
       role: {
         type: String,
         enum: [

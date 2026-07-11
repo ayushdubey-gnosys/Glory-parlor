@@ -15,19 +15,22 @@ exports.register = async (req, res) => {
       mobile,
       password,
       role,
+      dob,
+      anniversary,
+      address,
+      gender,
+      notes,
     } = req.body;
 
     // VALIDATION
-
-    if (!name || !email || !mobile || !password) {
+    if (!name || !email || !mobile || !password || !dob || !anniversary || !address || !gender) {
       return res.status(400).json({
         message:
-          "All fields are required",
+          "All required fields (Name, Email, Phone/Mobile, Password, DOB, Anniversary, Address, Gender) must be provided",
       });
     }
 
     // CHECK USER EMAIL
-
     const existingEmail =
       await userModel.findOne({
         email,
@@ -41,7 +44,6 @@ exports.register = async (req, res) => {
     }
 
     // CHECK USER MOBILE
-
     const existingMobile =
       await userModel.findOne({
         mobile,
@@ -55,12 +57,10 @@ exports.register = async (req, res) => {
     }
 
     // HASH PASSWORD
-
     const hashedPassword =
       await bcrypt.hash(password, 10);
 
     // CREATE USER
-
     const user =
       await userModel.create({
         name,
@@ -72,18 +72,22 @@ exports.register = async (req, res) => {
         profilePic:
           req.file?.path,
 
+        dob: dob ? new Date(dob) : undefined,
+        anniversary: anniversary ? new Date(anniversary) : undefined,
+        address: address || "",
+        gender: gender || "Female",
+        notes: notes || "",
+
         role:
           role || "customer",
       });
 
     // CREATE CUSTOMER RECORD
-
     if (
       (role || "customer") ===
       "customer"
     ) {
-      // CHECK CUSTOMER EMAIL
-
+      // CHECK CUSTOMER EMAIL / PHONE
       const existingCustomer =
         await customerModel.findOne({
           $or: [
@@ -92,17 +96,30 @@ exports.register = async (req, res) => {
           ],
         });
 
-      // CREATE ONLY IF NOT EXISTS
-
+      // CREATE OR LINK
       if (!existingCustomer) {
         await customerModel.create({
           name,
           phone: mobile,
           email,
-
           profilePic:
-            req.file?.path,
+            req.file?.path || user.profilePic,
+          dob: dob ? new Date(dob) : undefined,
+          anniversary: anniversary ? new Date(anniversary) : undefined,
+          address: address || "",
+          gender: gender || "Female",
+          notes: notes || "",
+          createdBy: user._id,
         });
+      } else {
+        existingCustomer.createdBy = user._id;
+        if (!existingCustomer.phone && mobile) existingCustomer.phone = mobile;
+        if (!existingCustomer.dob && dob) existingCustomer.dob = new Date(dob);
+        if (!existingCustomer.anniversary && anniversary) existingCustomer.anniversary = new Date(anniversary);
+        if (!existingCustomer.address && address) existingCustomer.address = address;
+        if (!existingCustomer.gender && gender) existingCustomer.gender = gender;
+        if (!existingCustomer.notes && notes) existingCustomer.notes = notes;
+        await existingCustomer.save();
       }
     }
 

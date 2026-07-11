@@ -1,4 +1,5 @@
 import React from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useCourse } from "../../services/academy/useAuthQuery";
@@ -170,7 +171,7 @@ const CourseDetailPage = () => {
               </h3>
               
               <img 
-                src={course.instructor?.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"} 
+                src={getAvatarUrl(course.instructor)} 
                 alt={course.instructor?.name} 
                 className="w-32 h-32 rounded-full object-cover border-4 border-[#D68B2A]/20 shadow-lg mb-6"
               />

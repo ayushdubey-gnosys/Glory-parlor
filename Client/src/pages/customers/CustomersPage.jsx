@@ -114,19 +114,22 @@ const CustomersPage = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
         
         <div>
-          <p className="dm text-[11px] uppercase tracking-[3px] text-[#c9a96e] mb-1">
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
             Client Management
           </p>
-          <h1 className="text-3xl lg:text-4xl font-serif text-gray-900 tracking-wide">
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
             Customers
           </h1>
+          <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+            Manage your luxury salon clients and profiles seamlessly.
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
           
           <button
             onClick={() => setCreateOpen(true)}
-            className="bg-gradient-to-b from-yellow-500/80 to-yellow-800 text-white px-6 py-2.5 rounded-xl shadow-lg shadow-yellow-500/20 hover:scale-[1.02] transition-all dm text-sm font-light"
+            className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide"
           >
             Add Customer
           </button>

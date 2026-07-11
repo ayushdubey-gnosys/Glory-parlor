@@ -206,40 +206,33 @@ const AcademyPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f5] p-6">
+    <div className="p-4 md:p-6 lg:p-8 pb-16 text-zinc-800 dm">
       <div className="max-w-7xl mx-auto">
-
         {/* HEADER */}
-        <div className="flex items-center justify-between mb-8">
-
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
           <div>
             <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
-              Master Your Craft
+              Academy Management
             </p>
-
-            <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A]">
+            <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
               Our Beauty Academy
             </h1>
-
-            <p className="max-w-2xl text-gray-500 mt-4 text-sm md:text-base leading-relaxed">
-              Unlock your potential with our professional beauty courses. Whether you're a beginner or an experienced stylist looking to upgrade your skills, our expert-led academy programs are designed to help you build a successful career in the luxury beauty industry.
+            <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+              Unlock your potential with our professional luxury beauty programs.
             </p>
           </div>
 
-          {hasRole([
-            "admin",
-            "superadmin",
-          ]) && (
-              <button
-                onClick={() => {
-                  setShowForm((s) => !s);
-                  setEditing(null);
-                }}
-                className="bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-5 py-3 rounded-xl font-medium hover:scale-105 transition-all shadow-md"
-              >
-                New Course
-              </button>
-            )}
+          {hasRole(["admin", "superadmin"]) && (
+            <button
+              onClick={() => {
+                setShowForm((s) => !s);
+                setEditing(null);
+              }}
+              className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide"
+            >
+              New Course
+            </button>
+          )}
         </div>
 
         {/* FORM */}

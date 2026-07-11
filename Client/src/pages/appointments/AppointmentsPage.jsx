@@ -102,15 +102,17 @@ const AppointmentsPage = () => {
     
     {/* HEADER */}
 
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-      
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
       <div>
-        <p className="dm text-[11px] uppercase tracking-[3px] text-[#D68B2A] mb-1 font-medium">
+        <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
           Booking Management
         </p>
-        <h1 className="text-3xl lg:text-4xl font-serif text-gray-900 tracking-wide">
+        <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
           Appointments
         </h1>
+        <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+          Manage and schedule client salon appointments.
+        </p>
       </div>
 
       <button
@@ -118,13 +120,9 @@ const AppointmentsPage = () => {
           setShowForm((s) => !s);
           setEditing(null);
         }}
-        className="
-          bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-2.5 rounded-xl dm text-sm font-medium shadow-lg shadow-[#D68B2A]/20 hover:scale-[1.02] transition-all w-full md:w-auto
-        "
+        className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide"
       >
-        {showForm
-          ? "Close Form"
-          : "Book Appointment"}
+        {showForm ? "Close Form" : "Book Appointment"}
       </button>
     </div>
 

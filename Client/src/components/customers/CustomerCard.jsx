@@ -1,4 +1,5 @@
 import React from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 
 const CustomerCard = ({ customer, onClick }) => {
   return (
@@ -9,7 +10,7 @@ const CustomerCard = ({ customer, onClick }) => {
       <div className="absolute top-0 right-0 w-32 h-32 bg-[#D68B2A]/5 rounded-full blur-3xl group-hover:bg-[#D68B2A]/10 transition-all duration-500"></div>
       
       <img
-        src={customer.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"}
+        src={getAvatarUrl(customer)}
         alt={customer.name}
         className="w-20 h-20 rounded-full object-cover border-2 border-gray-100 shadow-sm relative z-10 mb-4"
       />

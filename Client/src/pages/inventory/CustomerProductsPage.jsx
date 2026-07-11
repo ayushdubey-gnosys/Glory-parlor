@@ -55,7 +55,7 @@ const CustomerProductsPage = () => {
             Exclusive Collection
           </p>
 
-          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A]">
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
             Our Luxury Products
           </h1>
 

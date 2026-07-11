@@ -2,8 +2,21 @@ import React, { useState } from 'react';
 
 const LoyaltyPage = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Loyalty & VIP Management</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+        <div>
+          <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+            Client Management
+          </p>
+          <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
+            Loyalty & VIP Management
+          </h1>
+          <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+            Track and reward VIP members with points, tiers, and exclusive privileges.
+          </p>
+        </div>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-6 rounded-xl shadow-lg text-white">

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 import {
   Search,
   Send,
@@ -189,55 +190,37 @@ const MarketingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f5] pb-28 text-zinc-800 dm">
-      <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-8">
-        {/* HEADER BANNER */}
-        <div className="bg-[#292B2B] text-white p-6 md:p-8 rounded-3xl shadow-2xl relative overflow-hidden border border-white/10">
-          <div className="absolute -right-20 -top-20 w-72 h-72 bg-yellow-500/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute left-1/3 -bottom-20 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="p-4 md:p-6 lg:p-8 pb-28 text-zinc-800 dm">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* HEADER */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+          <div>
+            <p className="text-[#D68B2A] uppercase tracking-[3px] text-xs mb-3 font-semibold">
+              Marketing Suite
+            </p>
+            <h1 className="text-4xl md:text-5xl font-light text-[#D68B2A] tracking-wide">
+              Broadcast Campaigns
+            </h1>
+            <p className="text-gray-500 mt-3 text-sm md:text-base leading-relaxed max-w-xl">
+              Engage your salon clients with targeted promotional broadcasts and personalized rewards.
+            </p>
+          </div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-3">
-                <span className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/40 text-[#D68B2A] text-xs px-3.5 py-1 rounded-full uppercase tracking-[2px] font-semibold flex items-center gap-1.5">
-                  <Megaphone size={14} className="animate-pulse" /> Marketing Suite
-                </span>
-                <span className="text-zinc-400 text-xs hidden sm:inline-block">
-                  • Astha Luxury PMS
-                </span>
+          {/* AUDIENCE SUMMARY PILLS */}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="bg-white border border-gray-200 rounded-xl px-4 py-2.5 flex items-center gap-3 shadow-sm">
+              <Users size={18} className="text-[#D68B2A]" />
+              <div className="text-xs">
+                <span className="text-gray-400 font-medium uppercase mr-1">Audience:</span>
+                <span className="font-bold font-mono text-gray-900 text-sm">{filteredCustomers.length}</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white flex items-center gap-3">
-                Broadcast Campaigns
-              </h1>
-              <p className="text-zinc-300 text-sm md:text-base max-w-xl">
-                Engage your salon clients with targeted SMS & WhatsApp promotional broadcasts, festive offers, and personalized rewards.
-              </p>
             </div>
 
-            {/* AUDIENCE SUMMARY PILLS */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 shrink-0">
-              <div className="bg-white/[0.06] border border-white/10 rounded-2xl p-4 flex items-center gap-3.5 backdrop-blur-md">
-                <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-[#D68B2A]">
-                  <Users size={22} />
-                </div>
-                <div>
-                  <p className="text-xs text-zinc-400 uppercase font-medium">Audience</p>
-                  <h2 className="text-2xl font-bold font-mono text-white">
-                    {filteredCustomers.length}
-                  </h2>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-[#D68B2A]/20 to-amber-600/10 border border-[#D68B2A]/40 rounded-2xl p-4 flex items-center gap-3.5 backdrop-blur-md">
-                <div className="w-12 h-12 rounded-xl bg-[#D68B2A] text-white flex items-center justify-center shadow-lg">
-                  <CheckCircle2 size={22} />
-                </div>
-                <div>
-                  <p className="text-xs text-amber-200/80 uppercase font-medium">Selected</p>
-                  <h2 className="text-2xl font-bold font-mono text-yellow-400">
-                    {selectedCustomers.length}
-                  </h2>
-                </div>
+            <div className="bg-[#D68B2A]/10 border border-[#D68B2A]/30 rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <CheckCircle2 size={18} className="text-[#D68B2A]" />
+              <div className="text-xs">
+                <span className="text-[#D68B2A] font-medium uppercase mr-1">Selected:</span>
+                <span className="font-bold font-mono text-[#D68B2A] text-sm">{selectedCustomers.length}</span>
               </div>
             </div>
           </div>
@@ -450,17 +433,11 @@ const MarketingPage = () => {
                     {/* AVATAR & INFO */}
                     <div className="flex items-center gap-3.5 min-w-0">
                       <div className="relative shrink-0">
-                        {customer.profilePic ? (
-                          <img
-                            src={customer.profilePic}
-                            alt={customer.name}
-                            className="w-14 h-14 rounded-2xl object-cover border border-zinc-200 shadow-sm"
-                          />
-                        ) : (
-                          <div className="w-14 h-14 rounded-2xl bg-[#292B2B] text-yellow-500 font-bold text-lg flex items-center justify-center shadow-md">
-                            {customer.name ? customer.name.charAt(0).toUpperCase() : "C"}
-                          </div>
-                        )}
+                        <img
+                          src={getAvatarUrl(customer)}
+                          alt={customer.name}
+                          className="w-14 h-14 rounded-2xl object-cover border border-zinc-200 shadow-sm"
+                        />
                         {isVIP && (
                           <span
                             title="VIP Premium Member"

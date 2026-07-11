@@ -28,7 +28,6 @@ import RequireAuth from "./RequireAuth";
 import RequireRole from "./RequireRole";
 import RegisterPage from "../pages/auth/RegisterPage";
 import RegisterCustomerPage from "../pages/customers/RegisterCustomerPage";
-import ProfilePage from "../pages/auth/ProfilePage";
 import CustomerInquiryPage from "../pages/inquiries/CustomerInquiryPage";
 import CustomerProductsPage from "../pages/inventory/CustomerProductsPage";
 import HomePage from "../pages/HomePage";
@@ -108,6 +107,11 @@ const RoutesProvider = () => {
               <CustomerProfilePage />
             </RequireRole>
           } />
+          <Route path="dashboard" element={
+            <RequireRole roles={["superadmin","admin","staff"]}>
+              <DashboardPage />
+            </RequireRole>
+          } />
           <Route path="customers/:id" element={
             <RequireRole roles={["superadmin","admin","staff"]}>
               <CustomerDetailPage />
@@ -115,7 +119,7 @@ const RoutesProvider = () => {
           } />
           <Route path="profile" element={
             <RequireAuth>
-              <ProfilePage />
+              <CustomerProfilePage />
             </RequireAuth>
           } />
           <Route path="appointments">

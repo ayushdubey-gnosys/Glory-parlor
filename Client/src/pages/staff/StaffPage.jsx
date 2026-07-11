@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import { getAvatarUrl } from "../../utils/avatar";
 
 import {
   Link,
@@ -265,15 +266,10 @@ const StaffPage = () => {
           </p>
         </div>
 
-        {(user?.role ===
-          "admin" ||
-          user?.role ===
-            "superadmin") && (
+        {(user?.role === "admin" || user?.role === "superadmin") && (
           <Button
-            onClick={
-              openCreate
-            }
-            className="flex items-center text-white  gap-2 rounded-2xl bg-zinc-800 border-[1px] border-zinc-400 hover:bg-black  hover:text-zinc-300 cursor-pointer  animate-bounce "
+            onClick={openCreate}
+            className="flex items-center gap-2 bg-gradient-to-b from-[#D68B2A] to-[#b57321] text-white px-6 py-3 rounded-xl hover:scale-105 transition-all shadow-lg shadow-[#D68B2A]/20 text-sm font-medium tracking-wide border-0 cursor-pointer"
           >
             <Plus size={18} />
             Add Staff
@@ -300,7 +296,7 @@ const StaffPage = () => {
                 {/* 75% IMAGE */}
                 <div className="h-[75%] w-full overflow-hidden relative">
                   <img
-                    src={s.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"}
+                    src={getAvatarUrl(s)}
                     alt={s.name}
                     className="w-full h-full object-cover"
                   />
@@ -329,7 +325,7 @@ const StaffPage = () => {
                 
                 {/* CIRCULAR PROFILE PIC */}
                 <img 
-                  src={s.profilePic || "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg"} 
+                  src={getAvatarUrl(s)} 
                   alt={s.name} 
                   className="w-24 h-24 rounded-full object-cover border-4 border-[#D68B2A]/20 shadow-md mb-4 flex-shrink-0"
                 />
